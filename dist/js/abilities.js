@@ -27,7 +27,7 @@ function heal(b,mon,maxHP,fraction){
  const amount=Math.min(maxHP-mon.hp,Math.max(1,Math.floor(maxHP*fraction)));
  if(!amount||mon.hp<=0)return;
  mon.hp+=amount;announce(b,mon,`恢复了 ${amount} 点生命。`);
- b.events?.push({kind:'heal',source:mon.uid,target:mon.uid,element:SPECIES[mon.species].element,amount});
+ b.events?.push({kind:'heal',source:mon.uid,target:mon.uid,element:SPECIES[mon.species].element,amount,trait:true});
 }
 export function enterTrait(b,mon){
  const trait=state(mon),id=family(mon);

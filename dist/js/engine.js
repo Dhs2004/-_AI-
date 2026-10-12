@@ -21,7 +21,7 @@ export function createMon(species,level=5,seed=1){
  const mon={uid:`m${Date.now().toString(36)}${(++serial).toString(36)}${seed}`,species,level:clamp(level,1,65),xp:0,hp:0,energy:5,status:null,statusTurns:0,equip:null,bond:0};mon.hp=stats(mon).hp;return mon;
 }
 export function createGame(name='旅人',starter='budfox'){
- const mon=createMon(starter,5);return {version:VERSION,name:name.trim().slice(0,12)||'旅人',region:0,place:'town',x:18,y:19,facing:'down',party:[mon],reserve:[],bag:{potion:8,superpotion:0,revive:2,cure:3,orb:10,greatorb:0,herb:0,shard:0},gold:550,badges:[],flags:{intro:true},quest:{},collected:{},wins:{},trainerWins:{},seen:[starter],caught:[starter],steps:0,playtime:0,createdAt:Date.now(),lastSave:0,difficulty:'normal',sound:true,reduceMotion:false,seed:(Date.now()>>>0),ending:false,trial:0,dungeonFloor:0,routeSector:0,runes:{},openGates:{},pendingScenes:[],suspendedBattle:null,relics:{},expeditions:{},trackedExpedition:null};
+ const mon=createMon(starter,5);return {version:VERSION,name:name.trim().slice(0,12)||'旅人',region:0,place:'town',x:18,y:19,facing:'down',party:[mon],reserve:[],bag:{potion:8,superpotion:0,revive:2,cure:3,orb:10,greatorb:0,herb:0,shard:0},gold:550,badges:[],flags:{intro:true},quest:{},collected:{},wins:{},trainerWins:{},seen:[starter],caught:[starter],steps:0,playtime:0,createdAt:Date.now(),lastSave:0,difficulty:'normal',sound:true,reduceMotion:false,battleSpeed:1,seed:(Date.now()>>>0),ending:false,trial:0,dungeonFloor:0,routeSector:0,runes:{},openGates:{},pendingScenes:[],suspendedBattle:null,relics:{},expeditions:{},trackedExpedition:null};
 }
 export function healParty(g){for(const m of g.party){m.hp=stats(m).hp;m.energy=5;m.status=null;m.statusTurns=0;}}
 export function xpNeed(m){return 35+m.level*22;}
@@ -62,6 +62,7 @@ export function estimateDamage(a,d,move,weather='clear'){
 function prepareEnemyPlan(b){return planEnemyAction(b,{damage:estimateDamage,stats,moves:moveList,random});}
 function enemyAction(b,action){
  if(action.type==='switch'){
+  b.events.push({kind:'switch',source:b.enemies[b.activeE].uid,target:b.enemies[action.index].uid,element:SPECIES[b.enemies[action.index].species].element});
   b.activeE=action.index;b.lastEnemySwitch=b.turn;
   log(b,`对方调整了阵容，派出 ${monName(b.enemies[b.activeE])}！`);enterTrait(b,b.enemies[b.activeE]);return;
  }
@@ -81,8 +82,8 @@ function hit(b,actor,target,key){
  if(move.power){const crit=roll(b,.075);let dmg=Math.round(estimateDamage(actor,target,key,b.weather)*(.92+random(b)*.16)*(crit?1.45:1));dmg=Math.min(target.hp,dmg);target.hp-=dmg;actor.focus=0;event.damage=dmg;event.critical=crit;
   const eff=effectiveness(move.element,SPECIES[target.species].element);log(b,`${crit?'会心一击！':''}${eff>1?'属性克制！':eff<1?'效果有所减弱。':''}造成 ${dmg} 点伤害。`);
   damagedTrait(b,target,maxhp(target));attackedTrait(b,actor,move);
-  if(move.drain){const amount=Math.min(maxhp(actor)-actor.hp,Math.ceil(dmg*move.drain));actor.hp+=amount;log(b,`${monName(actor)} 吸取了 ${amount} 点生命。`);}
-  if(move.recoil)actor.hp=Math.max(1,actor.hp-Math.ceil(maxhp(actor)*move.recoil));
+  if(move.drain){const amount=Math.min(maxhp(actor)-actor.hp,Math.ceil(dmg*move.drain));actor.hp+=amount;b.events.push({kind:'heal',source:actor.uid,target:actor.uid,element:move.element,amount,move:key});log(b,`${monName(actor)} 吸取了 ${amount} 点生命。`);}
+  if(move.recoil){const damage=Math.min(actor.hp-1,Math.ceil(maxhp(actor)*move.recoil));actor.hp-=damage;b.events.push({kind:'recoil',source:actor.uid,target:actor.uid,element:move.element,damage,move:key});log(b,`${monName(actor)} 因反噬损失 ${damage} 点生命。`);}
  }
  if(move.heal){const amount=Math.min(maxhp(actor)-actor.hp,Math.floor(maxhp(actor)*move.heal*recoveryFactor(actor)));actor.hp+=amount;event.amount=amount;log(b,`${monName(actor)} 恢复了 ${amount} 点生命。`);}
  if(move.shield)actor.shield=move.shield+1;if(move.boost)actor.focus=move.boost;
@@ -91,14 +92,14 @@ function hit(b,actor,target,key){
 }
 function tick(b,m){
  if(m.hp<=0)return;
- if(m.status==='burn'||m.status==='poison'){const loss=Math.min(m.hp,Math.max(1,Math.floor(maxhp(m)*(m.status==='poison'?.09:.06))));m.hp-=loss;log(b,`${monName(m)} 因${m.status==='poison'?'中毒':'灼伤'}损失 ${loss} 点生命。`);}
+ if(m.status==='burn'||m.status==='poison'){const loss=Math.min(m.hp,Math.max(1,Math.floor(maxhp(m)*(m.status==='poison'?.09:.06))));m.hp-=loss;b.events.push({kind:'status',source:m.uid,target:m.uid,element:SPECIES[m.species].element,damage:loss,status:m.status});log(b,`${monName(m)} 因${m.status==='poison'?'中毒':'灼伤'}损失 ${loss} 点生命。`);}
  if(m.status&&m.status!=='sleep'){m.statusTurns--;if(m.statusTurns<=0){m.status=null;log(b,`${monName(m)} 从异常状态中恢复了。`);}}
  if(m.shield)m.shield--;
 }
 function checkEnd(b){
  const p=b.party[b.activeP],e=b.enemies[b.activeE];
- if(e.hp<=0){b.events.push({kind:'faint',source:e.uid,target:e.uid,element:SPECIES[e.species].element});log(b,`${monName(e)} 倒下了。`);const next=b.enemies.findIndex(m=>m.hp>0);if(next<0)b.outcome='win';else{b.activeE=next;log(b,`对方派出了 ${monName(b.enemies[next])}！`);enterTrait(b,b.enemies[next]);}}
- if(p.hp<=0){b.events.push({kind:'faint',source:p.uid,target:p.uid,element:SPECIES[p.species].element});log(b,`${monName(p)} 倒下了。`);const next=b.party.findIndex(m=>m.hp>0);if(next<0)b.outcome='lose';else{b.activeP=next;if(!b.participants.includes(b.party[next].uid))b.participants.push(b.party[next].uid);log(b,`上吧，${monName(b.party[next])}！`);enterTrait(b,b.party[next]);}}
+ if(e.hp<=0){b.events.push({kind:'faint',source:e.uid,target:e.uid,element:SPECIES[e.species].element});log(b,`${monName(e)} 倒下了。`);const next=b.enemies.findIndex(m=>m.hp>0);if(next<0)b.outcome='win';else{b.events.push({kind:'switch',source:e.uid,target:b.enemies[next].uid,element:SPECIES[b.enemies[next].species].element});b.activeE=next;log(b,`对方派出了 ${monName(b.enemies[next])}！`);enterTrait(b,b.enemies[next]);}}
+ if(p.hp<=0){b.events.push({kind:'faint',source:p.uid,target:p.uid,element:SPECIES[p.species].element});log(b,`${monName(p)} 倒下了。`);const next=b.party.findIndex(m=>m.hp>0);if(next<0)b.outcome='lose';else{b.events.push({kind:'switch',source:p.uid,target:b.party[next].uid,element:SPECIES[b.party[next].species].element});b.activeP=next;if(!b.participants.includes(b.party[next].uid))b.participants.push(b.party[next].uid);log(b,`上吧，${monName(b.party[next])}！`);enterTrait(b,b.party[next]);}}
 }
 export function takeTurn(original,action){
  if(original.outcome)return original;
@@ -119,14 +120,14 @@ export function takeTurn(original,action){
   if(roll(b,chance)){b.caught=clone(e);b.caught.status=null;b.caught.statusTurns=0;b.caught.hp=Math.max(1,b.caught.hp);b.outcome='capture';log(b,`缔约成功！${monName(e)} 愿意与你同行。`);}else{log(b,'星光散开了，再让它了解你一些吧。');enemyAction(b,opponentAction);}
  }else if(action.type==='run'){
   if(roll(b,.8)||b.turn>=3){b.outcome='run';log(b,'你们平安回到了小路上。');}else{log(b,'一时没找到离开的空隙。');enemyAction(b,opponentAction);}
- }else if(action.type==='switch'){b.activeP=action.index;if(!b.participants.includes(b.party[b.activeP].uid))b.participants.push(b.party[b.activeP].uid);log(b,`辛苦了！${monName(b.party[b.activeP])}，拜托你了！`);enterTrait(b,b.party[b.activeP]);enemyAction(b,opponentAction);
+ }else if(action.type==='switch'){b.events.push({kind:'switch',source:p.uid,target:b.party[action.index].uid,element:SPECIES[b.party[action.index].species].element});b.activeP=action.index;if(!b.participants.includes(b.party[b.activeP].uid))b.participants.push(b.party[b.activeP].uid);log(b,`辛苦了！${monName(b.party[b.activeP])}，拜托你了！`);enterTrait(b,b.party[b.activeP]);enemyAction(b,opponentAction);
  }else if(action.type==='guard'){b.events.push({kind:'buff',source:p.uid,target:p.uid,element:'light'});p.energy=Math.min(5,p.energy+2);p.shield=Math.max(p.shield,2);log(b,`${monName(p)} 稳住阵脚，回复 2 点能量并获得护盾。`);guardTrait(b,p,maxhp(p));enemyAction(b,opponentAction);
  }else if(action.type==='item'){
-  const item=ITEMS[action.item],target=b.party[action.target??b.activeP];if(!target)return invalid('请选择道具的目标。');
+  const item=ITEMS[action.item],target=b.party[action.target??b.activeP];if(!target)return invalid('请选择道具的目标。');const previousHP=target.hp;
   if(item.revive){if(target.hp>0)return invalid('这只潮灵还没有倒下。');target.hp=Math.ceil(maxhp(target)*.5);target.status=null;}
   else if(item.heal){if(target.hp<=0)return invalid('需要先用回声种唤醒它。');if(target.hp>=maxhp(target))return invalid('它的生命已经恢复满了。');target.hp=Math.min(maxhp(target),target.hp+item.heal);}
   else if(item.cleanse){if(!target.status)return invalid('它没有异常状态。');target.status=null;}else return invalid('这件道具不能在战斗中使用。');
-  b.events.push({kind:'heal',source:p.uid,target:target.uid,element:'moss'});b.inventory[action.item]--;log(b,`对 ${monName(target)} 使用了${item.name}。`);enemyAction(b,opponentAction);
+  b.events.push({kind:'heal',source:p.uid,target:target.uid,element:'moss',amount:target.hp-previousHP,item:action.item});b.inventory[action.item]--;log(b,`对 ${monName(target)} 使用了${item.name}。`);enemyAction(b,opponentAction);
  }else if(opponentAction.type!=='move'){
   enemyAction(b,opponentAction);hit(b,p,b.enemies[b.activeE],action.move);
  }else{
@@ -235,7 +236,7 @@ export function validateSave(input){
  validateExpeditions(g);
  validateRelics(g);
  if(g.pendingScenes!==undefined&&(!Array.isArray(g.pendingScenes)||g.pendingScenes.length>18||!g.pendingScenes.every(id=>typeof id==='string'&&(/^(intro[0-7]|after[0-7]|ending)$/.test(id)||expeditionScene(g,id)))))throw new Error('存档中的剧情记录损坏。');
- g.pendingScenes??=[];
+ g.pendingScenes??=[];g.battleSpeed=g.battleSpeed===2?2:1;
  if(g.suspendedBattle)g.suspendedBattle=validateSuspendedBattle(g.suspendedBattle,g);else g.suspendedBattle=null;
  if(!Number.isFinite(g.playtime)||g.playtime<0)g.playtime=0;if(!Number.isInteger(g.steps)||g.steps<0)g.steps=0;g.seed=Number.isFinite(g.seed)?g.seed>>>0:1;g.version=VERSION;return g;
 }
