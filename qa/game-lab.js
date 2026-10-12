@@ -1,11 +1,19 @@
-import {createGame,createMon,saveEnvelope} from '../dist/js/engine.js';
+import {createGame,createMon,saveEnvelope,makeBattle,stats,estimateDamage,moveList,random} from '../dist/js/engine.js';
+import {planEnemyAction} from '../dist/js/battle-ai.js';
 import {outdoorSite} from '../dist/js/outdoor-engine.js';
 import {getExpedition,EXPEDITION_SITES} from '../dist/js/expedition-engine.js';
 import {makeMap,canWalk} from '../dist/js/world.js';
 const frame=document.querySelector('iframe'),select=document.querySelector('select');
 document.querySelector('#load').onclick=()=>{
  const type=select.value,g=createGame('测试旅人','embercat');g.sound=false;g.seed=4149;g.flags.entered0=true;g.party.push(createMon('tidefin',8),createMon('budfox',8));g.bag.superpotion=12;g.bag.greatorb=12;g.party[1].hp=0;
- if(type.startsWith('outdoor-')){
+ if(type.startsWith('intent-')){
+  g.region=6;g.flags.entered6=true;g.party=[createMon(type==='intent-switch'?'tidefin_3':'embercat_3',35)];
+  g.suspendedBattle=makeBattle(g,(type==='intent-switch'?['embercat_3','voltkit_3']:['budfox_3']).map(id=>createMon(id,35)),{kind:'boss',name:type==='intent-switch'?'对手轮换练习':'对手守势练习'});
+  if(type==='intent-guard'){g.suspendedBattle.enemies[0].energy=0;g.suspendedBattle.enemyPlan=planEnemyAction(g.suspendedBattle,{damage:estimateDamage,stats,moves:moveList,random});}
+ }else if(type==='traits'){
+  g.region=4;g.flags.entered4=true;g.party=['mossdeer_2','tidefin_2','dewslime_2','voltkit_2','skydrake_2','sunserpent_2'].map(id=>createMon(id,24));g.party[0].hp=Math.floor(stats(g.party[0]).hp*.5);
+  g.suspendedBattle=makeBattle(g,['embercat_2','frostowl_2','stonegolem_2'].map(id=>createMon(id,20)),{kind:'trainer',name:'潮灵特性练习'});
+ }else if(type.startsWith('outdoor-')){
   g.place='route';g.routeSector=type==='outdoor-crossing'?0:2;for(let i=0;i<3;i++)g.flags['fragment0-'+i]=true;
   const map=makeMap(0,'route',0,g.routeSector),o=map.objects.find(o=>type==='outdoor-crossing'?o.action==='outdoor-exit'&&o.to===1:o.action==='gate');
   for(const [dx,dy] of [[0,1],[1,0],[-1,0],[0,-1]])if(canWalk(map,g,o.x+dx,o.y+dy)){g.x=o.x+dx;g.y=o.y+dy;break;}

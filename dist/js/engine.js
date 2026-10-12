@@ -1,3 +1,5 @@
+import {planEnemyAction} from './battle-ai.js';
+import {freshTraitState,enterTrait,guardTrait,damagedTrait,acceptStatus,outgoingTrait,incomingTrait,shieldFactor,recoveryFactor,basicRecovery,traitPriority,attackedTrait,validateTraitState} from './abilities.js';
 import {SPECIES,MOVES,ELEMENTS,ITEMS,CHAPTERS,SIDEQUESTS,VERSION,STATUS,WEATHER} from './data.js';
 import {SIDE_STORIES} from './stories.js';
 import {advanceExpedition,currentExpeditionStage,expeditionScene,validateExpeditions} from './expedition-engine.js';
@@ -40,9 +42,9 @@ export function effectiveness(element,target){if(!element)return 1;return ELEMEN
 export function makeBattle(g,enemy,context={}){
  const b={party:clone(g.party),enemies:clone(enemy),activeP:g.party.findIndex(m=>m.hp>0),activeE:0,turn:0,weather:CHAPTERS[g.region].weather,seed:g.seed>>>0,log:[],history:[],outcome:null,caught:null,inventory:clone(g.bag),context:{kind:'wild',region:g.region,...context}};
  if(b.activeP<0)throw new Error('No healthy companion');
- b.participants=[b.party[b.activeP].uid];
- for(const m of [...b.party,...b.enemies]){m.energy=5;m.shield=0;m.focus=0;m.statusTurns=m.status?2:0;}
- b.log=[context.kind==='boss'||context.kind==='trainer'?`${context.name} 向你发起挑战！`:`野生的 ${SPECIES[b.enemies[0].species].name} 出现了！`];return b;
+ b.participants=[b.party[b.activeP].uid];b.enemySupportStreak=0;
+ for(const m of [...b.party,...b.enemies]){m.energy=5;m.shield=0;m.focus=0;m.statusTurns=m.status?2:0;m.battleTrait=freshTraitState();}
+ b.log=[context.kind==='boss'||context.kind==='trainer'?`${context.name} 向你发起挑战！`:`野生的 ${SPECIES[b.enemies[0].species].name} 出现了！`];enterTrait(b,b.party[b.activeP]);enterTrait(b,b.enemies[b.activeE]);b.enemyPlan=prepareEnemyPlan(b);return b;
 }
 function log(b,t){b.log.push(t);}
 function roll(b,p){return random(b)<p;}
@@ -52,29 +54,37 @@ function speed(m){return stats(m).spd*(m.status==='shock'?.55:m.status==='root'?
 function weatherBoost(element,weather){if(weather==='rain')return element==='tide'?1.25:element==='ember'?.8:1;if(weather==='sun')return element==='ember'?1.25:element==='tide'?.8:1;if(weather==='snow'&&element==='frost'||weather==='sand'&&element==='stone'||weather==='mist'&&element==='shade')return 1.2;return 1;}
 export function estimateDamage(a,d,move,weather='clear'){
  const m=MOVES[move];if(!m||!m.power)return 0;
- return Math.max(1,Math.floor(((a.level*.4+2)*m.power*stats(a).atk/stats(d).def/18+3)*effectiveness(m.element,SPECIES[d.species].element)*(m.element===SPECIES[a.species].element?1.2:1)*weatherBoost(m.element,weather)*(a.focus?1.45:1)*(d.shield?.55:1)*(a.status==='burn'?.85:1)));
+ return Math.max(1,Math.floor(((a.level*.4+2)*m.power*stats(a).atk/stats(d).def/18+3)*effectiveness(m.element,SPECIES[d.species].element)*(m.element===SPECIES[a.species].element?1.2:1)*weatherBoost(m.element,weather)*(a.focus?1.45:1)*shieldFactor(d)*(a.status==='burn'?.85:1)*outgoingTrait(a,d,m,maxhp(d))*incomingTrait(d,weather,maxhp(d))));
 }
-function chooseMove(b,a,d){
- let best='tackle',score=-Infinity;
- for(const key of moveList(a)){const m=MOVES[key];if(m.cost>a.energy)continue;
-  let v=estimateDamage(a,d,key,b.weather);if(m.heal)v=Math.min(maxhp(a)-a.hp,maxhp(a)*m.heal)*1.05;if(m.shield&&!a.shield)v+=maxhp(a)*.13;if(m.boost&&!a.focus)v+=18;if(m.status&&!d.status)v+=10;
-  v+=random(b)*8;if(v>score){best=key;score=v;}
- }return best;
+function prepareEnemyPlan(b){return planEnemyAction(b,{damage:estimateDamage,stats,moves:moveList,random});}
+function enemyAction(b,action){
+ if(action.type==='switch'){
+  b.activeE=action.index;b.lastEnemySwitch=b.turn;
+  log(b,`对方调整了阵容，派出 ${monName(b.enemies[b.activeE])}！`);enterTrait(b,b.enemies[b.activeE]);return;
+ }
+ const actor=b.enemies[b.activeE];
+ if(action.type==='guard'){
+  actor.energy=Math.min(5,actor.energy+2);actor.shield=Math.max(actor.shield||0,2);
+  b.events.push({kind:'buff',source:actor.uid,target:actor.uid,element:'light'});
+  log(b,`${monName(actor)} 稳住阵脚，回复 2 点能量并获得护盾。`);guardTrait(b,actor,maxhp(actor));return;
+ }
+ hit(b,actor,b.party[b.activeP],action.move);
 }
 function hit(b,actor,target,key){
  if(actor.hp<=0||target.hp<=0)return;
  if(actor.status==='sleep'){actor.statusTurns--;if(actor.statusTurns>0){log(b,`${monName(actor)} 还在梦中。`);actor.energy=Math.min(5,actor.energy+1);return;}actor.status=null;log(b,`${monName(actor)} 醒来了。`);}
  if(actor.status==='shock'&&roll(b,.12)){log(b,`${monName(actor)} 因麻痹无法行动。`);return;}
- const move=MOVES[key],event={kind:move.heal?'heal':move.shield||move.boost?'buff':'attack',source:actor.uid,target:move.heal||move.shield||move.boost?actor.uid:target.uid,element:move.element||'light',move:key};b.events.push(event);actor.energy=clamp(actor.energy-move.cost+(move.cost===0?1:0),0,5);log(b,`${monName(actor)} 使用了「${move.name}」！`);
+ const move=MOVES[key],event={kind:move.heal?'heal':move.shield||move.boost?'buff':'attack',source:actor.uid,target:move.heal||move.shield||move.boost?actor.uid:target.uid,element:move.element||'light',move:key};b.events.push(event);actor.energy=clamp(actor.energy-move.cost+(move.cost===0?(key==='tackle'?basicRecovery(actor):1):0),0,5);log(b,`${monName(actor)} 使用了「${move.name}」！`);
  if(move.power){const crit=roll(b,.075);let dmg=Math.round(estimateDamage(actor,target,key,b.weather)*(.92+random(b)*.16)*(crit?1.45:1));dmg=Math.min(target.hp,dmg);target.hp-=dmg;actor.focus=0;event.damage=dmg;event.critical=crit;
   const eff=effectiveness(move.element,SPECIES[target.species].element);log(b,`${crit?'会心一击！':''}${eff>1?'属性克制！':eff<1?'效果有所减弱。':''}造成 ${dmg} 点伤害。`);
+  damagedTrait(b,target,maxhp(target));attackedTrait(b,actor,move);
   if(move.drain){const amount=Math.min(maxhp(actor)-actor.hp,Math.ceil(dmg*move.drain));actor.hp+=amount;log(b,`${monName(actor)} 吸取了 ${amount} 点生命。`);}
   if(move.recoil)actor.hp=Math.max(1,actor.hp-Math.ceil(maxhp(actor)*move.recoil));
  }
- if(move.heal){const amount=Math.min(maxhp(actor)-actor.hp,Math.floor(maxhp(actor)*move.heal));actor.hp+=amount;event.amount=amount;log(b,`${monName(actor)} 恢复了 ${amount} 点生命。`);}
+ if(move.heal){const amount=Math.min(maxhp(actor)-actor.hp,Math.floor(maxhp(actor)*move.heal*recoveryFactor(actor)));actor.hp+=amount;event.amount=amount;log(b,`${monName(actor)} 恢复了 ${amount} 点生命。`);}
  if(move.shield)actor.shield=move.shield+1;if(move.boost)actor.focus=move.boost;
  if(move.cleanse){actor.status=null;actor.statusTurns=0;}
- if(move.status&&target.hp>0&&!target.status&&roll(b,move.chance)){target.status=move.status;target.statusTurns=move.status==='sleep'?2:4;log(b,`${monName(target)} 陷入${{burn:'灼伤',poison:'中毒',sleep:'入眠',shock:'麻痹',root:'缠绕'}[move.status]}！`);}
+ if(move.status&&target.hp>0&&!target.status&&roll(b,move.chance)&&acceptStatus(b,target,move.status)){target.status=move.status;target.statusTurns=move.status==='sleep'?2:4;log(b,`${monName(target)} 陷入${{burn:'灼伤',poison:'中毒',sleep:'入眠',shock:'麻痹',root:'缠绕'}[move.status]}！`);}
 }
 function tick(b,m){
  if(m.hp<=0)return;
@@ -84,8 +94,8 @@ function tick(b,m){
 }
 function checkEnd(b){
  const p=b.party[b.activeP],e=b.enemies[b.activeE];
- if(e.hp<=0){b.events.push({kind:'faint',source:e.uid,target:e.uid,element:SPECIES[e.species].element});log(b,`${monName(e)} 倒下了。`);const next=b.enemies.findIndex(m=>m.hp>0);if(next<0)b.outcome='win';else{b.activeE=next;log(b,`对方派出了 ${monName(b.enemies[next])}！`);}}
- if(p.hp<=0){b.events.push({kind:'faint',source:p.uid,target:p.uid,element:SPECIES[p.species].element});log(b,`${monName(p)} 倒下了。`);const next=b.party.findIndex(m=>m.hp>0);if(next<0)b.outcome='lose';else{b.activeP=next;if(!b.participants.includes(b.party[next].uid))b.participants.push(b.party[next].uid);log(b,`上吧，${monName(b.party[next])}！`);}}
+ if(e.hp<=0){b.events.push({kind:'faint',source:e.uid,target:e.uid,element:SPECIES[e.species].element});log(b,`${monName(e)} 倒下了。`);const next=b.enemies.findIndex(m=>m.hp>0);if(next<0)b.outcome='win';else{b.activeE=next;log(b,`对方派出了 ${monName(b.enemies[next])}！`);enterTrait(b,b.enemies[next]);}}
+ if(p.hp<=0){b.events.push({kind:'faint',source:p.uid,target:p.uid,element:SPECIES[p.species].element});log(b,`${monName(p)} 倒下了。`);const next=b.party.findIndex(m=>m.hp>0);if(next<0)b.outcome='lose';else{b.activeP=next;if(!b.participants.includes(b.party[next].uid))b.participants.push(b.party[next].uid);log(b,`上吧，${monName(b.party[next])}！`);enterTrait(b,b.party[next]);}}
 }
 export function takeTurn(original,action){
  if(original.outcome)return original;
@@ -97,38 +107,45 @@ export function takeTurn(original,action){
  if(action.type==='capture'&&(b.context.kind!=='wild'||!ITEMS[action.item]?.catch||!b.inventory[action.item]))return invalid('现在无法使用这枚星约石。');
  if(action.type==='run'&&b.context.kind!=='wild')return invalid('这是一场约定好的对战，不能离开。');
  if(!['move','guard','switch','item','capture','run'].includes(action.type))return invalid('未知指令。');
- b.participants??=[p.uid];b.turn++;delete b.error;const enemyMove=chooseMove(b,e,p);
+ b.participants??=[p.uid];const enemyPlan=b.enemyPlan||prepareEnemyPlan(b),opponentAction=enemyPlan.action;b.turn++;delete b.error;
+ b.enemySupportStreak=opponentAction.type==='guard'||opponentAction.type==='move'&&!MOVES[opponentAction.move].power?(b.enemySupportStreak||0)+1:0;
  if(action.type==='capture'){
   b.events.push({kind:'capture',source:p.uid,target:e.uid,element:'light'});
   b.inventory[action.item]--;const hpRate=e.hp/maxhp(e),rarity=SPECIES[e.species].rarity;const chance=clamp((.22+.62*(1-hpRate)+(e.status?.12:0))*ITEMS[action.item].catch/Math.sqrt(rarity),.08,.96);
   log(b,`你举起了${ITEMS[action.item].name}。星光缓缓围住${monName(e)}……`);
-  if(roll(b,chance)){b.caught=clone(e);b.caught.status=null;b.caught.statusTurns=0;b.caught.hp=Math.max(1,b.caught.hp);b.outcome='capture';log(b,`缔约成功！${monName(e)} 愿意与你同行。`);}else{log(b,'星光散开了，再让它了解你一些吧。');hit(b,e,p,enemyMove);}
+  if(roll(b,chance)){b.caught=clone(e);b.caught.status=null;b.caught.statusTurns=0;b.caught.hp=Math.max(1,b.caught.hp);b.outcome='capture';log(b,`缔约成功！${monName(e)} 愿意与你同行。`);}else{log(b,'星光散开了，再让它了解你一些吧。');enemyAction(b,opponentAction);}
  }else if(action.type==='run'){
-  if(roll(b,.8)||b.turn>=3){b.outcome='run';log(b,'你们平安回到了小路上。');}else{log(b,'一时没找到离开的空隙。');hit(b,e,p,enemyMove);}
- }else if(action.type==='switch'){b.activeP=action.index;if(!b.participants.includes(b.party[b.activeP].uid))b.participants.push(b.party[b.activeP].uid);log(b,`辛苦了！${monName(b.party[b.activeP])}，拜托你了！`);hit(b,e,b.party[b.activeP],enemyMove);
- }else if(action.type==='guard'){b.events.push({kind:'buff',source:p.uid,target:p.uid,element:'light'});p.energy=Math.min(5,p.energy+2);p.shield=Math.max(p.shield,2);log(b,`${monName(p)} 稳住阵脚，回复 2 点能量并获得护盾。`);hit(b,e,p,enemyMove);
+  if(roll(b,.8)||b.turn>=3){b.outcome='run';log(b,'你们平安回到了小路上。');}else{log(b,'一时没找到离开的空隙。');enemyAction(b,opponentAction);}
+ }else if(action.type==='switch'){b.activeP=action.index;if(!b.participants.includes(b.party[b.activeP].uid))b.participants.push(b.party[b.activeP].uid);log(b,`辛苦了！${monName(b.party[b.activeP])}，拜托你了！`);enterTrait(b,b.party[b.activeP]);enemyAction(b,opponentAction);
+ }else if(action.type==='guard'){b.events.push({kind:'buff',source:p.uid,target:p.uid,element:'light'});p.energy=Math.min(5,p.energy+2);p.shield=Math.max(p.shield,2);log(b,`${monName(p)} 稳住阵脚，回复 2 点能量并获得护盾。`);guardTrait(b,p,maxhp(p));enemyAction(b,opponentAction);
  }else if(action.type==='item'){
   const item=ITEMS[action.item],target=b.party[action.target??b.activeP];if(!target)return invalid('请选择道具的目标。');
   if(item.revive){if(target.hp>0)return invalid('这只潮灵还没有倒下。');target.hp=Math.ceil(maxhp(target)*.5);target.status=null;}
   else if(item.heal){if(target.hp<=0)return invalid('需要先用回声种唤醒它。');if(target.hp>=maxhp(target))return invalid('它的生命已经恢复满了。');target.hp=Math.min(maxhp(target),target.hp+item.heal);}
   else if(item.cleanse){if(!target.status)return invalid('它没有异常状态。');target.status=null;}else return invalid('这件道具不能在战斗中使用。');
-  b.events.push({kind:'heal',source:p.uid,target:target.uid,element:'moss'});b.inventory[action.item]--;log(b,`对 ${monName(target)} 使用了${item.name}。`);hit(b,e,b.party[b.activeP],enemyMove);
+  b.events.push({kind:'heal',source:p.uid,target:target.uid,element:'moss'});b.inventory[action.item]--;log(b,`对 ${monName(target)} 使用了${item.name}。`);enemyAction(b,opponentAction);
+ }else if(opponentAction.type!=='move'){
+  enemyAction(b,opponentAction);hit(b,p,b.enemies[b.activeE],action.move);
  }else{
-  const first=(MOVES[action.move].priority||0)>(MOVES[enemyMove].priority||0)||((MOVES[action.move].priority||0)===(MOVES[enemyMove].priority||0)&&speed(p)>=speed(e));
+  const enemyMove=opponentAction.move;
+  const pPriority=(MOVES[action.move].priority||0)+traitPriority(p,MOVES[action.move]),ePriority=(MOVES[enemyMove].priority||0)+traitPriority(e,MOVES[enemyMove]);
+  const first=pPriority>ePriority||(pPriority===ePriority&&speed(p)>=speed(e));
   if(first){hit(b,p,e,action.move);hit(b,e,p,enemyMove);}else{hit(b,e,p,enemyMove);hit(b,p,e,action.move);}
  }
  if(!b.outcome){tick(b,b.party[b.activeP]);tick(b,b.enemies[b.activeE]);checkEnd(b);}
+ if(b.enemies[b.activeE].uid!==e.uid)b.enemySupportStreak=0;
+ if(!b.outcome)b.enemyPlan=prepareEnemyPlan(b);else b.enemyPlan=null;
  b.history=[...b.history,...b.log].slice(-80);return b;
 }
 export function settleBattle(game,b){
  let g=clone(game);g.party=clone(b.party);g.bag=clone(b.inventory);g.seed=b.seed;const events=[];
- for(const m of g.party){delete m.shield;delete m.focus;m.energy=5;}
+ for(const m of g.party){delete m.shield;delete m.focus;delete m.battleTrait;m.energy=5;}
  for(const m of b.enemies)if(!g.seen.includes(m.species))g.seen.push(m.species);
  if(b.outcome==='win'||b.outcome==='capture'){
   const participants=new Set(b.participants||[b.party[b.activeP].uid]);g.gold+=b.context.kind==='boss'?350+g.region*220:35+b.enemies[0].level*7;
   for(const m of g.party){events.push(...gainXP(m,battleExperience(m,b.enemies,participants.has(m.uid))));m.bond=Math.min(100,m.bond+1);}
   g.wins[g.region]=(g.wins[g.region]||0)+1;
-  if(b.caught){const caught=clone(b.caught);delete caught.shield;delete caught.focus;caught.energy=5;if(g.party.length<6)g.party.push(caught);else g.reserve.push(caught);if(!g.caught.includes(caught.species))g.caught.push(caught.species);events.push(`${SPECIES[caught.species].name} 已加入${g.party.length>=6&&g.reserve.some(m=>m.uid===caught.uid)?'潮灵驿站':'队伍'}。`);}
+  if(b.caught){const caught=clone(b.caught);delete caught.shield;delete caught.focus;delete caught.battleTrait;caught.energy=5;if(g.party.length<6)g.party.push(caught);else g.reserve.push(caught);if(!g.caught.includes(caught.species))g.caught.push(caught.species);events.push(`${SPECIES[caught.species].name} 已加入${g.party.length>=6&&g.reserve.some(m=>m.uid===caught.uid)?'潮灵驿站':'队伍'}。`);}
   for(const m of g.party)if(!g.caught.includes(m.species))g.caught.push(m.species);
   if(b.context.kind==='boss'&&!g.badges.includes(g.region)){g.badges.push(g.region);g.flags['won'+g.region]=true;events.push(`获得${CHAPTERS[g.region].reward}！`);g.pendingScenes??=[];g.pendingScenes.push('after'+g.region);if(g.region===7){g.ending=true;g.pendingScenes.push('ending');}}
   if(b.context.expedition&&b.outcome==='win'){const result=advanceExpedition(g,b.context.expedition,b.context.stage,{victory:true});g=result.game;events.push('地区冒险有了新的进展，查看手记中的下一站。');}
@@ -162,7 +179,7 @@ function validateBattleMon(mon){
  if(mon.hp<0||mon.hp>stats(mon).hp||mon.xp<0||!Number.isInteger(mon.energy)||mon.energy<0||mon.energy>5)throw new Error('存档中的对战数值超出范围。');
  if(mon.status!==null&&mon.status!==undefined&&!STATUS[mon.status])throw new Error('存档中的异常状态不存在。');
  for(const field of ['shield','focus','statusTurns'])if(mon[field]!==undefined&&(!Number.isFinite(mon[field])||mon[field]<0||mon[field]>20))throw new Error('存档中的临时战斗状态损坏。');
- return mon;
+ validateTraitState(mon.battleTrait);return mon;
 }
 export function validateSuspendedBattle(input,game){
  if(!input||typeof input!=='object'||Array.isArray(input)||input.outcome)throw new Error('存档中的对战已经结束或无法读取。');
@@ -181,6 +198,15 @@ export function validateSuspendedBattle(input,game){
  for(const [id,count] of Object.entries(battle.inventory))if(!ITEMS[id]||!Number.isInteger(count)||count<0||count>9999)throw new Error('存档中的对战道具损坏。');
  for(const field of ['log','history']){if(!Array.isArray(battle[field])||!battle[field].every(s=>typeof s==='string'&&s.length<=1000))throw new Error('存档中的对战记录损坏。');battle[field]=battle[field].slice(field==='log'?-30:-80);}
  if(battle.context.kind==='trial'&&(!Number.isInteger(battle.context.floor)||battle.context.floor<1))throw new Error('存档中的试炼层数损坏。');
+ if(battle.lastEnemySwitch!==undefined&&(!Number.isInteger(battle.lastEnemySwitch)||battle.lastEnemySwitch<0||battle.lastEnemySwitch>battle.turn))throw new Error('存档中的对手轮换记录损坏。');
+ battle.enemySupportStreak??=0;
+ if(!Number.isInteger(battle.enemySupportStreak)||battle.enemySupportStreak<0||battle.enemySupportStreak>battle.turn)throw new Error('存档中的对手战术记录损坏。');
+ if(battle.enemyPlan){
+  const plan=battle.enemyPlan,actor=battle.enemies[battle.activeE],action=plan.action;
+  if(plan.actor!==actor.uid||!action||!['move','guard','switch'].includes(action.type))throw new Error('存档中的对手意图损坏。');
+  if(action.type==='move'&&(!moveList(actor).includes(action.move)||MOVES[action.move].cost>actor.energy))throw new Error('存档中的对手技能无效。');
+  if(action.type==='switch'&&(!Number.isInteger(action.index)||action.index===battle.activeE||!battle.enemies[action.index]?.hp))throw new Error('存档中的对手轮换无效。');
+ }else battle.enemyPlan=prepareEnemyPlan(battle);
  battle.context.name=String(battle.context.name||'').slice(0,100);battle.outcome=null;battle.caught=null;delete battle.events;delete battle.error;
  return battle;
 }

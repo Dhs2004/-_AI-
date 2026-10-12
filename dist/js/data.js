@@ -1,4 +1,4 @@
-export const VERSION = '0.3.0';
+export const VERSION = '0.4.0';
 export const ELEMENTS = {
   moss:{name:'森',color:'#8fd59a',weak:['ember','frost'],strong:['tide','stone']},
   ember:{name:'焰',color:'#ffa076',weak:['tide','stone'],strong:['moss','frost']},
@@ -61,9 +61,18 @@ const lines = [
  ['sunserpent','星鳞蛇','曜纹灵蛇','星海循光','light','serpent',[44,55,43,50],'星辰落海时诞生的潮灵。它的鳞片里偶尔会出现尚未发生的黎明。']
 ];
 const moveTrees={moss:['leaf','vine','bloom','forest'],ember:['spark','flare','focus','phoenix'],tide:['splash','bubble','bloom','tsunami'],volt:['static','focus','gust','thunder'],stone:['stone','shell','focus','quake'],frost:['chill','shell','wish','blizzard'],shade:['shadow','nightmare','focus','eclipse'],light:['glint','wish','focus','dawn'],wind:['gust','focus','leaf','cyclone']};
+const familyMoves={
+ mossdeer:['leaf','shell','bloom','forest'],
+ duskmoth:['shadow','bubble','venom','nightmare'],
+ cinder:['spark','shell','flare','phoenix'],
+ dewslime:['splash','wish','bubble','tsunami'],
+ nightwolf:['shadow','gust','focus','eclipse'],
+ skydrake:['gust','spark','focus','cyclone'],
+ sunserpent:['glint','static','wish','dawn']
+};
 export const SPECIES={};
 for(const [family,a,b,c,element,shape,base,lore] of lines){
-  [a,b,c].forEach((name,i)=>{const id=family+(i?'_'+(i+1):'');SPECIES[id]={id,family,name,element,shape,stage:i+1,base:base.map(n=>n+i*22),lore,moves:moveTrees[element],evolve:i<2?family+'_'+(i+2):null,evolveAt:i===0?16:32,rarity:['skydrake','sunserpent'].includes(family)?3:1};});
+  [a,b,c].forEach((name,i)=>{const id=family+(i?'_'+(i+1):'');SPECIES[id]={id,family,name,element,shape,stage:i+1,base:base.map(n=>n+i*22),lore,moves:familyMoves[family]||moveTrees[element],evolve:i<2?family+'_'+(i+2):null,evolveAt:i===0?16:32,rarity:['skydrake','sunserpent'].includes(family)?3:1};});
 }
 export const STARTERS=['budfox','embercat','tidefin'];
 export const ITEMS={
