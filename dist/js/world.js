@@ -3,6 +3,7 @@ import {drawPerson,drawProp,drawTile,drawMonster} from './art.js';
 import {SIDE_STORIES} from './stories.js';
 import {drawIslandLandmark} from './landmarks.js';
 import {DUNGEONS} from './dungeons.js';
+import {expeditionObjects,expeditionObjectActive} from './expedition-engine.js';
 import {adaptDungeon,gateIsOpen,runeValue,RUNE_SYMBOLS} from './dungeon-engine.js';
 export const TILE=36,MAP_W=40,MAP_H=28;
 const hash=(x,y,s=0)=>{let n=Math.imul(x+31,374761393)+Math.imul(y+19,668265263)+s*9127;n=(n^(n>>>13))>>>0;return ((Math.imul(n,1274126177)^(n>>>16))>>>0)/4294967295;};
@@ -20,7 +21,7 @@ export function makeMap(region,place,depth=0){
   add('chest',5,21,{action:'chest',label:'海边的旧箱子',loot:{orb:3,potion:2}});
  }else if(place==='route'){
   add('sign',4,15,{action:'exit',to:'town',label:'返回 '+chapter.town});add('ruin',34,12,{w:4,h:4,block:true});add('portal',34,15,{action:'gate',to:'dungeon',label:'前往 '+chapter.dungeon});
-  [[10,7],[28,9],[23,22]].forEach(([x,y],i)=>add('crystal',x,y,{action:'fragment',fragment:i,label:['灯芯碎片','真实镜页','未寄出的信','散落的钟羽','星轨晶片','记忆种子','配电芯','归航星屑'][region]}));
+  n+=3; // Preserve IDs of existing pickups after replacing the old fragment objects.
   add('person',15,15,{role:'rival',action:'trainer',trainer:0,label:'巡岛学徒 · 寻'});add('person',27,18,{role:'warden',action:'trainer',trainer:1,label:'潮灵游侠 · 远山'});add('person',18,23,{role:'healer',action:'rest',label:'营地旅人'});
   add('chest',32,6,{action:'chest',label:'风化的宝箱',loot:{greatorb:2,superpotion:2}});add('chest',7,23,{action:'chest',label:'树下的行囊',loot:{herb:4,shard:3}});
   for(const [x,y] of [[9,12],[13,20],[19,7],[24,11],[30,23],[6,8],[33,21],[16,9]])add('flower',x,y,{action:'resource',item:'herb',label:'月息草'});
@@ -31,6 +32,7 @@ export function makeMap(region,place,depth=0){
   add('person',19,21,{role:'rival',action:'companion',label:'阿汐'});add('well',11,20,{action:'heal',label:'回忆之泉',w:2,h:2});
   for(const [x,y] of [[14,12],[25,12],[14,18],[25,18]])add('lantern',x,y,{h:2});
  }
+ objects.push(...expeditionObjects(region,place));
  for(let y=3;y<MAP_H-3;y++)for(let x=3;x<MAP_W-3;x++){
   if(hash(x,y,region+(place==='route'?50:0))>.91&&Math.abs(y-16)>2&&Math.abs(x-19)>3&&!objects.some(o=>Math.hypot(o.x-x,o.y-y)<3)&&!(place==='town'&&y>20))add(region===4?'pine':'tree',x,y,{w:2,h:3,block:true});
  }
@@ -56,7 +58,7 @@ export function tileKind(map,x,y){
  }else{if(x<5||x>34||y<4||y>24)return 'water';return x>=17&&x<=21?'path':'stone';}
  return map.region===4?'snow':map.region===2?'sand':'grass';
 }
-export function isGone(g,o){return !!g.collected[o.id];}
+export function isGone(g,o){return !!g.collected[o.id]||(o.action==='expedition'&&!expeditionObjectActive(g,o));}
 export function canWalk(map,g,x,y){
  const tx=Math.round(x),ty=Math.round(y),border=map.layout?0:2;if(tx<border||tx>map.width-border-1||ty<border||ty>map.height-border-1||['water','wall'].includes(tileKind(map,tx,ty)))return false;
  for(const o of map.objects){if(isGone(g,o))continue;if(o.action==='seal'&&o.x===tx&&o.y===ty&&!gateIsOpen(g,o))return false;if(o.block){const w=o.w||1,h=o.h||1;if(tx>=o.x-Math.floor(w/2)&&tx<=o.x+Math.ceil(w/2)-1&&ty>=o.y-Math.floor(h/2)&&ty<=o.y)return false;}if(o.kind==='person'&&Math.abs(tx-o.x)<.4&&Math.abs(ty-o.y)<.4)return false;}
@@ -116,7 +118,7 @@ export function drawWorld(ctx,w,h,map,g,time,{title=false,walking=false}={}){
   }
   if(o.action==='rune'){ctx.fillStyle='#122731';ctx.fillRect(px-11,py-35,22,21);ctx.fillStyle=['#efd18c','#b9e6ef','#d1b4ef'][runeValue(g,o)];ctx.font='bold 14px serif';ctx.textAlign='center';ctx.fillText(RUNE_SYMBOLS[runeValue(g,o)],px,py-19);}
   if(o.action==='seal'&&!gateIsOpen(g,o)){ctx.fillStyle='#8db9ba99';ctx.fillRect(px-17,py-45,34,54);ctx.strokeStyle='#f4df95';ctx.strokeRect(px-15,py-43,30,50);}
-  if(o.action&&!title){const near=Math.hypot(o.x-g.x,o.y-g.y)<2.2;ctx.fillStyle=o.action==='fragment'?'#f7dea1':near?'#f6e4b8':'#e7d7a59a';const yy=py-(o.kind==='person'?43:32)+Math.sin(time*2+o.x)*2;ctx.beginPath();ctx.moveTo(px,yy-4);ctx.lineTo(px+3,yy);ctx.lineTo(px,yy+4);ctx.lineTo(px-3,yy);ctx.closePath();ctx.fill();}
+  if(o.action&&!title){const near=Math.hypot(o.x-g.x,o.y-g.y)<2.2;ctx.fillStyle=o.action==='expedition'?'#f7dea1':near?'#f6e4b8':'#e7d7a59a';const yy=py-(o.kind==='person'?43:32)+Math.sin(time*2+o.x)*2;ctx.beginPath();ctx.moveTo(px,yy-4);ctx.lineTo(px+3,yy);ctx.lineTo(px,yy+4);ctx.lineTo(px-3,yy);ctx.closePath();ctx.fill();if(o.action==='expedition'){ctx.strokeStyle='#f7dea166';ctx.lineWidth=1;ctx.strokeRect(px-7,yy-7,14,14);if(g.trackedExpedition===o.expedition){ctx.fillStyle='#f8e8b7';ctx.font='bold 12px sans-serif';ctx.textAlign='center';ctx.fillText('↓',px,yy-13);}}}
  }
  ctx.globalCompositeOperation='screen';for(const o of map.objects.filter(o=>o.kind==='lantern')){const x=o.x*TILE+18,y=o.y*TILE-5,gr=ctx.createRadialGradient(x,y,2,x,y,80);gr.addColorStop(0,'#e8b76b40');gr.addColorStop(1,'#e8b76b00');ctx.fillStyle=gr;ctx.fillRect(x-80,y-80,160,160);}ctx.globalCompositeOperation='source-over';ctx.restore();
  ctx.save();ctx.fillStyle=map.region===5||map.place==='dungeon'?'#11163024':title?'#112b3620':'#e7d39f05';ctx.fillRect(0,0,w,h);

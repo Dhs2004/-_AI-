@@ -1,5 +1,6 @@
-import {SPECIES,MOVES,ELEMENTS,ITEMS,CHAPTERS,SIDEQUESTS,VERSION} from './data.js';
+import {SPECIES,MOVES,ELEMENTS,ITEMS,CHAPTERS,SIDEQUESTS,VERSION,STATUS,WEATHER} from './data.js';
 import {SIDE_STORIES} from './stories.js';
+import {advanceExpedition,currentExpeditionStage,expeditionScene,validateExpeditions} from './expedition-engine.js';
 
 export const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 export const clone=x=>JSON.parse(JSON.stringify(x));
@@ -16,7 +17,7 @@ export function createMon(species,level=5,seed=1){
  const mon={uid:`m${Date.now().toString(36)}${(++serial).toString(36)}${seed}`,species,level:clamp(level,1,65),xp:0,hp:0,energy:5,status:null,statusTurns:0,equip:null,bond:0};mon.hp=stats(mon).hp;return mon;
 }
 export function createGame(name='旅人',starter='budfox'){
- const mon=createMon(starter,5);return {version:VERSION,name:name.trim().slice(0,12)||'旅人',region:0,place:'town',x:18,y:19,facing:'down',party:[mon],reserve:[],bag:{potion:8,superpotion:0,revive:2,cure:3,orb:10,greatorb:0,herb:0,shard:0},gold:550,badges:[],flags:{intro:true},quest:{},collected:{},wins:{},seen:[starter],caught:[starter],steps:0,playtime:0,createdAt:Date.now(),lastSave:0,difficulty:'normal',sound:true,reduceMotion:false,seed:(Date.now()>>>0),ending:false,trial:0,dungeonFloor:0,runes:{},openGates:{}};
+ const mon=createMon(starter,5);return {version:VERSION,name:name.trim().slice(0,12)||'旅人',region:0,place:'town',x:18,y:19,facing:'down',party:[mon],reserve:[],bag:{potion:8,superpotion:0,revive:2,cure:3,orb:10,greatorb:0,herb:0,shard:0},gold:550,badges:[],flags:{intro:true},quest:{},collected:{},wins:{},seen:[starter],caught:[starter],steps:0,playtime:0,createdAt:Date.now(),lastSave:0,difficulty:'normal',sound:true,reduceMotion:false,seed:(Date.now()>>>0),ending:false,trial:0,dungeonFloor:0,runes:{},openGates:{},pendingScenes:[],suspendedBattle:null,expeditions:{},trackedExpedition:null};
 }
 export function healParty(g){for(const m of g.party){m.hp=stats(m).hp;m.energy=5;m.status=null;m.statusTurns=0;}}
 export function xpNeed(m){return 35+m.level*22;}
@@ -111,7 +112,7 @@ export function takeTurn(original,action){
  b.history=[...b.history,...b.log].slice(-80);return b;
 }
 export function settleBattle(game,b){
- const g=clone(game);g.party=clone(b.party);g.bag=clone(b.inventory);g.seed=b.seed;const events=[];
+ let g=clone(game);g.party=clone(b.party);g.bag=clone(b.inventory);g.seed=b.seed;const events=[];
  for(const m of g.party){delete m.shield;delete m.focus;m.energy=5;}
  for(const m of b.enemies)if(!g.seen.includes(m.species))g.seen.push(m.species);
  if(b.outcome==='win'||b.outcome==='capture'){
@@ -120,7 +121,8 @@ export function settleBattle(game,b){
   g.wins[g.region]=(g.wins[g.region]||0)+1;
   if(b.caught){const caught=clone(b.caught);delete caught.shield;delete caught.focus;caught.energy=5;if(g.party.length<6)g.party.push(caught);else g.reserve.push(caught);if(!g.caught.includes(caught.species))g.caught.push(caught.species);events.push(`${SPECIES[caught.species].name} 已加入${g.party.length>=6&&g.reserve.some(m=>m.uid===caught.uid)?'潮灵驿站':'队伍'}。`);}
   for(const m of g.party)if(!g.caught.includes(m.species))g.caught.push(m.species);
-  if(b.context.kind==='boss'&&!g.badges.includes(g.region)){g.badges.push(g.region);g.flags['won'+g.region]=true;events.push(`获得${CHAPTERS[g.region].reward}！`);if(g.region===7)g.ending=true;}
+  if(b.context.kind==='boss'&&!g.badges.includes(g.region)){g.badges.push(g.region);g.flags['won'+g.region]=true;events.push(`获得${CHAPTERS[g.region].reward}！`);g.pendingScenes??=[];g.pendingScenes.push('after'+g.region);if(g.region===7){g.ending=true;g.pendingScenes.push('ending');}}
+  if(b.context.expedition&&b.outcome==='win'){const result=advanceExpedition(g,b.context.expedition,b.context.stage,{victory:true});g=result.game;events.push('地区冒险有了新的进展，查看手记中的下一站。');}
   if(b.context.kind==='trial'){g.trial=Math.max(g.trial||0,b.context.floor);g.gold+=b.context.floor*45;g.bag.greatorb=(g.bag.greatorb||0)+1;events.push(`星海试炼第 ${b.context.floor} 阶完成。获得辉光星约石与额外星砂。`);}
  }else if(b.outcome==='lose'){g.gold=Math.max(0,g.gold-Math.min(150,Math.floor(g.gold*.08)));healParty(g);g.place='town';g.dungeonFloor=0;g.x=18;g.y=19;events.push('阿汐带你们回到了镇上的潮灵诊所。休息后再试一次吧。');}
  return {game:g,events};
@@ -139,11 +141,44 @@ export function completeStory(game,id,index){
  for(const [item,n] of Object.entries(choice.reward.items))g.bag[item]=(g.bag[item]||0)+n;
  return {game:g,choice,alreadyComplete:false};
 }
+
+/** Persist only a fully resolved, nonterminal turn. Rewards are in game after
+ * terminal settlement, so an ended encounter must never be resumed/rewarded twice. */
+export function checkpointGame(game,battle){
+ return {...game,suspendedBattle:battle&&!battle.outcome?clone(battle):null};
+}
+function validateBattleMon(mon){
+ if(!mon||!SPECIES[mon.species]||!Number.isInteger(mon.level)||mon.level<1||mon.level>65||typeof mon.uid!=='string'||!mon.uid||mon.uid.length>120)throw new Error('存档中的对战潮灵无效。');
+ for(const field of ['hp','xp','energy'])if(!Number.isFinite(mon[field]))throw new Error('存档中的对战数值损坏。');
+ if(mon.hp<0||mon.hp>stats(mon).hp||mon.xp<0||!Number.isInteger(mon.energy)||mon.energy<0||mon.energy>5)throw new Error('存档中的对战数值超出范围。');
+ if(mon.status!==null&&mon.status!==undefined&&!STATUS[mon.status])throw new Error('存档中的异常状态不存在。');
+ for(const field of ['shield','focus','statusTurns'])if(mon[field]!==undefined&&(!Number.isFinite(mon[field])||mon[field]<0||mon[field]>20))throw new Error('存档中的临时战斗状态损坏。');
+ return mon;
+}
+export function validateSuspendedBattle(input,game){
+ if(!input||typeof input!=='object'||Array.isArray(input)||input.outcome)throw new Error('存档中的对战已经结束或无法读取。');
+ const battle=clone(input);
+ if(!Array.isArray(battle.party)||battle.party.length!==game.party.length||!Array.isArray(battle.enemies)||battle.enemies.length<1||battle.enemies.length>6)throw new Error('存档中的对战队伍损坏。');
+ const ids=new Set();
+ for(const mon of [...battle.party,...battle.enemies]){validateBattleMon(mon);if(ids.has(mon.uid))throw new Error('存档中的对战伙伴重复。');ids.add(mon.uid);}
+ for(let i=0;i<game.party.length;i++)if(battle.party[i].uid!==game.party[i].uid||battle.party[i].species!==game.party[i].species||battle.party[i].level!==game.party[i].level)throw new Error('对战队伍与旅途存档不一致。');
+ if(!Number.isInteger(battle.activeP)||!Number.isInteger(battle.activeE)||!battle.party[battle.activeP]?.hp||!battle.enemies[battle.activeE]?.hp)throw new Error('存档中的出战伙伴无效。');
+ if(!Number.isInteger(battle.turn)||battle.turn<0||battle.turn>100000||!Number.isInteger(battle.seed)||battle.seed<0||battle.seed>4294967295||!WEATHER[battle.weather])throw new Error('存档中的对战回合损坏。');
+ if(!battle.context||!['wild','trainer','boss','trial'].includes(battle.context.kind)||battle.context.region!==game.region)throw new Error('存档中的对战地点损坏。');
+ if(battle.context.expedition){const stage=currentExpeditionStage(game,battle.context.expedition);if(battle.context.kind!=='trainer'||stage?.id!==battle.context.stage||stage.kind!=='battle')throw new Error('存档中的冒险对战不一致。');}
+ if(!battle.inventory||typeof battle.inventory!=='object'||Array.isArray(battle.inventory))throw new Error('存档中的对战背包损坏。');
+ for(const [id,count] of Object.entries(battle.inventory))if(!ITEMS[id]||!Number.isInteger(count)||count<0||count>9999)throw new Error('存档中的对战道具损坏。');
+ for(const field of ['log','history']){if(!Array.isArray(battle[field])||!battle[field].every(s=>typeof s==='string'&&s.length<=1000))throw new Error('存档中的对战记录损坏。');battle[field]=battle[field].slice(field==='log'?-30:-80);}
+ if(battle.context.kind==='trial'&&(!Number.isInteger(battle.context.floor)||battle.context.floor<1))throw new Error('存档中的试炼层数损坏。');
+ battle.context.name=String(battle.context.name||'').slice(0,100);battle.outcome=null;battle.caught=null;delete battle.events;delete battle.error;
+ return battle;
+}
 export function validateSave(input){
  if(!input||typeof input!=='object'||!Array.isArray(input.party)||!input.party.length||input.party.length>6||!input.bag||!Array.isArray(input.badges))throw new Error('存档结构不完整。');
  const g=clone(input);if(!Number.isInteger(g.region)||g.region<0||g.region>7)throw new Error('存档地图不存在。');
  if(!['town','route','dungeon'].includes(g.place))throw new Error('存档地点不存在。');
- for(const m of [...g.party,...(g.reserve||[])]){if(!SPECIES[m.species]||!Number.isInteger(m.level)||m.level<1||m.level>65||!Number.isFinite(m.hp)||!Number.isFinite(m.xp))throw new Error('存档潮灵数据损坏。');m.hp=clamp(m.hp,0,stats(m).hp);m.energy=5;}
+ if(g.reserve!==undefined&&!Array.isArray(g.reserve))throw new Error('存档驿站数据损坏。');
+ for(const m of [...g.party,...(g.reserve||[])]){if(!m||!SPECIES[m.species]||!Number.isInteger(m.level)||m.level<1||m.level>65||!Number.isFinite(m.hp)||!Number.isFinite(m.xp))throw new Error('存档潮灵数据损坏。');m.hp=clamp(m.hp,0,stats(m).hp);m.energy=5;}
  if(!Number.isFinite(g.gold)||g.gold<0||!g.badges.every(n=>Number.isInteger(n)&&n>=0&&n<=7))throw new Error('存档进度损坏。');
  g.name=String(g.name||'旅人').slice(0,12);g.x=Math.round(clamp(Number.isFinite(g.x)?g.x:18,1,g.place==='dungeon'?46:37));g.y=Math.round(clamp(Number.isFinite(g.y)?g.y:19,1,g.place==='dungeon'?30:25));
  for(const id of Object.keys(g.bag)){if(!ITEMS[id])delete g.bag[id];else g.bag[id]=clamp(Math.floor(Number(g.bag[id])||0),0,9999);}
@@ -152,6 +187,10 @@ export function validateSave(input){
  for(const field of ['seen','caught'])if(!Array.isArray(g[field])||!g[field].every(id=>typeof id==='string'&&SPECIES[id]))throw new Error('存档图鉴数据损坏。');
  if(!Object.values(g.runes).every(n=>Number.isInteger(n)&&n>=0&&n<=2)||!Object.values(g.openGates).every(v=>typeof v==='boolean'))throw new Error('存档机关状态损坏。');
  if(g.stories!==undefined){if(!g.stories||typeof g.stories!=='object'||Array.isArray(g.stories))throw new Error('存档故事记录损坏。');for(const [id,index] of Object.entries(g.stories)){const story=SIDE_STORIES.find(s=>s.id===id);if(!story||!Number.isInteger(index)||!story.choices[index])throw new Error('存档故事选择损坏。');}}
+ validateExpeditions(g);
+ if(g.pendingScenes!==undefined&&(!Array.isArray(g.pendingScenes)||g.pendingScenes.length>18||!g.pendingScenes.every(id=>typeof id==='string'&&(/^(intro[0-7]|after[0-7]|ending)$/.test(id)||expeditionScene(g,id)))))throw new Error('存档中的剧情记录损坏。');
+ g.pendingScenes??=[];
+ if(g.suspendedBattle)g.suspendedBattle=validateSuspendedBattle(g.suspendedBattle,g);else g.suspendedBattle=null;
  if(!Number.isFinite(g.playtime)||g.playtime<0)g.playtime=0;if(!Number.isInteger(g.steps)||g.steps<0)g.steps=0;g.seed=Number.isFinite(g.seed)?g.seed>>>0:1;g.version=VERSION;return g;
 }
 export function saveEnvelope(g){return JSON.stringify({format:'starfall-save',schema:1,savedAt:new Date().toISOString(),game:g},null,2);}

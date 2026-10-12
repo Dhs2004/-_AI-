@@ -80,3 +80,38 @@ User clarified: target is **16–24 actual gameplay hours across two days** (not
 - QA iframe control had a pagehide save race; fixed by navigating iframe to blank before staging next TEST save. CUA nested iframe bottom-navigation clicks were unreliable; direct :4174/dist/index.html mobile navigation works. Use direct game page for final UI checks.
 - CUA labTab is now Chrome 56383933 at http://127.0.0.1:4174/dist/index.html. Temporary viewport override 390×844 is active: RESET before final handoff. perfTab 56383932 uses qa/performance.html. Existing :4173 tabs unchanged.
 - First owner-private Sites checkpoint pending. get_site confirmed custom access with owner as sole viewer, no other editors/groups/external visitors; zero versions. Same project ID remains.
+
+## First private publication (2026-10-12 04:58 UTC)
+
+- Published source f6d19b0e88043c1a72e5efd3291237ae3b470b22 with Sites helper. Archive /private/tmp/starfall-checkpoint-01.tar.gz (unchanged).
+- Site https://starfall-chronicle.seedagi.chatgpt.site, owner-private; deployment appgdep_6acc69048e4481919c7663292c6206fc succeeded.
+- Saved version appgprj_6acc4a59bf048191be795d4359b47d27~appgver_7e526e4abaa0819198ba74026ad91ade (version 1).
+- Root functions stores starfallSource (complete helper result), starfallDeployment (terminal native result), starfallSite (get_site result). Use fresh credentials for subsequent pushes; never print/persist token.
+- Final new-background nine-element desktop tests: 107–120 FPS at 2274×1200, most 119–120, draw 0.33–1.26ms. Actual mobile-sized canvas 351×520/DPR1 on same Mac: 112–120 FPS, draw 0.39–1.03ms. Not phone hardware measurement.
+- CUA viewport reset after mobile QA. perfTab 56383932 closed. labTab 56383933 now qa/performance.html; hostedTab 56383935 in owner login/handoff flow. Main :4173 previews unchanged.
+- Direct :4174 mobile menu clicks work. Completed side-story reward remains 690 gold after refresh and re-reading, with 1/24 memory journal entry.
+
+## Next sustained development
+
+1. Replace simple fragment pickups with authored multi-stage regional expeditions, distinct outdoor geometry and meaningful traversal. Avoid length through forced waiting or empty repetitive paths.
+2. Add strategic creature abilities, clearer opponent intent and varied boss tactics; measure campaign growth/difficulty with reproducible simulations.
+3. Battle autosave currently resumes pre-encounter progress on refresh. Implement validated in-battle suspend/resume and test long sessions/import compatibility.
+4. Full beginning-to-ending playthrough and pacing study remain required. Do not claim 16–24h of content or complete the active goal early.
+5. Continue toward the requested 24h development window, publish substantive tested updates to the SAME Site, then package final local release.
+
+
+## 0.2 expedition and persistence update (2026-10-12 ~05:36 UTC)
+
+- Battle checkpoints retain each completed nonterminal turn, party/enemy HP, status, energy, inventory, RNG and context. Title/continue and page refresh restore the encounter. Interrupted animations restore the previous complete turn. Terminal rewards live in game and cannot resume as an unsettled encounter.
+- Main scenes are queued until fully read. Intro, post-boss scenes and final ending survive refresh. Expedition choice replies/endings use the same queue. Actual CUA checked unread/re-read after0, trainer turn 2, save/title/continue, mid-animation interruption, and expedition battle resume.
+- Integrated `expedition-stories.js`: 24 authored main expeditions / 144 stages / 25 battle stages / 20 sequence puzzles / 21 choices / 8 material deliveries / ~527 dialogue lines. New `expedition-engine.js` owns atomic stage transitions, material consumption, rewards, save validation and old-fragment compatibility.
+- Replaced raw overworld fragment pickups, preserving IDs of other existing pickups. Three regional character journeys move between reachable sites; active stage markers and journal tracking reflect progress. Legacy collected fragments/badges remain complete without new rewards.
+- Redesigned journal with chapter card, character portraits, progress bars and spoiler-safe stage timeline. Sequence puzzle controls include visible clue, ordered slots, undo and wrong-answer feedback. Added responsive completion card; fixed low-contrast primary buttons in shared card actions. Performance quality disables backdrop blur; paused menus now identify rendering pause in footer.
+- `tests/expeditions.test.mjs` adds data contracts, actual runtime reachability AND nearest-interaction selection for all 144 stages, all-stage save/resume/reward-once, invalid stage/puzzle/material rejection, battle progression and old-save migration. 40 tests passed before final version/doc edit; run final checks before packaging.
+- CUA actual UI: introductory task -> next objective; journal/detail tracking; incorrect and correct sequence; 4-turn expedition battle, refresh with 620 gold and progressed objective; choice reply refresh; delivery -> next choice; completion 550 -> 710 gold and fragment 1/3; refresh + revisit remains 710. After-boss scene persists unread then stops replaying once read. Narrow 390x844 completion and journal layouts inspected; use fullPage:true screenshots (viewport:false screenshot was scaled incorrectly by browser capture).
+- Changed QA server to no-store headers after observing stale ES module cache with the basic Python server. New owned server session 79729: `python3 scripts/preview-server.py --port 4174 --directory .`. Current isolated QA origin is http://localhost:4174 (both :4174 origins are TEST-only). Main :4173 previews remain untouched.
+- labTab 56383933 currently /qa/performance.html, 34-scene suite running. Temporary viewport RESET. Hosted tab 56383935 remains owner login handoff. `dungeon_assets` is now preparing a bounded 24-area outdoor map asset; instructed to hold outside dist until this publication finishes.
+- Full campaign balance, unique outdoor geometry, deeper tactics and measured 16–24h gameplay remain outstanding. Continue 24-hour development target until 2026-10-13 02:46:58 UTC; do not mark goal complete or claim commercial-game parity.
+
+
+0.2 final validation: all 40 tests and syntax checks passed after the final code/version edits. 34-scene actual Chrome DPR2 / 2400×1200 suite: 52–60 FPS overall (most 60); the 16 outdoor town/route samples were 59–60 FPS, average draw 0.49–1.54 ms. All scenes in this run largely delivered ~16.7ms intervals, unlike earlier 120 FPS samples; do not describe this as a guaranteed display rate. Lowest sample was shade battle effects, 52 FPS/P95 33ms/draw 1.32ms. Menus retain a last-scene measurement and now explicitly say rendering is paused. This is a short desktop measurement, not sustained or phone-hardware validation.

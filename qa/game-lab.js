@@ -1,9 +1,17 @@
 import {createGame,createMon,saveEnvelope} from '../dist/js/engine.js';
+import {getExpedition,EXPEDITION_SITES} from '../dist/js/expedition-engine.js';
 import {makeMap,canWalk} from '../dist/js/world.js';
 const frame=document.querySelector('iframe'),select=document.querySelector('select');
 document.querySelector('#load').onclick=()=>{
  const type=select.value,g=createGame('测试旅人','embercat');g.sound=false;g.seed=4149;g.flags.entered0=true;g.party.push(createMon('tidefin',8),createMon('budfox',8));g.bag.superpotion=12;g.bag.greatorb=12;g.party[1].hp=0;
- if(type!=='new'){
+ if(type.startsWith('exp-')){
+  const e=getExpedition(type==='exp-delivery'?'exp0b':'exp0a'),step={'exp-start':0,'exp-puzzle':2,'exp-choice':4,'exp-delivery':4,'exp-end':5}[type];
+  g.expeditions[e.id]={step,choices:{}};for(const stage of e.stages.slice(0,step))if(stage.kind==='choice')g.expeditions[e.id].choices[stage.id]=0;
+  g.place=EXPEDITION_SITES[e.stages[step].site].place;g.trackedExpedition=e.id;g.bag.herb=1;
+  const map=makeMap(0,g.place),o=map.objects.find(o=>o.expedition===e.id&&o.stage===step);
+  for(const [dx,dy] of [[0,1],[1,0],[-1,0],[0,-1]])if(canWalk(map,g,o.x+dx,o.y+dy)){g.x=o.x+dx;g.y=o.y+dy;break;}
+ }else if(type==='after-boss'){g.badges=[0];g.pendingScenes=['after0'];g.flags['won0']=true;g.gold=900;}
+ else if(type!=='new'){
   g.place=type==='story'?'town':type==='trainer'?'route':'dungeon';g.dungeonFloor=type==='boss'?3:0;
   if(g.place==='dungeon')for(let i=0;i<3;i++)g.flags['fragment0-'+i]=true;
   const map=makeMap(0,g.place,g.dungeonFloor),object=map.objects.find(o=>o.action==={trainer:'trainer',dungeon:'rune',boss:'boss',story:'side-story'}[type]);
