@@ -32,6 +32,7 @@ export function createBattlePlayback(before,after,speed=1,start=0){
    if(event.damage)target.hp=Math.max(0,target.hp-event.damage);
    if(event.amount)target.hp=Math.min(stats(target).hp,target.hp+event.amount);
   }
+  for(const change of event.changes||[]){const mon=findMon(scene,change.uid);if(mon)Object.assign(mon,change);}
   return {pre,post:copyScene(scene),caption:eventCaption(event,before)};
  });
  const slice=speed===2?.24:.48;

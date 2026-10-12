@@ -1,3 +1,4 @@
+import {ADVANCED_MOVES} from '../dist/js/technique-data.js';
 import {fileURLToPath} from 'node:url';
 import {CHAPTERS,ITEMS,MOVES,SPECIES} from '../dist/js/data.js';
 import {EXPEDITIONS} from '../dist/js/expedition-stories.js';
@@ -18,7 +19,7 @@ const evolved=(family,level)=>family+(level>=32?'_3':level>=16?'_2':'');
  * RNG; movement time and puzzle discovery are deliberately not simulated. */
 export function runCampaign({seed=100,trainers=true,loot=true,sideStories=true,maxRetries=3,maxTurns=360,adaptive=true,trace=false}={}){
  let game=createGame('旅程研究');game.seed=seed;const original=game.party[0].uid;
- const records=[],chapters=[],usage={purchased:0,crafted:0,items:0,clinicRetreats:0,captures:0};let blockedBattle=null;
+ const records=[],chapters=[],usage={purchased:0,crafted:0,items:0,clinicRetreats:0,captures:0,advancedEnemyCasts:{}};let blockedBattle=null;
  const remember=()=>{game.pendingScenes=[];game.suspendedBattle=null;game=readEnvelope(saveEnvelope(game));};
  const rest=()=>healParty(game);
  function chooseParty(){
@@ -77,7 +78,9 @@ export function runCampaign({seed=100,trainers=true,loot=true,sideStories=true,m
    for(let n=0;n<maxTurns&&!b.outcome;n++){
     const action=capture?captureAction(b,lastSwitch):studyAction(b,{adaptive,lastSwitch});if(action.type==='switch')lastSwitch=b.turn;
     if(trace)history.push({turn:b.turn,player:b.party[b.activeP].species,hp:b.party[b.activeP].hp,energy:b.party[b.activeP].energy,status:b.party[b.activeP].status,enemy:b.enemies[b.activeE].species,enemyHP:b.enemies[b.activeE].hp,enemyEnergy:b.enemies[b.activeE].energy,enemyStatus:b.enemies[b.activeE].status,plan:b.enemyPlan?.action,action});
+    const planned=b.enemyPlan?.action,actor=b.enemies[b.activeE].uid;
     b=takeTurn(b,action);if(b.error)throw new Error(b.error);
+    if(planned?.type==='move'&&ADVANCED_MOVES[planned.move]&&b.events.some(e=>e.source===actor&&e.move===planned.move))usage.advancedEnemyCasts[planned.move]=(usage.advancedEnemyCasts[planned.move]||0)+1;
     if(!b.outcome&&n%7===0)b=readEnvelope(saveEnvelope(checkpointGame(game,b))).suspendedBattle;
    }
    records.push({region:game.region,kind:context.kind,name:context.name||SPECIES[team[0].species].name,attempt:attempt+1,outcome:b.outcome||'turn-limit',turns:b.turn});

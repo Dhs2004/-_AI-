@@ -7,7 +7,21 @@ import {makeMap,canWalk} from '../dist/js/world.js';
 const frame=document.querySelector('iframe'),select=document.querySelector('select');
 document.querySelector('#load').onclick=()=>{
  const type=select.value,g=createGame('测试旅人','embercat');g.sound=false;g.seed=4149;g.flags.entered0=true;g.party.push(createMon('tidefin',8),createMon('budfox',8));g.bag.superpotion=12;g.bag.greatorb=12;g.party[1].hp=0;
- if(type.startsWith('ecology')){
+ if(type.startsWith('technique-')){
+  g.party=[createMon('budfox',12)];
+  if(type!=='technique-memory'){
+   const setups={
+    'technique-shatter':{player:'stonegolem_3',moves:['shatter','stone','shell','quake'],enemy:'stonegolem_3',action:{type:'guard'}},
+    'technique-energy':{player:'clockmouse_3',moves:['siphon','static','shell','thunder'],enemy:'stonegolem_3',action:{type:'move',move:'quake'}},
+    'technique-regen':{player:'budfox_3',moves:['regrowth','leaf','bloom','unravel'],enemy:'glowbud_3',action:{type:'move',move:'wish'}}
+   },s=setups[type];
+   g.party=[createMon(s.player,40),createMon('kitesquid_3',40)];g.party[0].loadout=s.moves;g.party[1].loadout=['tailstep','gust','tideshelter','cyclone'];
+   if(type==='technique-regen')g.party[0].hp=80;
+   const b=makeBattle(g,[createMon(s.enemy,40)],{kind:'trainer',name:select.selectedOptions[0].textContent});b.enemies[0].energy=3;
+   if(type==='technique-regen')b.enemies[0].hp=Math.floor(stats(b.enemies[0]).hp*.5);
+   b.enemyPlan={actor:b.enemies[0].uid,action:s.action};g.suspendedBattle=b;g.battleSpeed=2;
+  }
+ }else if(type.startsWith('ecology')){
   const h=HABITATS.find(h=>h.family===(type==='ecology-snow'?'frostotter':'kitesquid'));
   g.region=h.region;g.place='route';g.routeSector=h.sector;g.badges=Array.from({length:h.region},(_,i)=>i);g.flags['entered'+h.region]=true;
   g.party=[createMon('tidefin_2',30),createMon('clockmouse_2',30)];g.bag.greatorb=12;g.battleSpeed=2;

@@ -1,4 +1,5 @@
-export const VERSION = '0.13.0';
+import {ADVANCED_MOVES} from './technique-data.js';
+export const VERSION = '0.14.0';
 export const ELEMENTS = {
   moss:{name:'森',color:'#8fd59a',weak:['ember','frost'],strong:['tide','stone']},
   ember:{name:'焰',color:'#ffa076',weak:['tide','stone'],strong:['moss','frost']},
@@ -12,6 +13,7 @@ export const ELEMENTS = {
 };
 
 export const MOVES = {
+  ...ADVANCED_MOVES,
   tackle:{name:'跃击',element:null,power:35,cost:0,desc:'基础攻击，回复 1 点能量。'},
   leaf:{name:'叶刃',element:'moss',power:52,cost:1,desc:'飞旋的叶片斩击对手。'},
   vine:{name:'缚根',element:'moss',power:38,cost:2,status:'root',chance:.65,desc:'65% 概率缠绕，降低速度。'},

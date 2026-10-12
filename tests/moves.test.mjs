@@ -7,7 +7,7 @@ import {createGame,createMon,makeBattle,takeTurn,gainXP,xpNeed,saveEnvelope,read
 test('old automatic choices remain identical at every learning boundary for all families',()=>{
  for(const id of Object.keys(SPECIES))for(const level of [5,8,9,17,18,26,27,32,65]){
   const mon=createMon(id,level),tree=SPECIES[id].moves,old=['tackle',tree[0],...(level>=9?[tree[1]]:[]),...(level>=18?[tree[2]]:[]),...(level>=27?[tree[3]]:[])].slice(-4);
-  assert.deepEqual(moveList(mon),old);assert.equal(moveLearnset(mon).length,5);assert.ok(learnedMoves(mon).includes('tackle'));
+  assert.deepEqual(moveList(mon),old);assert.equal(moveLearnset(mon).length,8);assert.ok(learnedMoves(mon).includes('tackle'));
  }
 });
 test('high-level selected tackle uses voltkit energy trait and the same loadout survives battle save/resume',()=>{

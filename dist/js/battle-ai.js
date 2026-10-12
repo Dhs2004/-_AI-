@@ -35,6 +35,12 @@ export function planEnemyAction(b,{damage,stats,moves,random}){
   if(move.boost&&!actor.focus)score+=strongest*.45+(actor.energy<3?strongest*.4:0);
   if(move.status&&!target.status)score+=stats(target).hp*(move.status==='poison'?.2:move.status==='sleep'?.16:.1)*move.chance*style.status;
   if(move.cleanse&&actor.status)score+=maxHP*.12;
+  if(move.regen)score=actor.regen?0:Math.min(missing,maxHP*.08*move.regen)*.85*style.heal;
+  if(move.haste&&!actor.haste)score+=strongest*(stats(actor).spd<stats(target).spd?.28:.08);
+  if(move.dispel)score+=(target.focus?incoming*.4:0)+(target.regen?stats(target).hp*.15:0)+(target.haste?incoming*.15:0);
+  if(move.sapEnergy)score+=Math.min(target.energy,move.sapEnergy)*strongest*.18;
+  if(move.teamCleanse)score+=b.enemies.filter(m=>m.status).length*maxHP*.1;
+  if(move.nonlethal)score=Math.min(score,Math.max(0,target.hp-1));
   if(move.drain)score+=Math.min(missing,score*move.drain)*.8;
   // Finishing a foe is more valuable than restoring health or conserving energy.
   if(move.power&&score>=target.hp)score+=maxHP*.35;
@@ -69,5 +75,5 @@ export function describeEnemyPlan(plan,b){
  const action=plan.action;
  if(action.type==='guard')return {name:'稳住阵脚',detail:'准备守势 · 回复能量并减轻伤害',element:null,icon:'◇'};
  if(action.type==='switch'){const mon=b.enemies[action.index];return {name:'准备轮换',detail:'将派出 '+SPECIES[mon.species].name,element:SPECIES[mon.species].element,icon:'⇄'};}
- const move=MOVES[action.move];return {name:move.name,detail:move.heal?'准备恢复生命':move.shield?'准备展开护盾':move.boost?'准备蓄势':move.status?'准备攻击 · 可能附加异常':'准备发动攻击',element:move.element,icon:move.heal?'✚':move.power?'↗':'✧'};
+ const move=MOVES[action.move];return {name:move.name,detail:move.role?'准备'+move.role:move.heal?'准备恢复生命':move.shield?'准备展开护盾':move.boost?'准备蓄势':move.status?'准备攻击 · 可能附加异常':'准备发动攻击',element:move.element,icon:move.heal?'✚':move.power?'↗':'✧'};
 }
