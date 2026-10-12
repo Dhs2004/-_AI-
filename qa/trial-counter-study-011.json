@@ -1,0 +1,751 @@
+{
+  "assumptions": "Isolated alternate-roster study for four hard stages; all party level65, six shell charms, full health, 5 superpotions/3 cures, adaptive heuristic. Acquisition and carried progression not simulated.",
+  "rosters": [
+    [
+      "nightwolf",
+      "voltkit",
+      "budfox",
+      "sunserpent",
+      "frostowl",
+      "tidefin"
+    ],
+    [
+      "voltkit",
+      "nightwolf",
+      "cinder",
+      "mossdeer",
+      "sunserpent",
+      "pebble"
+    ],
+    [
+      "sunserpent",
+      "skydrake",
+      "stonegolem",
+      "duskmoth",
+      "tidefin",
+      "glowbud"
+    ]
+  ],
+  "results": [
+    {
+      "floor": 15,
+      "seed": 31415,
+      "outcome": "win",
+      "turns": 111,
+      "healthy": 2,
+      "potions": 5,
+      "cures": 0,
+      "roster": 0
+    },
+    {
+      "floor": 15,
+      "seed": 39334,
+      "outcome": "win",
+      "turns": 79,
+      "healthy": 5,
+      "potions": 5,
+      "cures": 3,
+      "roster": 0
+    },
+    {
+      "floor": 15,
+      "seed": 47253,
+      "outcome": "lose",
+      "turns": 115,
+      "healthy": 0,
+      "potions": 5,
+      "cures": 2,
+      "roster": 0
+    },
+    {
+      "floor": 15,
+      "seed": 55172,
+      "outcome": "lose",
+      "turns": 112,
+      "healthy": 0,
+      "potions": 5,
+      "cures": 1,
+      "roster": 0
+    },
+    {
+      "floor": 15,
+      "seed": 63091,
+      "outcome": "lose",
+      "turns": 121,
+      "healthy": 0,
+      "potions": 5,
+      "cures": 2,
+      "roster": 0
+    },
+    {
+      "floor": 15,
+      "seed": 71010,
+      "outcome": "win",
+      "turns": 87,
+      "healthy": 4,
+      "potions": 5,
+      "cures": 2,
+      "roster": 0
+    },
+    {
+      "floor": 15,
+      "seed": 31415,
+      "outcome": "win",
+      "turns": 100,
+      "healthy": 3,
+      "potions": 5,
+      "cures": 3,
+      "roster": 1
+    },
+    {
+      "floor": 15,
+      "seed": 39334,
+      "outcome": "win",
+      "turns": 80,
+      "healthy": 4,
+      "potions": 5,
+      "cures": 3,
+      "roster": 1
+    },
+    {
+      "floor": 15,
+      "seed": 47253,
+      "outcome": "win",
+      "turns": 93,
+      "healthy": 2,
+      "potions": 5,
+      "cures": 1,
+      "roster": 1
+    },
+    {
+      "floor": 15,
+      "seed": 55172,
+      "outcome": "win",
+      "turns": 114,
+      "healthy": 3,
+      "potions": 5,
+      "cures": 2,
+      "roster": 1
+    },
+    {
+      "floor": 15,
+      "seed": 63091,
+      "outcome": "lose",
+      "turns": 106,
+      "healthy": 0,
+      "potions": 5,
+      "cures": 1,
+      "roster": 1
+    },
+    {
+      "floor": 15,
+      "seed": 71010,
+      "outcome": "lose",
+      "turns": 117,
+      "healthy": 0,
+      "potions": 5,
+      "cures": 1,
+      "roster": 1
+    },
+    {
+      "floor": 15,
+      "seed": 31415,
+      "outcome": "win",
+      "turns": 102,
+      "healthy": 1,
+      "potions": 5,
+      "cures": 3,
+      "roster": 2
+    },
+    {
+      "floor": 15,
+      "seed": 39334,
+      "outcome": "win",
+      "turns": 131,
+      "healthy": 2,
+      "potions": 5,
+      "cures": 3,
+      "roster": 2
+    },
+    {
+      "floor": 15,
+      "seed": 47253,
+      "outcome": "win",
+      "turns": 91,
+      "healthy": 2,
+      "potions": 5,
+      "cures": 1,
+      "roster": 2
+    },
+    {
+      "floor": 15,
+      "seed": 55172,
+      "outcome": "win",
+      "turns": 88,
+      "healthy": 3,
+      "potions": 5,
+      "cures": 1,
+      "roster": 2
+    },
+    {
+      "floor": 15,
+      "seed": 63091,
+      "outcome": "lose",
+      "turns": 129,
+      "healthy": 0,
+      "potions": 5,
+      "cures": 3,
+      "roster": 2
+    },
+    {
+      "floor": 15,
+      "seed": 71010,
+      "outcome": "win",
+      "turns": 99,
+      "healthy": 1,
+      "potions": 5,
+      "cures": 3,
+      "roster": 2
+    },
+    {
+      "floor": 18,
+      "seed": 31415,
+      "outcome": "win",
+      "turns": 68,
+      "healthy": 3,
+      "potions": 5,
+      "cures": 3,
+      "roster": 0
+    },
+    {
+      "floor": 18,
+      "seed": 39334,
+      "outcome": "win",
+      "turns": 71,
+      "healthy": 1,
+      "potions": 5,
+      "cures": 3,
+      "roster": 0
+    },
+    {
+      "floor": 18,
+      "seed": 47253,
+      "outcome": "win",
+      "turns": 54,
+      "healthy": 5,
+      "potions": 5,
+      "cures": 3,
+      "roster": 0
+    },
+    {
+      "floor": 18,
+      "seed": 55172,
+      "outcome": "win",
+      "turns": 62,
+      "healthy": 4,
+      "potions": 5,
+      "cures": 3,
+      "roster": 0
+    },
+    {
+      "floor": 18,
+      "seed": 63091,
+      "outcome": "win",
+      "turns": 60,
+      "healthy": 1,
+      "potions": 5,
+      "cures": 3,
+      "roster": 0
+    },
+    {
+      "floor": 18,
+      "seed": 71010,
+      "outcome": "win",
+      "turns": 67,
+      "healthy": 4,
+      "potions": 5,
+      "cures": 3,
+      "roster": 0
+    },
+    {
+      "floor": 18,
+      "seed": 31415,
+      "outcome": "win",
+      "turns": 74,
+      "healthy": 4,
+      "potions": 5,
+      "cures": 3,
+      "roster": 1
+    },
+    {
+      "floor": 18,
+      "seed": 39334,
+      "outcome": "win",
+      "turns": 67,
+      "healthy": 1,
+      "potions": 5,
+      "cures": 3,
+      "roster": 1
+    },
+    {
+      "floor": 18,
+      "seed": 47253,
+      "outcome": "win",
+      "turns": 64,
+      "healthy": 2,
+      "potions": 5,
+      "cures": 3,
+      "roster": 1
+    },
+    {
+      "floor": 18,
+      "seed": 55172,
+      "outcome": "win",
+      "turns": 73,
+      "healthy": 3,
+      "potions": 5,
+      "cures": 3,
+      "roster": 1
+    },
+    {
+      "floor": 18,
+      "seed": 63091,
+      "outcome": "win",
+      "turns": 76,
+      "healthy": 4,
+      "potions": 5,
+      "cures": 3,
+      "roster": 1
+    },
+    {
+      "floor": 18,
+      "seed": 71010,
+      "outcome": "win",
+      "turns": 92,
+      "healthy": 1,
+      "potions": 5,
+      "cures": 3,
+      "roster": 1
+    },
+    {
+      "floor": 18,
+      "seed": 31415,
+      "outcome": "win",
+      "turns": 74,
+      "healthy": 4,
+      "potions": 5,
+      "cures": 3,
+      "roster": 2
+    },
+    {
+      "floor": 18,
+      "seed": 39334,
+      "outcome": "win",
+      "turns": 80,
+      "healthy": 3,
+      "potions": 5,
+      "cures": 3,
+      "roster": 2
+    },
+    {
+      "floor": 18,
+      "seed": 47253,
+      "outcome": "win",
+      "turns": 88,
+      "healthy": 2,
+      "potions": 5,
+      "cures": 3,
+      "roster": 2
+    },
+    {
+      "floor": 18,
+      "seed": 55172,
+      "outcome": "lose",
+      "turns": 98,
+      "healthy": 0,
+      "potions": 5,
+      "cures": 3,
+      "roster": 2
+    },
+    {
+      "floor": 18,
+      "seed": 63091,
+      "outcome": "win",
+      "turns": 75,
+      "healthy": 3,
+      "potions": 5,
+      "cures": 3,
+      "roster": 2
+    },
+    {
+      "floor": 18,
+      "seed": 71010,
+      "outcome": "win",
+      "turns": 52,
+      "healthy": 4,
+      "potions": 5,
+      "cures": 3,
+      "roster": 2
+    },
+    {
+      "floor": 23,
+      "seed": 31415,
+      "outcome": "win",
+      "turns": 62,
+      "healthy": 3,
+      "potions": 5,
+      "cures": 1,
+      "roster": 0
+    },
+    {
+      "floor": 23,
+      "seed": 39334,
+      "outcome": "win",
+      "turns": 60,
+      "healthy": 3,
+      "potions": 5,
+      "cures": 2,
+      "roster": 0
+    },
+    {
+      "floor": 23,
+      "seed": 47253,
+      "outcome": "win",
+      "turns": 63,
+      "healthy": 6,
+      "potions": 5,
+      "cures": 2,
+      "roster": 0
+    },
+    {
+      "floor": 23,
+      "seed": 55172,
+      "outcome": "win",
+      "turns": 77,
+      "healthy": 5,
+      "potions": 5,
+      "cures": 2,
+      "roster": 0
+    },
+    {
+      "floor": 23,
+      "seed": 63091,
+      "outcome": "win",
+      "turns": 68,
+      "healthy": 4,
+      "potions": 5,
+      "cures": 0,
+      "roster": 0
+    },
+    {
+      "floor": 23,
+      "seed": 71010,
+      "outcome": "win",
+      "turns": 62,
+      "healthy": 4,
+      "potions": 5,
+      "cures": 3,
+      "roster": 0
+    },
+    {
+      "floor": 23,
+      "seed": 31415,
+      "outcome": "win",
+      "turns": 62,
+      "healthy": 4,
+      "potions": 5,
+      "cures": 1,
+      "roster": 1
+    },
+    {
+      "floor": 23,
+      "seed": 39334,
+      "outcome": "win",
+      "turns": 59,
+      "healthy": 4,
+      "potions": 5,
+      "cures": 1,
+      "roster": 1
+    },
+    {
+      "floor": 23,
+      "seed": 47253,
+      "outcome": "win",
+      "turns": 63,
+      "healthy": 5,
+      "potions": 5,
+      "cures": 2,
+      "roster": 1
+    },
+    {
+      "floor": 23,
+      "seed": 55172,
+      "outcome": "win",
+      "turns": 72,
+      "healthy": 3,
+      "potions": 5,
+      "cures": 3,
+      "roster": 1
+    },
+    {
+      "floor": 23,
+      "seed": 63091,
+      "outcome": "win",
+      "turns": 83,
+      "healthy": 1,
+      "potions": 5,
+      "cures": 2,
+      "roster": 1
+    },
+    {
+      "floor": 23,
+      "seed": 71010,
+      "outcome": "win",
+      "turns": 84,
+      "healthy": 3,
+      "potions": 5,
+      "cures": 3,
+      "roster": 1
+    },
+    {
+      "floor": 23,
+      "seed": 31415,
+      "outcome": "win",
+      "turns": 70,
+      "healthy": 2,
+      "potions": 5,
+      "cures": 0,
+      "roster": 2
+    },
+    {
+      "floor": 23,
+      "seed": 39334,
+      "outcome": "win",
+      "turns": 83,
+      "healthy": 1,
+      "potions": 5,
+      "cures": 3,
+      "roster": 2
+    },
+    {
+      "floor": 23,
+      "seed": 47253,
+      "outcome": "win",
+      "turns": 98,
+      "healthy": 3,
+      "potions": 5,
+      "cures": 3,
+      "roster": 2
+    },
+    {
+      "floor": 23,
+      "seed": 55172,
+      "outcome": "lose",
+      "turns": 106,
+      "healthy": 0,
+      "potions": 5,
+      "cures": 3,
+      "roster": 2
+    },
+    {
+      "floor": 23,
+      "seed": 63091,
+      "outcome": "win",
+      "turns": 61,
+      "healthy": 2,
+      "potions": 5,
+      "cures": 1,
+      "roster": 2
+    },
+    {
+      "floor": 23,
+      "seed": 71010,
+      "outcome": "win",
+      "turns": 81,
+      "healthy": 2,
+      "potions": 5,
+      "cures": 0,
+      "roster": 2
+    },
+    {
+      "floor": 24,
+      "seed": 31415,
+      "outcome": "win",
+      "turns": 50,
+      "healthy": 3,
+      "potions": 5,
+      "cures": 2,
+      "roster": 0
+    },
+    {
+      "floor": 24,
+      "seed": 39334,
+      "outcome": "win",
+      "turns": 69,
+      "healthy": 2,
+      "potions": 5,
+      "cures": 3,
+      "roster": 0
+    },
+    {
+      "floor": 24,
+      "seed": 47253,
+      "outcome": "win",
+      "turns": 77,
+      "healthy": 3,
+      "potions": 5,
+      "cures": 3,
+      "roster": 0
+    },
+    {
+      "floor": 24,
+      "seed": 55172,
+      "outcome": "win",
+      "turns": 80,
+      "healthy": 1,
+      "potions": 5,
+      "cures": 3,
+      "roster": 0
+    },
+    {
+      "floor": 24,
+      "seed": 63091,
+      "outcome": "lose",
+      "turns": 82,
+      "healthy": 0,
+      "potions": 5,
+      "cures": 3,
+      "roster": 0
+    },
+    {
+      "floor": 24,
+      "seed": 71010,
+      "outcome": "win",
+      "turns": 59,
+      "healthy": 2,
+      "potions": 5,
+      "cures": 3,
+      "roster": 0
+    },
+    {
+      "floor": 24,
+      "seed": 31415,
+      "outcome": "win",
+      "turns": 65,
+      "healthy": 2,
+      "potions": 5,
+      "cures": 3,
+      "roster": 1
+    },
+    {
+      "floor": 24,
+      "seed": 39334,
+      "outcome": "win",
+      "turns": 77,
+      "healthy": 2,
+      "potions": 5,
+      "cures": 3,
+      "roster": 1
+    },
+    {
+      "floor": 24,
+      "seed": 47253,
+      "outcome": "lose",
+      "turns": 94,
+      "healthy": 0,
+      "potions": 5,
+      "cures": 3,
+      "roster": 1
+    },
+    {
+      "floor": 24,
+      "seed": 55172,
+      "outcome": "lose",
+      "turns": 98,
+      "healthy": 0,
+      "potions": 5,
+      "cures": 3,
+      "roster": 1
+    },
+    {
+      "floor": 24,
+      "seed": 63091,
+      "outcome": "lose",
+      "turns": 72,
+      "healthy": 0,
+      "potions": 5,
+      "cures": 3,
+      "roster": 1
+    },
+    {
+      "floor": 24,
+      "seed": 71010,
+      "outcome": "lose",
+      "turns": 79,
+      "healthy": 0,
+      "potions": 5,
+      "cures": 3,
+      "roster": 1
+    },
+    {
+      "floor": 24,
+      "seed": 31415,
+      "outcome": "lose",
+      "turns": 76,
+      "healthy": 0,
+      "potions": 5,
+      "cures": 2,
+      "roster": 2
+    },
+    {
+      "floor": 24,
+      "seed": 39334,
+      "outcome": "win",
+      "turns": 87,
+      "healthy": 1,
+      "potions": 5,
+      "cures": 3,
+      "roster": 2
+    },
+    {
+      "floor": 24,
+      "seed": 47253,
+      "outcome": "lose",
+      "turns": 110,
+      "healthy": 0,
+      "potions": 5,
+      "cures": 3,
+      "roster": 2
+    },
+    {
+      "floor": 24,
+      "seed": 55172,
+      "outcome": "lose",
+      "turns": 92,
+      "healthy": 0,
+      "potions": 5,
+      "cures": 3,
+      "roster": 2
+    },
+    {
+      "floor": 24,
+      "seed": 63091,
+      "outcome": "win",
+      "turns": 72,
+      "healthy": 2,
+      "potions": 5,
+      "cures": 3,
+      "roster": 2
+    },
+    {
+      "floor": 24,
+      "seed": 71010,
+      "outcome": "lose",
+      "turns": 95,
+      "healthy": 0,
+      "potions": 5,
+      "cures": 2,
+      "roster": 2
+    }
+  ]
+}

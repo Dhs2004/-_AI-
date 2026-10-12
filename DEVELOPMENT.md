@@ -283,3 +283,28 @@ User clarified: target is **16–24 actual gameplay hours across two days** (not
 - All99tests passed after navigation implementation (95existing+4new). New tests traverse64maps and validate every reachable marker's path/endinteraction, real gate solving, collected/complete/trackedstates, invalidtargets and adjacentservices. Subsequent edits are chartmarkup/drawing/CSS/observer/version/docs; syntax/diffcheckperformed before publication. No second fullsuite needed without combat/save/pathlogicchanges.
 - Full-game live samples during thisUIround included60FPS/0.39msdraw/P9517.3msand116FPS/0.97msdraw/P959.3ms. These are brief visibleHUDsamples, not a new fullbenchmarksuite or sustained/phone guarantee. Latest complete nine-effect renderer benchmark remains0.8at118-121FPS.
 - Continue existing24hdevelopment through2026-10-13 02:46:58UTC; do not mark complete. Actual16-24h gameplay and human full-campaign pacing remain unverified.
+
+## 0.10 private publication (2026-10-12 11:00 UTC)
+
+- Same owner-private URL: https://starfall-chronicle.seedagi.chatgpt.site.
+- Source commit `b1077e3eecb4f908a0d0b3042d7d51fb9d12e47d`; immutable archive `/private/tmp/starfall-checkpoint-010.tar.gz`.
+- Saved version `appgprj_6acc4a59bf048191be795d4359b47d27~appgver_0c028e6354bc81918d6609d7a3c6214e`.
+- Deployment `appgdep_6accbd7160988191b00cdfadeae526a3` returned terminal `succeeded` at11:00:07UTC. Stop polling. Function stores retain complete source and terminal deployment. Published entry opened inChrome and shows normal owner-private ChatGPT login; no login/credential actions performed. publishedGameTab marked deliverable.
+- QA bondLabTab56383953 remains /qa/game-lab.html, after actual dungeon return at outdoorsector2 nearentrance; viewport RESET. Isolated4174saveonly. Main4173originsuntouched. Browser tabs may auto-clean at turn end; retain browser1 binding and create fresh QA tab if needed.
+- Next: continue actual campaign/pacing and content work within original24hgoal. No full human campaign or verified16-24h gameplay yet; goal remains active.
+
+
+## Public access requested by user (2026-10-12 11:08 UTC)
+
+- User explicitly requested no login. Changed same Site access_mode topublic; returnedrevision2at11:08:57UTC. Browser reload showed actualgame title withoutsigning in. Publicentrytab56383961isdeliverable; proof `/private/tmp/starfall-public-game.jpg`.
+- IMPORTANT: preserve PUBLIC access in all future deployments. Use save_site_version then deploy_site_version, not private deployment tools. FunctionstarfallAccess andstarfallSite nowcontainpublicaccessstate. Existingbrowser-localuser4173savesuntouched.
+
+## 0.11 star-sea invitations (publication next)
+
+- Replaced the new-trial entry flow with an authored24duel postgame arc: eight linked3-partstories about ferry apprentices, rainmail, a workshop meal, windrelay, night-shift handover, returned dreams, a daylight theatre and a shared return journey. Eachstagehaspre/postdialogue and a specificNPCinvitation. Eightmilestonecrests and a6-linefinalepilogue; after24, level65wavescontinue. Oldertrialrecordsalreadywon remain, withno retroactiveitemgrant.
+- Hand-authored3-6enemylineups withlegallearnedmoves andold/newcharms. EightAIprofiles pluscommittedcanonicalweather distinguishcircumstances. Newcontextcircuit markerselectstheserules; legacy suspendedtrialteams/weatherremainusable. Strictvalidatedresumes reject changedcanonicalroster,weather,loadouts,circuitandlockedfloors. Trialopeninglognowcorrectlyannouncesachallengeinstead ofawildcreature.
+- Newpassport/preparationUIshowseightcrests,currentinvitation,fullenemylineup,moves/gear/weather,tactics/advice,firstrewardandcurrentreadiness. Freewaitingcamp healsactualparty. Completedstagescanberematchedorread; rematchesgrantregularXP/goldbutnotfirstrewards. Inventoryrewardsaturates9999. Firstpostdialogueisqueuedandrestoresafterrefresh; newreadendsatnextinvitation.
+- All105tests passed. Sixnew testscover24legalrosters/arcs,canonicalweather/AI/deterministicresume,firstwin/replay/scene/milestoneboundaries,malformedprogress/enemies,legacyandendlesscompatibility,defeatandcapacity. SettlementfixturesweakenenemyHPtoisolaterewards; theyarenotbalanceproof. Initialfixturefailurewasstalecommittedenemyplan afterweakeningteams; fixedsetupbeforemakeBattleandallowedstatusdelay. SecondtestfailureexpectedLv65goldforactualLv64finallead; correctedexpectation. No productionbugwasinferredfromthesefixtures.
+- Realfull-strengthindependentstudy:24stages x2policies x6seeds=288matches. Sixpreparedsupportfamiliesatsamebaselevel,6shellcharms,fullhealth,5superpotions/3curespermatch. Attack81/144wins,adaptive110/144; longest104turns,noturn-limitat240. Alternativelevel65rostersstudied15/18/23/24,3rostersx6seeds=72matches;stage18and23best6/6,finalbest5/6,longest131turns. Reportsqa/trial-study-011.json andqa/trial-counter-study-011.json; bothreproducibleusingtrial-study.mjs (--counterforsecond). Noacquisition,carriedresourcesorhumanplaytimeclaim.
+- ActualCUAisolated4174:loadedstage4withtrialrecord3and6Lv65party. Camprestoredlead457HP. Rainand雨递tacticvisible; fulltrialused22turns,manualswitches/focus/guard/attacksand1cure,endedwin. Refreshedduringturn2retainedrain,335HP,energyand2x. Refreshaftervictorybeforecontinuerecovered2unreadpostlines;thenopenedstage5record4. Gold550->1143, greatorb12->13,cure12->11;re-readstage4kept1143and13. Desktop/390x844examined;viewportRESET, nocurrentconsoleerrors. CurrentQAtrialLabTab atbagafterwin;publicactual0.10titleentryremainsuntouched.
+- No newrendererbenchmark. ActualCUAtrialviews showed~119FPS atonepoint; publictitle~120FPS. ThesearesinglevisibleHUDsamples. Keeporiginal24hgoalactiveuntil2026-10-13 02:46:58UTC; 16-24houractualplaytime andfullhumancampaignremainunverified.

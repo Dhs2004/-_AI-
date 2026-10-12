@@ -1,3 +1,4 @@
+import {TRIAL_CIRCUIT_ID,trialAt,trialAfterScene,trialReward} from './trial-data.js';
 import {moveList,learnedMoves,validateLoadout} from './moves.js';
 import {validateBondStories} from './bond-engine.js';
 export {moveList,learnedMoves} from './moves.js';
@@ -45,11 +46,13 @@ export function gainXP(mon,amount){
 }
 export function effectiveness(element,target){if(!element)return 1;return ELEMENTS[element].strong.includes(target)?1.6:ELEMENTS[element].weak.includes(target)?.7:1;}
 export function makeBattle(g,enemy,context={}){
- const b={party:clone(g.party),enemies:clone(enemy),activeP:g.party.findIndex(m=>m.hp>0),activeE:0,turn:0,weather:CHAPTERS[g.region].weather,seed:g.seed>>>0,log:[],history:[],outcome:null,caught:null,inventory:clone(g.bag),context:{kind:'wild',region:g.region,...context}};
+ const trial=context.circuit===TRIAL_CIRCUIT_ID?trialAt(context.floor):null;
+ if(context.circuit!==undefined&&(!trial||context.kind!=='trial'||!g.ending||g.region!==7||g.place!=='town'||context.floor>(g.trial||0)+1))throw new Error('试航邀请与当前进度不一致。');
+ const b={party:clone(g.party),enemies:clone(enemy),activeP:g.party.findIndex(m=>m.hp>0),activeE:0,turn:0,weather:trial?.weather||CHAPTERS[g.region].weather,seed:g.seed>>>0,log:[],history:[],outcome:null,caught:null,inventory:clone(g.bag),context:{kind:'wild',region:g.region,...context}};
  if(b.activeP<0)throw new Error('No healthy companion');
  b.participants=[b.party[b.activeP].uid];b.enemySupportStreak=0;
  for(const m of [...b.party,...b.enemies]){m.energy=5;m.shield=0;m.focus=0;m.statusTurns=m.status?2:0;m.battleTrait=freshTraitState();}
- b.log=[context.kind==='boss'||context.kind==='trainer'?`${context.name} 向你发起挑战！`:`野生的 ${SPECIES[b.enemies[0].species].name} 出现了！`];enterTrait(b,b.party[b.activeP]);enterTrait(b,b.enemies[b.activeE]);b.enemyPlan=prepareEnemyPlan(b);return b;
+ b.log=[['boss','trainer','trial'].includes(context.kind)?`${context.name||'星海试炼'} 向你发起挑战！`:`野生的 ${SPECIES[b.enemies[0].species].name} 出现了！`];enterTrait(b,b.party[b.activeP]);enterTrait(b,b.enemies[b.activeE]);b.enemyPlan=prepareEnemyPlan(b);return b;
 }
 function log(b,t){b.log.push(t);}
 function roll(b,p){return random(b)<p;}
@@ -156,7 +159,13 @@ export function settleBattle(game,b){
   for(const m of g.party)if(!g.caught.includes(m.species))g.caught.push(m.species);
   if(b.context.kind==='boss'&&!g.badges.includes(g.region)){g.badges.push(g.region);g.flags['won'+g.region]=true;events.push(`获得${CHAPTERS[g.region].reward}！`);g.pendingScenes??=[];g.pendingScenes.push('after'+g.region);if(g.region===7){g.ending=true;g.pendingScenes.push('ending');}}
   if(b.context.expedition&&b.outcome==='win'){const result=advanceExpedition(g,b.context.expedition,b.context.stage,{victory:true});g=result.game;events.push('地区冒险有了新的进展，查看手记中的下一站。');}
-  if(b.context.kind==='trial'){g.trial=Math.max(g.trial||0,b.context.floor);g.gold+=b.context.floor*45;g.bag.greatorb=(g.bag.greatorb||0)+1;events.push(`星海试炼第 ${b.context.floor} 阶完成。获得辉光星约石与额外星砂。`);}
+  if(b.context.kind==='trial'){
+   const first=b.context.floor>(g.trial||0);g.trial=Math.max(g.trial||0,b.context.floor);
+   if(b.context.circuit===TRIAL_CIRCUIT_ID){
+    if(first){const reward=trialReward(b.context.floor);g.gold+=reward.gold;for(const [id,n] of Object.entries(reward.items))g.bag[id]=Math.min(9999,(g.bag[id]||0)+n);if(b.context.floor<=24){g.pendingScenes??=[];g.pendingScenes.push('trial-after:'+b.context.floor);}events.push(`第 ${b.context.floor} 阶试航完成。${reward.crest?'收好「'+reward.crest+'」与旅行补给。':'获得辉光星约石与额外星砂。'}`);}
+    else events.push('再次切磋结束。已获得常规经验与星砂，首通纪念物不重复领取。');
+   }else{g.gold+=b.context.floor*45;g.bag.greatorb=Math.min(9999,(g.bag.greatorb||0)+1);events.push(`星海试炼第 ${b.context.floor} 阶完成。获得辉光星约石与额外星砂。`);}
+  }
  }else if(b.outcome==='lose'){g.gold=Math.max(0,g.gold-Math.min(150,Math.floor(g.gold*.08)));healParty(g);g.place='town';g.dungeonFloor=0;g.routeSector=0;g.x=18;g.y=19;events.push('阿汐带你们回到了镇上的潮灵诊所。休息后再试一次吧。');}
  return {game:g,events};
 }
@@ -207,7 +216,12 @@ export function validateSuspendedBattle(input,game){
  if(!battle.inventory||typeof battle.inventory!=='object'||Array.isArray(battle.inventory))throw new Error('存档中的对战背包损坏。');
  for(const [id,count] of Object.entries(battle.inventory))if(!ITEMS[id]||!Number.isInteger(count)||count<0||count>9999)throw new Error('存档中的对战道具损坏。');
  for(const field of ['log','history']){if(!Array.isArray(battle[field])||!battle[field].every(s=>typeof s==='string'&&s.length<=1000))throw new Error('存档中的对战记录损坏。');battle[field]=battle[field].slice(field==='log'?-30:-80);}
- if(battle.context.kind==='trial'&&(!Number.isInteger(battle.context.floor)||battle.context.floor<1))throw new Error('存档中的试炼层数损坏。');
+ if(battle.context.kind==='trial'&&(!Number.isSafeInteger(battle.context.floor)||battle.context.floor<1))throw new Error('存档中的试炼层数损坏。');
+ if(battle.context.circuit!==undefined){
+  const stage=trialAt(battle.context.floor);
+  if(battle.context.circuit!==TRIAL_CIRCUIT_ID||battle.context.kind!=='trial'||!stage||!game.ending||game.region!==7||game.place!=='town'||battle.context.floor>game.trial+1||battle.weather!==stage.weather||battle.enemies.length!==stage.team.length)throw new Error('存档中的试航邀请损坏。');
+  for(const [i,enemy] of battle.enemies.entries()){const expected=stage.team[i],level=Math.min(65,stage.level+i%3);if(enemy.species!==expected.species||enemy.level!==level||enemy.equip!==expected.equip||moveList(enemy).join(',')!==moveList({species:expected.species,level,loadout:expected.moves}).join(','))throw new Error('存档中的试航对手不一致。');}
+ }
  if(battle.lastEnemySwitch!==undefined&&(!Number.isInteger(battle.lastEnemySwitch)||battle.lastEnemySwitch<0||battle.lastEnemySwitch>battle.turn))throw new Error('存档中的对手轮换记录损坏。');
  battle.enemySupportStreak??=0;
  if(!Number.isInteger(battle.enemySupportStreak)||battle.enemySupportStreak<0||battle.enemySupportStreak>battle.turn)throw new Error('存档中的对手战术记录损坏。');
@@ -240,7 +254,8 @@ export function validateSave(input){
  validateExpeditions(g);
  validateRelics(g);
  validateBondStories(g);
- if(g.pendingScenes!==undefined&&(!Array.isArray(g.pendingScenes)||g.pendingScenes.length>18||!g.pendingScenes.every(id=>typeof id==='string'&&(/^(intro[0-7]|after[0-7]|ending)$/.test(id)||expeditionScene(g,id)))))throw new Error('存档中的剧情记录损坏。');
+ g.trial??=0;if(!Number.isSafeInteger(g.trial)||g.trial<0)throw new Error('存档中的星海试炼进度损坏。');
+ if(g.pendingScenes!==undefined&&(!Array.isArray(g.pendingScenes)||g.pendingScenes.length>18||!g.pendingScenes.every(id=>typeof id==='string'&&(/^(intro[0-7]|after[0-7]|ending)$/.test(id)||trialAfterScene(g,id)||expeditionScene(g,id)))))throw new Error('存档中的剧情记录损坏。');
  g.pendingScenes??=[];g.battleSpeed=g.battleSpeed===2?2:1;
  if(g.suspendedBattle)g.suspendedBattle=validateSuspendedBattle(g.suspendedBattle,g);else g.suspendedBattle=null;
  if(!Number.isFinite(g.playtime)||g.playtime<0)g.playtime=0;if(!Number.isInteger(g.steps)||g.steps<0)g.steps=0;g.seed=Number.isFinite(g.seed)?g.seed>>>0:1;g.version=VERSION;return g;

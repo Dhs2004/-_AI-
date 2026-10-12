@@ -1,3 +1,4 @@
+import {TRIAL_CIRCUIT_ID,trialAt} from './trial-data.js';
 import {MOVES,SPECIES} from './data.js';
 import {recoveryFactor} from './abilities.js';
 
@@ -12,11 +13,12 @@ export const WARDEN_TACTICS=[
  {name:'归星',desc:'让每位伙伴的特性、恢复和入场时机彼此呼应。',guard:1.15,heal:1.2,status:1.2,switch:1.25}
 ];
 const plain={guard:1,heal:1,status:1,switch:1};
+export function tacticForBattle(b){return b.context.kind==='boss'?WARDEN_TACTICS[b.context.region]:b.context.kind==='trial'&&b.context.circuit===TRIAL_CIRCUIT_ID?trialAt(b.context.floor)?.tactic:null;}
 
 /** Plans are committed before the player's next choice. This function never
  * receives a player action; it uses only the state visible between turns. */
 export function planEnemyAction(b,{damage,stats,moves,random}){
- const actor=b.enemies[b.activeE],target=b.party[b.activeP],style=b.context.kind==='boss'?WARDEN_TACTICS[b.context.region]:plain;
+ const actor=b.enemies[b.activeE],target=b.party[b.activeP],style=tacticForBattle(b)||plain;
  const maxHP=stats(actor).hp,missing=maxHP-actor.hp;
  const attacks=(mon,foe)=>moves(mon).filter(k=>MOVES[k].power).map(k=>({key:k,value:damage(mon,foe,k,b.weather),cost:MOVES[k].cost}));
  const available=attacks(actor,target),strongest=Math.max(1,...available.map(m=>m.value));

@@ -1,0 +1,17 @@
+import {fileURLToPath} from 'node:url';
+import {createGame,createMon,stats,makeBattle,takeTurn} from '../dist/js/engine.js';
+import {TRIAL_STAGES,trialAt} from '../dist/js/trial-data.js';
+import {trialEncounter} from '../dist/js/trial-engine.js';
+import {studyAction} from './combat-study.mjs';
+export function trialStudyRun(floor,seed,{adaptive=true,maxTurns=240,trace=false,roster=null,level=null}={}){
+ const stage=trialAt(floor),g=createGame('试航研究','budfox');Object.assign(g,{region:7,place:'town',ending:true,trial:floor-1,seed});
+ g.party=(roster||['budfox_3','duskmoth_3','sunserpent_3','stonegolem_3','tidefin_3','embercat_3']).map(id=>{const mon=createMon(id,level||stage.level);mon.equip='shellCharm';mon.hp=stats(mon).hp;return mon;});
+ g.bag={potion:0,superpotion:5,revive:0,cure:3,orb:0,greatorb:0};
+ const encounter=trialEncounter(g,floor);let b=makeBattle(g,encounter.enemies,encounter.context),lastSwitch=-5;const history=[];
+ for(let n=0;n<maxTurns&&!b.outcome;n++){const action=studyAction(b,{adaptive,lastSwitch});if(action.type==='switch')lastSwitch=b.turn;if(trace)history.push({turn:b.turn,player:b.party[b.activeP].species,hp:b.party[b.activeP].hp,energy:b.party[b.activeP].energy,enemy:b.enemies[b.activeE].species,enemyHP:b.enemies[b.activeE].hp,plan:b.enemyPlan.action,action});const next=takeTurn(b,action);if(next.error)throw new Error(next.error);b=next;}
+ return {floor,seed,outcome:b.outcome||'turn-limit',turns:b.turn,healthy:b.party.filter(m=>m.hp>0).length,potions:5-b.inventory.superpotion,cures:3-b.inventory.cure,...trace?{history}: {}};
+}
+export function trialStudy(count=6){const cases=[];for(const adaptive of [false,true])for(const stage of TRIAL_STAGES){const runs=Array.from({length:count},(_,i)=>trialStudyRun(stage.floor,31415+i*7919,{adaptive}));cases.push({floor:stage.floor,title:stage.title,policy:adaptive?'adaptive':'attack-only',level:stage.level,wins:runs.filter(r=>r.outcome==='win').length,runs:count,turnLimits:runs.filter(r=>r.outcome==='turn-limit').length,meanTurns:+(runs.reduce((n,r)=>n+r.turns,0)/count).toFixed(1),maxTurns:Math.max(...runs.map(r=>r.turns)),results:runs});}return {assumptions:'Isolated full-strength trial battles. Same six-family prepared support roster at each stage base level, six purchasable shellCharms, full health, 5 superpotions and 3 cures each match. No acquisition, carried resources, travel, reading or human time simulated. Two heuristic policies, not optimal player behavior.',cases};}
+export const TRIAL_COUNTER_ROSTERS=[['nightwolf','voltkit','budfox','sunserpent','frostowl','tidefin'],['voltkit','nightwolf','cinder','mossdeer','sunserpent','pebble'],['sunserpent','skydrake','stonegolem','duskmoth','tidefin','glowbud']];
+export function counterTrialStudy(count=6){const results=[];for(const floor of [15,18,23,24])for(const [rosterIndex,families] of TRIAL_COUNTER_ROSTERS.entries())for(let i=0;i<count;i++)results.push({...trialStudyRun(floor,31415+i*7919,{adaptive:true,roster:families.map(f=>f+'_3'),level:65}),roster:rosterIndex});return {assumptions:'Isolated alternate-roster study for four hard stages; all party level65, six shell charms, full health, 5 superpotions/3 cures, adaptive heuristic. Acquisition and carried progression not simulated.',rosters:TRIAL_COUNTER_ROSTERS,results};}
+if(process.argv[1]===fileURLToPath(import.meta.url))console.log(JSON.stringify(process.argv.includes('--counter')?counterTrialStudy():trialStudy(),null,2));

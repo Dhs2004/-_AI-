@@ -1,0 +1,3221 @@
+{
+  "assumptions": "Isolated full-strength trial battles. Same six-family prepared support roster at each stage base level, six purchasable shellCharms, full health, 5 superpotions and 3 cures each match. No acquisition, carried resources, travel, reading or human time simulated. Two heuristic policies, not optimal player behavior.",
+  "cases": [
+    {
+      "floor": 1,
+      "title": "一张不写终点的票",
+      "policy": "attack-only",
+      "level": 52,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 29.8,
+      "maxTurns": 32,
+      "results": [
+        {
+          "floor": 1,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 31,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 1,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 28,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 1,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 32,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 1,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 27,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 1,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 32,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 1,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 29,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 2,
+      "title": "两副桨的拍子",
+      "policy": "attack-only",
+      "level": 53,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 45.3,
+      "maxTurns": 52,
+      "results": [
+        {
+          "floor": 2,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 43,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 2,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 45,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 2,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 46,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 2,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 41,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 2,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 52,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 2,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 45,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 3,
+      "title": "船尾留下的位置",
+      "policy": "attack-only",
+      "level": 53,
+      "wins": 1,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 67.8,
+      "maxTurns": 76,
+      "results": [
+        {
+          "floor": 3,
+          "seed": 31415,
+          "outcome": "lose",
+          "turns": 76,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 3,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 73,
+          "healthy": 1,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 3,
+          "seed": 47253,
+          "outcome": "lose",
+          "turns": 62,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 3,
+          "seed": 55172,
+          "outcome": "lose",
+          "turns": 68,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 3,
+          "seed": 63091,
+          "outcome": "lose",
+          "turns": 62,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 3,
+          "seed": 71010,
+          "outcome": "lose",
+          "turns": 66,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 4,
+      "title": "墨迹之外的地址",
+      "policy": "attack-only",
+      "level": 54,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 27.2,
+      "maxTurns": 30,
+      "results": [
+        {
+          "floor": 4,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 26,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 4,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 28,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 4,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 30,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 4,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 25,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 4,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 26,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 4,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 28,
+          "healthy": 4,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 5,
+      "title": "别让雨替你回答",
+      "policy": "attack-only",
+      "level": 54,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 34.7,
+      "maxTurns": 41,
+      "results": [
+        {
+          "floor": 5,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 41,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 5,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 33,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 5,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 35,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 5,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 36,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 5,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 32,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 5,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 31,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 6,
+      "title": "最后一封寄给邮船",
+      "policy": "attack-only",
+      "level": 55,
+      "wins": 0,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 45.5,
+      "maxTurns": 56,
+      "results": [
+        {
+          "floor": 6,
+          "seed": 31415,
+          "outcome": "lose",
+          "turns": 48,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 6,
+          "seed": 39334,
+          "outcome": "lose",
+          "turns": 42,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 6,
+          "seed": 47253,
+          "outcome": "lose",
+          "turns": 56,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 6,
+          "seed": 55172,
+          "outcome": "lose",
+          "turns": 42,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 6,
+          "seed": 63091,
+          "outcome": "lose",
+          "turns": 45,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 6,
+          "seed": 71010,
+          "outcome": "lose",
+          "turns": 40,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 7,
+      "title": "烧裂的第一只碗",
+      "policy": "attack-only",
+      "level": 55,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 32.3,
+      "maxTurns": 35,
+      "results": [
+        {
+          "floor": 7,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 35,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 7,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 34,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 7,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 31,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 7,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 34,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 7,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 29,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 7,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 31,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 8,
+      "title": "把最大的火让开",
+      "policy": "attack-only",
+      "level": 56,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 29.8,
+      "maxTurns": 35,
+      "results": [
+        {
+          "floor": 8,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 26,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 8,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 31,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 8,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 31,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 8,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 28,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 8,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 28,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 8,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 35,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 9,
+      "title": "九只碗都盛上饭",
+      "policy": "attack-only",
+      "level": 56,
+      "wins": 1,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 39.8,
+      "maxTurns": 43,
+      "results": [
+        {
+          "floor": 9,
+          "seed": 31415,
+          "outcome": "lose",
+          "turns": 43,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 9,
+          "seed": 39334,
+          "outcome": "lose",
+          "turns": 37,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 9,
+          "seed": 47253,
+          "outcome": "lose",
+          "turns": 39,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 9,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 43,
+          "healthy": 1,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 9,
+          "seed": 63091,
+          "outcome": "lose",
+          "turns": 40,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 9,
+          "seed": 71010,
+          "outcome": "lose",
+          "turns": 37,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 10,
+      "title": "最快的人先停下",
+      "policy": "attack-only",
+      "level": 57,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 24,
+      "maxTurns": 25,
+      "results": [
+        {
+          "floor": 10,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 25,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 10,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 25,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 10,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 25,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 10,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 25,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 10,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 20,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 10,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 24,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 11,
+      "title": "留在队尾的那个人",
+      "policy": "attack-only",
+      "level": 57,
+      "wins": 1,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 58.2,
+      "maxTurns": 68,
+      "results": [
+        {
+          "floor": 11,
+          "seed": 31415,
+          "outcome": "lose",
+          "turns": 67,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 11,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 68,
+          "healthy": 1,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 11,
+          "seed": 47253,
+          "outcome": "lose",
+          "turns": 55,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 11,
+          "seed": 55172,
+          "outcome": "lose",
+          "turns": 51,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 11,
+          "seed": 63091,
+          "outcome": "lose",
+          "turns": 57,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 11,
+          "seed": 71010,
+          "outcome": "lose",
+          "turns": 51,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 12,
+      "title": "无人缺席的返航",
+      "policy": "attack-only",
+      "level": 58,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 40.8,
+      "maxTurns": 53,
+      "results": [
+        {
+          "floor": 12,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 41,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 12,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 34,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 12,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 40,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 12,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 53,
+          "healthy": 1,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 12,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 37,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 12,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 40,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 13,
+      "title": "交出去的一只铃",
+      "policy": "attack-only",
+      "level": 58,
+      "wins": 0,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 49.7,
+      "maxTurns": 55,
+      "results": [
+        {
+          "floor": 13,
+          "seed": 31415,
+          "outcome": "lose",
+          "turns": 43,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 13,
+          "seed": 39334,
+          "outcome": "lose",
+          "turns": 46,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 13,
+          "seed": 47253,
+          "outcome": "lose",
+          "turns": 55,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 13,
+          "seed": 55172,
+          "outcome": "lose",
+          "turns": 53,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 13,
+          "seed": 63091,
+          "outcome": "lose",
+          "turns": 47,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 13,
+          "seed": 71010,
+          "outcome": "lose",
+          "turns": 54,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 14,
+      "title": "雪里两行脚印",
+      "policy": "attack-only",
+      "level": 59,
+      "wins": 4,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 58.7,
+      "maxTurns": 67,
+      "results": [
+        {
+          "floor": 14,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 61,
+          "healthy": 1,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 14,
+          "seed": 39334,
+          "outcome": "lose",
+          "turns": 51,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 14,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 59,
+          "healthy": 1,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 14,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 67,
+          "healthy": 1,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 14,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 48,
+          "healthy": 1,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 14,
+          "seed": 71010,
+          "outcome": "lose",
+          "turns": 66,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 15,
+      "title": "让守夜人也有梦",
+      "policy": "attack-only",
+      "level": 59,
+      "wins": 0,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 45.3,
+      "maxTurns": 52,
+      "results": [
+        {
+          "floor": 15,
+          "seed": 31415,
+          "outcome": "lose",
+          "turns": 52,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 15,
+          "seed": 39334,
+          "outcome": "lose",
+          "turns": 48,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 15,
+          "seed": 47253,
+          "outcome": "lose",
+          "turns": 41,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 15,
+          "seed": 55172,
+          "outcome": "lose",
+          "turns": 47,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 15,
+          "seed": 63091,
+          "outcome": "lose",
+          "turns": 40,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 15,
+          "seed": 71010,
+          "outcome": "lose",
+          "turns": 44,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 16,
+      "title": "不再合脚的舞鞋",
+      "policy": "attack-only",
+      "level": 60,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 49,
+      "maxTurns": 62,
+      "results": [
+        {
+          "floor": 16,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 50,
+          "healthy": 1,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 16,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 44,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 16,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 58,
+          "healthy": 1,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 16,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 62,
+          "healthy": 1,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 16,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 36,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 16,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 44,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 17,
+      "title": "醒着才能做的梦",
+      "policy": "attack-only",
+      "level": 60,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 35.2,
+      "maxTurns": 47,
+      "results": [
+        {
+          "floor": 17,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 33,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 17,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 35,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 17,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 29,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 17,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 31,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 17,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 47,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 17,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 36,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 18,
+      "title": "空出来的一格",
+      "policy": "attack-only",
+      "level": 61,
+      "wins": 0,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 49.2,
+      "maxTurns": 54,
+      "results": [
+        {
+          "floor": 18,
+          "seed": 31415,
+          "outcome": "lose",
+          "turns": 44,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 18,
+          "seed": 39334,
+          "outcome": "lose",
+          "turns": 49,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 18,
+          "seed": 47253,
+          "outcome": "lose",
+          "turns": 51,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 18,
+          "seed": 55172,
+          "outcome": "lose",
+          "turns": 53,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 18,
+          "seed": 63091,
+          "outcome": "lose",
+          "turns": 54,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 18,
+          "seed": 71010,
+          "outcome": "lose",
+          "turns": 44,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 19,
+      "title": "追光之外的侧台",
+      "policy": "attack-only",
+      "level": 61,
+      "wins": 5,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 44.7,
+      "maxTurns": 64,
+      "results": [
+        {
+          "floor": 19,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 38,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 19,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 39,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 19,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 37,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 19,
+          "seed": 55172,
+          "outcome": "lose",
+          "turns": 55,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 19,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 35,
+          "healthy": 3,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 19,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 64,
+          "healthy": 1,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 20,
+      "title": "主角可以先退场",
+      "policy": "attack-only",
+      "level": 62,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 50.7,
+      "maxTurns": 59,
+      "results": [
+        {
+          "floor": 20,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 42,
+          "healthy": 1,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 20,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 59,
+          "healthy": 1,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 20,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 45,
+          "healthy": 1,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 20,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 49,
+          "healthy": 1,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 20,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 59,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 20,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 50,
+          "healthy": 2,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 21,
+      "title": "掌声停下以后",
+      "policy": "attack-only",
+      "level": 62,
+      "wins": 2,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 51.5,
+      "maxTurns": 58,
+      "results": [
+        {
+          "floor": 21,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 58,
+          "healthy": 1,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 21,
+          "seed": 39334,
+          "outcome": "lose",
+          "turns": 48,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 21,
+          "seed": 47253,
+          "outcome": "lose",
+          "turns": 50,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 21,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 49,
+          "healthy": 1,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 21,
+          "seed": 63091,
+          "outcome": "lose",
+          "turns": 51,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 21,
+          "seed": 71010,
+          "outcome": "lose",
+          "turns": 53,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 22,
+      "title": "把名字写在背面",
+      "policy": "attack-only",
+      "level": 63,
+      "wins": 0,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 53.2,
+      "maxTurns": 64,
+      "results": [
+        {
+          "floor": 22,
+          "seed": 31415,
+          "outcome": "lose",
+          "turns": 46,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 22,
+          "seed": 39334,
+          "outcome": "lose",
+          "turns": 56,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 22,
+          "seed": 47253,
+          "outcome": "lose",
+          "turns": 56,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 22,
+          "seed": 55172,
+          "outcome": "lose",
+          "turns": 48,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 22,
+          "seed": 63091,
+          "outcome": "lose",
+          "turns": 64,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 22,
+          "seed": 71010,
+          "outcome": "lose",
+          "turns": 49,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 23,
+      "title": "再认真切磋一次",
+      "policy": "attack-only",
+      "level": 63,
+      "wins": 1,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 49.5,
+      "maxTurns": 54,
+      "results": [
+        {
+          "floor": 23,
+          "seed": 31415,
+          "outcome": "lose",
+          "turns": 44,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 23,
+          "seed": 39334,
+          "outcome": "lose",
+          "turns": 54,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 23,
+          "seed": 47253,
+          "outcome": "lose",
+          "turns": 43,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 23,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 51,
+          "healthy": 1,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 23,
+          "seed": 63091,
+          "outcome": "lose",
+          "turns": 52,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 23,
+          "seed": 71010,
+          "outcome": "lose",
+          "turns": 53,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 24,
+      "title": "把明天留给自己",
+      "policy": "attack-only",
+      "level": 64,
+      "wins": 0,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 49.3,
+      "maxTurns": 55,
+      "results": [
+        {
+          "floor": 24,
+          "seed": 31415,
+          "outcome": "lose",
+          "turns": 37,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 24,
+          "seed": 39334,
+          "outcome": "lose",
+          "turns": 54,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 24,
+          "seed": 47253,
+          "outcome": "lose",
+          "turns": 44,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 24,
+          "seed": 55172,
+          "outcome": "lose",
+          "turns": 53,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 24,
+          "seed": 63091,
+          "outcome": "lose",
+          "turns": 55,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        },
+        {
+          "floor": 24,
+          "seed": 71010,
+          "outcome": "lose",
+          "turns": 53,
+          "healthy": 0,
+          "potions": 0,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 1,
+      "title": "一张不写终点的票",
+      "policy": "adaptive",
+      "level": 52,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 35.8,
+      "maxTurns": 44,
+      "results": [
+        {
+          "floor": 1,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 39,
+          "healthy": 5,
+          "potions": 4,
+          "cures": 0
+        },
+        {
+          "floor": 1,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 37,
+          "healthy": 6,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 1,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 42,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 1,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 44,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 1,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 27,
+          "healthy": 6,
+          "potions": 4,
+          "cures": 0
+        },
+        {
+          "floor": 1,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 26,
+          "healthy": 6,
+          "potions": 4,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 2,
+      "title": "两副桨的拍子",
+      "policy": "adaptive",
+      "level": 53,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 49.7,
+      "maxTurns": 65,
+      "results": [
+        {
+          "floor": 2,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 39,
+          "healthy": 6,
+          "potions": 4,
+          "cures": 0
+        },
+        {
+          "floor": 2,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 58,
+          "healthy": 4,
+          "potions": 5,
+          "cures": 2
+        },
+        {
+          "floor": 2,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 41,
+          "healthy": 6,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 2,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 58,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 1
+        },
+        {
+          "floor": 2,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 37,
+          "healthy": 6,
+          "potions": 2,
+          "cures": 0
+        },
+        {
+          "floor": 2,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 65,
+          "healthy": 4,
+          "potions": 5,
+          "cures": 3
+        }
+      ]
+    },
+    {
+      "floor": 3,
+      "title": "船尾留下的位置",
+      "policy": "adaptive",
+      "level": 53,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 63.2,
+      "maxTurns": 81,
+      "results": [
+        {
+          "floor": 3,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 54,
+          "healthy": 6,
+          "potions": 3,
+          "cures": 1
+        },
+        {
+          "floor": 3,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 63,
+          "healthy": 6,
+          "potions": 5,
+          "cures": 1
+        },
+        {
+          "floor": 3,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 63,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 2
+        },
+        {
+          "floor": 3,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 81,
+          "healthy": 3,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 3,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 44,
+          "healthy": 6,
+          "potions": 5,
+          "cures": 2
+        },
+        {
+          "floor": 3,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 74,
+          "healthy": 3,
+          "potions": 5,
+          "cures": 1
+        }
+      ]
+    },
+    {
+      "floor": 4,
+      "title": "墨迹之外的地址",
+      "policy": "adaptive",
+      "level": 54,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 39.3,
+      "maxTurns": 53,
+      "results": [
+        {
+          "floor": 4,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 32,
+          "healthy": 6,
+          "potions": 4,
+          "cures": 2
+        },
+        {
+          "floor": 4,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 51,
+          "healthy": 5,
+          "potions": 4,
+          "cures": 3
+        },
+        {
+          "floor": 4,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 53,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 4,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 38,
+          "healthy": 6,
+          "potions": 4,
+          "cures": 1
+        },
+        {
+          "floor": 4,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 30,
+          "healthy": 5,
+          "potions": 1,
+          "cures": 0
+        },
+        {
+          "floor": 4,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 32,
+          "healthy": 6,
+          "potions": 1,
+          "cures": 1
+        }
+      ]
+    },
+    {
+      "floor": 5,
+      "title": "别让雨替你回答",
+      "policy": "adaptive",
+      "level": 54,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 49.3,
+      "maxTurns": 58,
+      "results": [
+        {
+          "floor": 5,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 58,
+          "healthy": 3,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 5,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 44,
+          "healthy": 6,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 5,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 44,
+          "healthy": 6,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 5,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 45,
+          "healthy": 6,
+          "potions": 4,
+          "cures": 3
+        },
+        {
+          "floor": 5,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 51,
+          "healthy": 3,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 5,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 54,
+          "healthy": 4,
+          "potions": 5,
+          "cures": 3
+        }
+      ]
+    },
+    {
+      "floor": 6,
+      "title": "最后一封寄给邮船",
+      "policy": "adaptive",
+      "level": 55,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 83,
+      "maxTurns": 99,
+      "results": [
+        {
+          "floor": 6,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 76,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 2
+        },
+        {
+          "floor": 6,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 90,
+          "healthy": 6,
+          "potions": 5,
+          "cures": 2
+        },
+        {
+          "floor": 6,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 99,
+          "healthy": 1,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 6,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 80,
+          "healthy": 4,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 6,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 81,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 6,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 72,
+          "healthy": 3,
+          "potions": 5,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 7,
+      "title": "烧裂的第一只碗",
+      "policy": "adaptive",
+      "level": 55,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 31.5,
+      "maxTurns": 38,
+      "results": [
+        {
+          "floor": 7,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 31,
+          "healthy": 6,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 7,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 38,
+          "healthy": 5,
+          "potions": 3,
+          "cures": 3
+        },
+        {
+          "floor": 7,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 27,
+          "healthy": 6,
+          "potions": 3,
+          "cures": 1
+        },
+        {
+          "floor": 7,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 30,
+          "healthy": 6,
+          "potions": 5,
+          "cures": 1
+        },
+        {
+          "floor": 7,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 31,
+          "healthy": 6,
+          "potions": 5,
+          "cures": 1
+        },
+        {
+          "floor": 7,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 32,
+          "healthy": 4,
+          "potions": 2,
+          "cures": 3
+        }
+      ]
+    },
+    {
+      "floor": 8,
+      "title": "把最大的火让开",
+      "policy": "adaptive",
+      "level": 56,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 31.7,
+      "maxTurns": 34,
+      "results": [
+        {
+          "floor": 8,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 30,
+          "healthy": 6,
+          "potions": 4,
+          "cures": 1
+        },
+        {
+          "floor": 8,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 31,
+          "healthy": 6,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 8,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 31,
+          "healthy": 6,
+          "potions": 5,
+          "cures": 1
+        },
+        {
+          "floor": 8,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 30,
+          "healthy": 6,
+          "potions": 4,
+          "cures": 0
+        },
+        {
+          "floor": 8,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 34,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 1
+        },
+        {
+          "floor": 8,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 34,
+          "healthy": 6,
+          "potions": 5,
+          "cures": 3
+        }
+      ]
+    },
+    {
+      "floor": 9,
+      "title": "九只碗都盛上饭",
+      "policy": "adaptive",
+      "level": 56,
+      "wins": 5,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 55.8,
+      "maxTurns": 66,
+      "results": [
+        {
+          "floor": 9,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 50,
+          "healthy": 4,
+          "potions": 5,
+          "cures": 1
+        },
+        {
+          "floor": 9,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 41,
+          "healthy": 6,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 9,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 61,
+          "healthy": 2,
+          "potions": 5,
+          "cures": 2
+        },
+        {
+          "floor": 9,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 52,
+          "healthy": 3,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 9,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 65,
+          "healthy": 3,
+          "potions": 5,
+          "cures": 1
+        },
+        {
+          "floor": 9,
+          "seed": 71010,
+          "outcome": "lose",
+          "turns": 66,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 1
+        }
+      ]
+    },
+    {
+      "floor": 10,
+      "title": "最快的人先停下",
+      "policy": "adaptive",
+      "level": 57,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 30.8,
+      "maxTurns": 32,
+      "results": [
+        {
+          "floor": 10,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 32,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 10,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 27,
+          "healthy": 5,
+          "potions": 4,
+          "cures": 0
+        },
+        {
+          "floor": 10,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 32,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 10,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 30,
+          "healthy": 5,
+          "potions": 4,
+          "cures": 0
+        },
+        {
+          "floor": 10,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 32,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 10,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 32,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 11,
+      "title": "留在队尾的那个人",
+      "policy": "adaptive",
+      "level": 57,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 51.3,
+      "maxTurns": 59,
+      "results": [
+        {
+          "floor": 11,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 41,
+          "healthy": 6,
+          "potions": 1,
+          "cures": 0
+        },
+        {
+          "floor": 11,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 50,
+          "healthy": 6,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 11,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 52,
+          "healthy": 6,
+          "potions": 4,
+          "cures": 0
+        },
+        {
+          "floor": 11,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 53,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 11,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 59,
+          "healthy": 5,
+          "potions": 3,
+          "cures": 0
+        },
+        {
+          "floor": 11,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 53,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 12,
+      "title": "无人缺席的返航",
+      "policy": "adaptive",
+      "level": 58,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 48.7,
+      "maxTurns": 71,
+      "results": [
+        {
+          "floor": 12,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 40,
+          "healthy": 4,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 12,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 67,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 12,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 36,
+          "healthy": 6,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 12,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 38,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 12,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 71,
+          "healthy": 4,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 12,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 40,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 13,
+      "title": "交出去的一只铃",
+      "policy": "adaptive",
+      "level": 58,
+      "wins": 4,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 76.5,
+      "maxTurns": 99,
+      "results": [
+        {
+          "floor": 13,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 96,
+          "healthy": 1,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 13,
+          "seed": 39334,
+          "outcome": "lose",
+          "turns": 99,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 13,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 81,
+          "healthy": 1,
+          "potions": 5,
+          "cures": 1
+        },
+        {
+          "floor": 13,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 58,
+          "healthy": 4,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 13,
+          "seed": 63091,
+          "outcome": "lose",
+          "turns": 66,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 1
+        },
+        {
+          "floor": 13,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 59,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 1
+        }
+      ]
+    },
+    {
+      "floor": 14,
+      "title": "雪里两行脚印",
+      "policy": "adaptive",
+      "level": 59,
+      "wins": 4,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 82.7,
+      "maxTurns": 95,
+      "results": [
+        {
+          "floor": 14,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 83,
+          "healthy": 1,
+          "potions": 5,
+          "cures": 1
+        },
+        {
+          "floor": 14,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 86,
+          "healthy": 2,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 14,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 87,
+          "healthy": 1,
+          "potions": 5,
+          "cures": 1
+        },
+        {
+          "floor": 14,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 59,
+          "healthy": 2,
+          "potions": 5,
+          "cures": 1
+        },
+        {
+          "floor": 14,
+          "seed": 63091,
+          "outcome": "lose",
+          "turns": 95,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 14,
+          "seed": 71010,
+          "outcome": "lose",
+          "turns": 86,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 1
+        }
+      ]
+    },
+    {
+      "floor": 15,
+      "title": "让守夜人也有梦",
+      "policy": "adaptive",
+      "level": 59,
+      "wins": 2,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 85.2,
+      "maxTurns": 93,
+      "results": [
+        {
+          "floor": 15,
+          "seed": 31415,
+          "outcome": "lose",
+          "turns": 93,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 15,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 86,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 15,
+          "seed": 47253,
+          "outcome": "lose",
+          "turns": 85,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 1
+        },
+        {
+          "floor": 15,
+          "seed": 55172,
+          "outcome": "lose",
+          "turns": 74,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 2
+        },
+        {
+          "floor": 15,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 86,
+          "healthy": 1,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 15,
+          "seed": 71010,
+          "outcome": "lose",
+          "turns": 87,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 1
+        }
+      ]
+    },
+    {
+      "floor": 16,
+      "title": "不再合脚的舞鞋",
+      "policy": "adaptive",
+      "level": 60,
+      "wins": 3,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 58.7,
+      "maxTurns": 67,
+      "results": [
+        {
+          "floor": 16,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 63,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 16,
+          "seed": 39334,
+          "outcome": "lose",
+          "turns": 67,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 16,
+          "seed": 47253,
+          "outcome": "lose",
+          "turns": 67,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 16,
+          "seed": 55172,
+          "outcome": "lose",
+          "turns": 57,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 16,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 58,
+          "healthy": 4,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 16,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 40,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 3
+        }
+      ]
+    },
+    {
+      "floor": 17,
+      "title": "醒着才能做的梦",
+      "policy": "adaptive",
+      "level": 60,
+      "wins": 5,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 51.2,
+      "maxTurns": 55,
+      "results": [
+        {
+          "floor": 17,
+          "seed": 31415,
+          "outcome": "lose",
+          "turns": 49,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 17,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 47,
+          "healthy": 4,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 17,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 49,
+          "healthy": 2,
+          "potions": 3,
+          "cures": 3
+        },
+        {
+          "floor": 17,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 55,
+          "healthy": 4,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 17,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 54,
+          "healthy": 2,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 17,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 53,
+          "healthy": 4,
+          "potions": 5,
+          "cures": 3
+        }
+      ]
+    },
+    {
+      "floor": 18,
+      "title": "空出来的一格",
+      "policy": "adaptive",
+      "level": 61,
+      "wins": 0,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 53.5,
+      "maxTurns": 68,
+      "results": [
+        {
+          "floor": 18,
+          "seed": 31415,
+          "outcome": "lose",
+          "turns": 55,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 18,
+          "seed": 39334,
+          "outcome": "lose",
+          "turns": 50,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 18,
+          "seed": 47253,
+          "outcome": "lose",
+          "turns": 53,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 18,
+          "seed": 55172,
+          "outcome": "lose",
+          "turns": 48,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 18,
+          "seed": 63091,
+          "outcome": "lose",
+          "turns": 47,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 18,
+          "seed": 71010,
+          "outcome": "lose",
+          "turns": 68,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 3
+        }
+      ]
+    },
+    {
+      "floor": 19,
+      "title": "追光之外的侧台",
+      "policy": "adaptive",
+      "level": 61,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 40,
+      "maxTurns": 45,
+      "results": [
+        {
+          "floor": 19,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 37,
+          "healthy": 6,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 19,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 45,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 1
+        },
+        {
+          "floor": 19,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 41,
+          "healthy": 6,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 19,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 38,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 19,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 39,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 19,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 40,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 20,
+      "title": "主角可以先退场",
+      "policy": "adaptive",
+      "level": 62,
+      "wins": 3,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 61.8,
+      "maxTurns": 67,
+      "results": [
+        {
+          "floor": 20,
+          "seed": 31415,
+          "outcome": "lose",
+          "turns": 59,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 2
+        },
+        {
+          "floor": 20,
+          "seed": 39334,
+          "outcome": "lose",
+          "turns": 67,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 20,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 66,
+          "healthy": 3,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 20,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 51,
+          "healthy": 3,
+          "potions": 5,
+          "cures": 2
+        },
+        {
+          "floor": 20,
+          "seed": 63091,
+          "outcome": "lose",
+          "turns": 64,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 20,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 64,
+          "healthy": 2,
+          "potions": 5,
+          "cures": 3
+        }
+      ]
+    },
+    {
+      "floor": 21,
+      "title": "掌声停下以后",
+      "policy": "adaptive",
+      "level": 62,
+      "wins": 5,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 63.3,
+      "maxTurns": 77,
+      "results": [
+        {
+          "floor": 21,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 62,
+          "healthy": 1,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 21,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 56,
+          "healthy": 3,
+          "potions": 5,
+          "cures": 1
+        },
+        {
+          "floor": 21,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 77,
+          "healthy": 1,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 21,
+          "seed": 55172,
+          "outcome": "lose",
+          "turns": 73,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 1
+        },
+        {
+          "floor": 21,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 53,
+          "healthy": 3,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 21,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 59,
+          "healthy": 2,
+          "potions": 5,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 22,
+      "title": "把名字写在背面",
+      "policy": "adaptive",
+      "level": 63,
+      "wins": 6,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 70.2,
+      "maxTurns": 80,
+      "results": [
+        {
+          "floor": 22,
+          "seed": 31415,
+          "outcome": "win",
+          "turns": 78,
+          "healthy": 1,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 22,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 80,
+          "healthy": 1,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 22,
+          "seed": 47253,
+          "outcome": "win",
+          "turns": 61,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 22,
+          "seed": 55172,
+          "outcome": "win",
+          "turns": 70,
+          "healthy": 3,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 22,
+          "seed": 63091,
+          "outcome": "win",
+          "turns": 63,
+          "healthy": 5,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 22,
+          "seed": 71010,
+          "outcome": "win",
+          "turns": 69,
+          "healthy": 2,
+          "potions": 5,
+          "cures": 3
+        }
+      ]
+    },
+    {
+      "floor": 23,
+      "title": "再认真切磋一次",
+      "policy": "adaptive",
+      "level": 63,
+      "wins": 1,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 70.5,
+      "maxTurns": 78,
+      "results": [
+        {
+          "floor": 23,
+          "seed": 31415,
+          "outcome": "lose",
+          "turns": 78,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 23,
+          "seed": 39334,
+          "outcome": "win",
+          "turns": 72,
+          "healthy": 2,
+          "potions": 5,
+          "cures": 1
+        },
+        {
+          "floor": 23,
+          "seed": 47253,
+          "outcome": "lose",
+          "turns": 70,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 23,
+          "seed": 55172,
+          "outcome": "lose",
+          "turns": 61,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 23,
+          "seed": 63091,
+          "outcome": "lose",
+          "turns": 78,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 1
+        },
+        {
+          "floor": 23,
+          "seed": 71010,
+          "outcome": "lose",
+          "turns": 64,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 0
+        }
+      ]
+    },
+    {
+      "floor": 24,
+      "title": "把明天留给自己",
+      "policy": "adaptive",
+      "level": 64,
+      "wins": 0,
+      "runs": 6,
+      "turnLimits": 0,
+      "meanTurns": 80.2,
+      "maxTurns": 104,
+      "results": [
+        {
+          "floor": 24,
+          "seed": 31415,
+          "outcome": "lose",
+          "turns": 104,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 24,
+          "seed": 39334,
+          "outcome": "lose",
+          "turns": 78,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 0
+        },
+        {
+          "floor": 24,
+          "seed": 47253,
+          "outcome": "lose",
+          "turns": 75,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 2
+        },
+        {
+          "floor": 24,
+          "seed": 55172,
+          "outcome": "lose",
+          "turns": 71,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 24,
+          "seed": 63091,
+          "outcome": "lose",
+          "turns": 87,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 3
+        },
+        {
+          "floor": 24,
+          "seed": 71010,
+          "outcome": "lose",
+          "turns": 66,
+          "healthy": 0,
+          "potions": 5,
+          "cures": 3
+        }
+      ]
+    }
+  ]
+}
