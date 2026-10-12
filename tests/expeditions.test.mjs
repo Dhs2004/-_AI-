@@ -4,6 +4,7 @@ import {EXPEDITIONS} from '../dist/js/expedition-stories.js';
 import {CHAPTERS,ITEMS,SPECIES} from '../dist/js/data.js';
 import {advanceExpedition,expeditionProgress,currentExpeditionStage,EXPEDITION_SITES,expeditionScene} from '../dist/js/expedition-engine.js';
 import {createGame,createMon,makeBattle,settleBattle,checkpointGame,saveEnvelope,readEnvelope} from '../dist/js/engine.js';
+import {outdoorSite} from '../dist/js/outdoor-engine.js';
 import {makeMap,canWalk,isGone,nearest} from '../dist/js/world.js';
 
 function completeInput(stage){return {victory:true,choice:0,sequence:stage.answer};}
@@ -20,7 +21,7 @@ test('24 regional expeditions contain valid staged objectives, fair clues and co
 test('all 144 objectives remain reachable and individually interactable as characters move',()=>{
  for(const expedition of EXPEDITIONS)for(let step=0;step<expedition.stages.length;step++){
   const g=journeyAt(expedition,step),stage=expedition.stages[step];g.place=EXPEDITION_SITES[stage.site].place;
-  const map=makeMap(g.region,g.place),start=g.place==='town'?[18,19]:[6,16],queue=[start],visited=new Set([start.join(',')]);
+  g.routeSector=outdoorSite(g.region,stage.site)?.sector||0;const map=makeMap(g.region,g.place,0,g.routeSector),start=map.entry?[map.entry.x,map.entry.y]:[18,19],queue=[start],visited=new Set([start.join(',')]);
   while(queue.length){const [x,y]=queue.shift();for(const [dx,dy] of [[0,1],[1,0],[0,-1],[-1,0]]){const nx=x+dx,ny=y+dy,key=nx+','+ny;if(visited.has(key)||!canWalk(map,g,nx,ny))continue;visited.add(key);queue.push([nx,ny]);}}
   const target=map.objects.find(o=>o.expedition===expedition.id&&o.stage===step);assert.ok(target&&!isGone(g,target));
   const accessible=[...visited].some(key=>{const [x,y]=key.split(',').map(Number);return nearest(map,{...g,x,y})?.id===target.id;});assert.ok(accessible,`${expedition.id}/${stage.id} cannot be selected`);

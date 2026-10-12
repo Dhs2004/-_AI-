@@ -17,10 +17,18 @@ export function createMon(species,level=5,seed=1){
  const mon={uid:`m${Date.now().toString(36)}${(++serial).toString(36)}${seed}`,species,level:clamp(level,1,65),xp:0,hp:0,energy:5,status:null,statusTurns:0,equip:null,bond:0};mon.hp=stats(mon).hp;return mon;
 }
 export function createGame(name='旅人',starter='budfox'){
- const mon=createMon(starter,5);return {version:VERSION,name:name.trim().slice(0,12)||'旅人',region:0,place:'town',x:18,y:19,facing:'down',party:[mon],reserve:[],bag:{potion:8,superpotion:0,revive:2,cure:3,orb:10,greatorb:0,herb:0,shard:0},gold:550,badges:[],flags:{intro:true},quest:{},collected:{},wins:{},seen:[starter],caught:[starter],steps:0,playtime:0,createdAt:Date.now(),lastSave:0,difficulty:'normal',sound:true,reduceMotion:false,seed:(Date.now()>>>0),ending:false,trial:0,dungeonFloor:0,runes:{},openGates:{},pendingScenes:[],suspendedBattle:null,expeditions:{},trackedExpedition:null};
+ const mon=createMon(starter,5);return {version:VERSION,name:name.trim().slice(0,12)||'旅人',region:0,place:'town',x:18,y:19,facing:'down',party:[mon],reserve:[],bag:{potion:8,superpotion:0,revive:2,cure:3,orb:10,greatorb:0,herb:0,shard:0},gold:550,badges:[],flags:{intro:true},quest:{},collected:{},wins:{},seen:[starter],caught:[starter],steps:0,playtime:0,createdAt:Date.now(),lastSave:0,difficulty:'normal',sound:true,reduceMotion:false,seed:(Date.now()>>>0),ending:false,trial:0,dungeonFloor:0,routeSector:0,runes:{},openGates:{},pendingScenes:[],suspendedBattle:null,expeditions:{},trackedExpedition:null};
 }
 export function healParty(g){for(const m of g.party){m.hp=stats(m).hp;m.energy=5;m.status=null;m.statusTurns=0;}}
 export function xpNeed(m){return 35+m.level*22;}
+/** Level-relative rewards discourage trivial farming and help new team members
+ * catch up. Existing level/XP totals are preserved when old saves are opened. */
+export function battleExperience(mon,enemies,participated=true){
+ const average=enemies.reduce((sum,m)=>sum+m.level,0)/enemies.length;
+ const base=enemies.reduce((sum,m)=>sum+40+m.level*12,0)/Math.sqrt(enemies.length);
+ const challenge=clamp(((average+8)/(mon.level+8))**2,.15,2.5);
+ return Math.max(1,Math.floor(base*.45*challenge*(participated?1:.85)));
+}
 export function gainXP(mon,amount){
  const changes=[];const wasFainted=mon.hp<=0;mon.xp+=amount;
  while(mon.level<65&&mon.xp>=xpNeed(mon)){mon.xp-=xpNeed(mon);const old=stats(mon).hp;mon.level++;mon.hp+=stats(mon).hp-old;changes.push(`${SPECIES[mon.species].name} 升到了 ${mon.level} 级！`);
@@ -32,6 +40,7 @@ export function effectiveness(element,target){if(!element)return 1;return ELEMEN
 export function makeBattle(g,enemy,context={}){
  const b={party:clone(g.party),enemies:clone(enemy),activeP:g.party.findIndex(m=>m.hp>0),activeE:0,turn:0,weather:CHAPTERS[g.region].weather,seed:g.seed>>>0,log:[],history:[],outcome:null,caught:null,inventory:clone(g.bag),context:{kind:'wild',region:g.region,...context}};
  if(b.activeP<0)throw new Error('No healthy companion');
+ b.participants=[b.party[b.activeP].uid];
  for(const m of [...b.party,...b.enemies]){m.energy=5;m.shield=0;m.focus=0;m.statusTurns=m.status?2:0;}
  b.log=[context.kind==='boss'||context.kind==='trainer'?`${context.name} 向你发起挑战！`:`野生的 ${SPECIES[b.enemies[0].species].name} 出现了！`];return b;
 }
@@ -76,7 +85,7 @@ function tick(b,m){
 function checkEnd(b){
  const p=b.party[b.activeP],e=b.enemies[b.activeE];
  if(e.hp<=0){b.events.push({kind:'faint',source:e.uid,target:e.uid,element:SPECIES[e.species].element});log(b,`${monName(e)} 倒下了。`);const next=b.enemies.findIndex(m=>m.hp>0);if(next<0)b.outcome='win';else{b.activeE=next;log(b,`对方派出了 ${monName(b.enemies[next])}！`);}}
- if(p.hp<=0){b.events.push({kind:'faint',source:p.uid,target:p.uid,element:SPECIES[p.species].element});log(b,`${monName(p)} 倒下了。`);const next=b.party.findIndex(m=>m.hp>0);if(next<0)b.outcome='lose';else{b.activeP=next;log(b,`上吧，${monName(b.party[next])}！`);}}
+ if(p.hp<=0){b.events.push({kind:'faint',source:p.uid,target:p.uid,element:SPECIES[p.species].element});log(b,`${monName(p)} 倒下了。`);const next=b.party.findIndex(m=>m.hp>0);if(next<0)b.outcome='lose';else{b.activeP=next;if(!b.participants.includes(b.party[next].uid))b.participants.push(b.party[next].uid);log(b,`上吧，${monName(b.party[next])}！`);}}
 }
 export function takeTurn(original,action){
  if(original.outcome)return original;
@@ -88,7 +97,7 @@ export function takeTurn(original,action){
  if(action.type==='capture'&&(b.context.kind!=='wild'||!ITEMS[action.item]?.catch||!b.inventory[action.item]))return invalid('现在无法使用这枚星约石。');
  if(action.type==='run'&&b.context.kind!=='wild')return invalid('这是一场约定好的对战，不能离开。');
  if(!['move','guard','switch','item','capture','run'].includes(action.type))return invalid('未知指令。');
- b.turn++;delete b.error;const enemyMove=chooseMove(b,e,p);
+ b.participants??=[p.uid];b.turn++;delete b.error;const enemyMove=chooseMove(b,e,p);
  if(action.type==='capture'){
   b.events.push({kind:'capture',source:p.uid,target:e.uid,element:'light'});
   b.inventory[action.item]--;const hpRate=e.hp/maxhp(e),rarity=SPECIES[e.species].rarity;const chance=clamp((.22+.62*(1-hpRate)+(e.status?.12:0))*ITEMS[action.item].catch/Math.sqrt(rarity),.08,.96);
@@ -96,7 +105,7 @@ export function takeTurn(original,action){
   if(roll(b,chance)){b.caught=clone(e);b.caught.status=null;b.caught.statusTurns=0;b.caught.hp=Math.max(1,b.caught.hp);b.outcome='capture';log(b,`缔约成功！${monName(e)} 愿意与你同行。`);}else{log(b,'星光散开了，再让它了解你一些吧。');hit(b,e,p,enemyMove);}
  }else if(action.type==='run'){
   if(roll(b,.8)||b.turn>=3){b.outcome='run';log(b,'你们平安回到了小路上。');}else{log(b,'一时没找到离开的空隙。');hit(b,e,p,enemyMove);}
- }else if(action.type==='switch'){b.activeP=action.index;log(b,`辛苦了！${monName(b.party[b.activeP])}，拜托你了！`);hit(b,e,b.party[b.activeP],enemyMove);
+ }else if(action.type==='switch'){b.activeP=action.index;if(!b.participants.includes(b.party[b.activeP].uid))b.participants.push(b.party[b.activeP].uid);log(b,`辛苦了！${monName(b.party[b.activeP])}，拜托你了！`);hit(b,e,b.party[b.activeP],enemyMove);
  }else if(action.type==='guard'){b.events.push({kind:'buff',source:p.uid,target:p.uid,element:'light'});p.energy=Math.min(5,p.energy+2);p.shield=Math.max(p.shield,2);log(b,`${monName(p)} 稳住阵脚，回复 2 点能量并获得护盾。`);hit(b,e,p,enemyMove);
  }else if(action.type==='item'){
   const item=ITEMS[action.item],target=b.party[action.target??b.activeP];if(!target)return invalid('请选择道具的目标。');
@@ -116,15 +125,15 @@ export function settleBattle(game,b){
  for(const m of g.party){delete m.shield;delete m.focus;m.energy=5;}
  for(const m of b.enemies)if(!g.seen.includes(m.species))g.seen.push(m.species);
  if(b.outcome==='win'||b.outcome==='capture'){
-  const total=b.enemies.reduce((n,m)=>n+40+m.level*12,0)/Math.sqrt(b.enemies.length);g.gold+=b.context.kind==='boss'?350+g.region*220:35+b.enemies[0].level*7;
-  for(const m of g.party){events.push(...gainXP(m,Math.floor(total*(m.uid===b.party[b.activeP].uid?1:.55))));m.bond=Math.min(100,m.bond+1);}
+  const participants=new Set(b.participants||[b.party[b.activeP].uid]);g.gold+=b.context.kind==='boss'?350+g.region*220:35+b.enemies[0].level*7;
+  for(const m of g.party){events.push(...gainXP(m,battleExperience(m,b.enemies,participants.has(m.uid))));m.bond=Math.min(100,m.bond+1);}
   g.wins[g.region]=(g.wins[g.region]||0)+1;
   if(b.caught){const caught=clone(b.caught);delete caught.shield;delete caught.focus;caught.energy=5;if(g.party.length<6)g.party.push(caught);else g.reserve.push(caught);if(!g.caught.includes(caught.species))g.caught.push(caught.species);events.push(`${SPECIES[caught.species].name} 已加入${g.party.length>=6&&g.reserve.some(m=>m.uid===caught.uid)?'潮灵驿站':'队伍'}。`);}
   for(const m of g.party)if(!g.caught.includes(m.species))g.caught.push(m.species);
   if(b.context.kind==='boss'&&!g.badges.includes(g.region)){g.badges.push(g.region);g.flags['won'+g.region]=true;events.push(`获得${CHAPTERS[g.region].reward}！`);g.pendingScenes??=[];g.pendingScenes.push('after'+g.region);if(g.region===7){g.ending=true;g.pendingScenes.push('ending');}}
   if(b.context.expedition&&b.outcome==='win'){const result=advanceExpedition(g,b.context.expedition,b.context.stage,{victory:true});g=result.game;events.push('地区冒险有了新的进展，查看手记中的下一站。');}
   if(b.context.kind==='trial'){g.trial=Math.max(g.trial||0,b.context.floor);g.gold+=b.context.floor*45;g.bag.greatorb=(g.bag.greatorb||0)+1;events.push(`星海试炼第 ${b.context.floor} 阶完成。获得辉光星约石与额外星砂。`);}
- }else if(b.outcome==='lose'){g.gold=Math.max(0,g.gold-Math.min(150,Math.floor(g.gold*.08)));healParty(g);g.place='town';g.dungeonFloor=0;g.x=18;g.y=19;events.push('阿汐带你们回到了镇上的潮灵诊所。休息后再试一次吧。');}
+ }else if(b.outcome==='lose'){g.gold=Math.max(0,g.gold-Math.min(150,Math.floor(g.gold*.08)));healParty(g);g.place='town';g.dungeonFloor=0;g.routeSector=0;g.x=18;g.y=19;events.push('阿汐带你们回到了镇上的潮灵诊所。休息后再试一次吧。');}
  return {game:g,events};
 }
 export function questReady(g,q){
@@ -163,6 +172,8 @@ export function validateSuspendedBattle(input,game){
  for(const mon of [...battle.party,...battle.enemies]){validateBattleMon(mon);if(ids.has(mon.uid))throw new Error('存档中的对战伙伴重复。');ids.add(mon.uid);}
  for(let i=0;i<game.party.length;i++)if(battle.party[i].uid!==game.party[i].uid||battle.party[i].species!==game.party[i].species||battle.party[i].level!==game.party[i].level)throw new Error('对战队伍与旅途存档不一致。');
  if(!Number.isInteger(battle.activeP)||!Number.isInteger(battle.activeE)||!battle.party[battle.activeP]?.hp||!battle.enemies[battle.activeE]?.hp)throw new Error('存档中的出战伙伴无效。');
+ battle.participants??=[battle.party[battle.activeP].uid];
+ if(!Array.isArray(battle.participants)||!battle.participants.length||battle.participants.length>battle.party.length||new Set(battle.participants).size!==battle.participants.length||!battle.participants.includes(battle.party[battle.activeP].uid)||!battle.participants.every(id=>battle.party.some(m=>m.uid===id)))throw new Error('存档中的参战记录损坏。');
  if(!Number.isInteger(battle.turn)||battle.turn<0||battle.turn>100000||!Number.isInteger(battle.seed)||battle.seed<0||battle.seed>4294967295||!WEATHER[battle.weather])throw new Error('存档中的对战回合损坏。');
  if(!battle.context||!['wild','trainer','boss','trial'].includes(battle.context.kind)||battle.context.region!==game.region)throw new Error('存档中的对战地点损坏。');
  if(battle.context.expedition){const stage=currentExpeditionStage(game,battle.context.expedition);if(battle.context.kind!=='trainer'||stage?.id!==battle.context.stage||stage.kind!=='battle')throw new Error('存档中的冒险对战不一致。');}
@@ -180,8 +191,9 @@ export function validateSave(input){
  if(g.reserve!==undefined&&!Array.isArray(g.reserve))throw new Error('存档驿站数据损坏。');
  for(const m of [...g.party,...(g.reserve||[])]){if(!m||!SPECIES[m.species]||!Number.isInteger(m.level)||m.level<1||m.level>65||!Number.isFinite(m.hp)||!Number.isFinite(m.xp))throw new Error('存档潮灵数据损坏。');m.hp=clamp(m.hp,0,stats(m).hp);m.energy=5;}
  if(!Number.isFinite(g.gold)||g.gold<0||!g.badges.every(n=>Number.isInteger(n)&&n>=0&&n<=7))throw new Error('存档进度损坏。');
- g.name=String(g.name||'旅人').slice(0,12);g.x=Math.round(clamp(Number.isFinite(g.x)?g.x:18,1,g.place==='dungeon'?46:37));g.y=Math.round(clamp(Number.isFinite(g.y)?g.y:19,1,g.place==='dungeon'?30:25));
+ g.name=String(g.name||'旅人').slice(0,12);g.x=Math.round(clamp(Number.isFinite(g.x)?g.x:18,1,g.place==='dungeon'?46:g.place==='route'?54:37));g.y=Math.round(clamp(Number.isFinite(g.y)?g.y:19,1,g.place==='dungeon'?30:g.place==='route'?36:25));
  for(const id of Object.keys(g.bag)){if(!ITEMS[id])delete g.bag[id];else g.bag[id]=clamp(Math.floor(Number(g.bag[id])||0),0,9999);}
+ g.routeSector??=0;if(!Number.isInteger(g.routeSector)||g.routeSector<0||g.routeSector>2)throw new Error('存档户外分区损坏。');
  g.dungeonFloor??=0;g.runes??={};g.openGates??={};if(!Number.isInteger(g.dungeonFloor)||g.dungeonFloor<0||g.dungeonFloor>3)throw new Error('存档地牢层数损坏。');g.reserve??=[];g.flags??={};g.quest??={};g.collected??={};g.wins??={};g.seen??=[];g.caught??=[];g.playtime??=0;g.steps??=0;g.seed??=1;
  for(const field of ['flags','quest','collected','wins','runes','openGates'])if(!g[field]||typeof g[field]!=='object'||Array.isArray(g[field]))throw new Error('存档进度字段损坏。');
  for(const field of ['seen','caught'])if(!Array.isArray(g[field])||!g[field].every(id=>typeof id==='string'&&SPECIES[id]))throw new Error('存档图鉴数据损坏。');

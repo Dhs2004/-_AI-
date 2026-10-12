@@ -1,4 +1,5 @@
 import {EXPEDITIONS} from './expedition-stories.js';
+import {OUTDOOR_AREAS} from './outdoor-areas.js';
 
 const byId = new Map(EXPEDITIONS.map(expedition => [expedition.id, expedition]));
 export const getExpedition = id => byId.get(id);
@@ -26,11 +27,13 @@ export function currentExpeditionStage(game,id) {
   const expedition = byId.get(id), progress = expeditionProgress(game,id);
   return expedition?.stages[progress?.step] || null;
 }
-export function expeditionObjects(region,place) {
+export function expeditionObjects(region,place,sector=0) {
   return EXPEDITIONS.filter(e=>e.region===region).flatMap(expedition=>expedition.stages.flatMap((stage,index)=>{
     const site=EXPEDITION_SITES[stage.site];
     if(site.place!==place)return [];
-    const [x,y]=site.points[expedition.fragment];
+    const anchor=place==='route'?OUTDOOR_AREAS[region].areas[sector]?.sites[stage.site]:null;
+    if(place==='route'&&!anchor)return [];
+    const [x,y]=anchor?[anchor.x+(expedition.fragment-1)*2,anchor.y]:site.points[expedition.fragment];
     return [{id:`${expedition.id}-${stage.id}`,kind:['inspect','sequence'].includes(stage.kind)?'sign':'person',x,y,role:expedition.role,action:'expedition',expedition:expedition.id,stage:index,label:`${STAGE_KINDS[stage.kind]} · ${stage.title}`}];
   }));
 }

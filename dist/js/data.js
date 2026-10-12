@@ -1,4 +1,4 @@
-export const VERSION = '0.2.0';
+export const VERSION = '0.3.0';
 export const ELEMENTS = {
   moss:{name:'森',color:'#8fd59a',weak:['ember','frost'],strong:['tide','stone']},
   ember:{name:'焰',color:'#ffa076',weak:['tide','stone'],strong:['moss','frost']},

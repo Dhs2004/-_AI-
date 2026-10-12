@@ -115,3 +115,25 @@ User clarified: target is **16–24 actual gameplay hours across two days** (not
 
 
 0.2 final validation: all 40 tests and syntax checks passed after the final code/version edits. 34-scene actual Chrome DPR2 / 2400×1200 suite: 52–60 FPS overall (most 60); the 16 outdoor town/route samples were 59–60 FPS, average draw 0.49–1.54 ms. All scenes in this run largely delivered ~16.7ms intervals, unlike earlier 120 FPS samples; do not describe this as a guaranteed display rate. Lowest sample was shade battle effects, 52 FPS/P95 33ms/draw 1.32ms. Menus retain a last-scene measurement and now explicitly say rendering is paused. This is a short desktop measurement, not sustained or phone-hardware validation.
+
+
+## 0.2 private publication (2026-10-12 05:56 UTC)
+
+- Deployment `appgdep_6acc7689e69881918d0da4945865bbf3` succeeded at the same owner-private URL: https://starfall-chronicle.seedagi.chatgpt.site.
+- Source commit `23089b66fa43a00c972beaa45b2526cbd55c94f8`; immutable archive `/private/tmp/starfall-checkpoint-02.tar.gz`.
+- Saved version `appgprj_6acc4a59bf048191be795d4359b47d27~appgver_7fb62e128f6081918d7140859a86c401`.
+- `starfallSource` function store now contains the complete new helper result. `starfallDeployment` contains terminal success. No further status polling is needed.
+- `dungeon_assets` may now write its 24 new outdoor area layouts to `dist/js/outdoor-areas.js`. This is NEXT iteration content, not part of published 0.2. Root must inspect/adapt/test it before integration and next publication.
+
+## 0.3 outdoor, cartography and growth update (2026-10-12 ~07:00 UTC)
+
+- Integrated 24 distinct 56×38 outdoor layouts, three per island. Total world is 64 maps: eight towns, 24 outdoor sectors, 32 dungeon floors. Routes link bidirectionally, expose 40 expedition site anchors and add 48 lore objects / 48 caches / 164 landmarks. `outdoor-engine.js` adapts them without changing prior pickup IDs. Old fragments and badges remain valid; routeSector defaults safely and new coordinate bounds persist.
+- Expedition objects now appear at the correct site in their specific sector. Main map and expedition details open a regional geographic map with three tabs, numbered exits, objective markers and the player's position. Actual CUA: sector 0→1 and refresh; sector 2→dungeon→sector 2 and refresh; quest intro→sector 1 destination; 390×844 quest-map layout passed. Viewport reset after QA.
+- Replaced outdoor dungeon-style wall texture with biome stone and joined overlapping pixel forest crowns. Ground caches are now keyed by static geometry and explicitly bounded via `RasterCache` (3 entries / 6M pixels maximum). Evicted surfaces are resized to zero to release their buffers. Two outdoor surfaces retain about 21 MiB. Sprite atlases unchanged.
+- Extended performance lab from 34 to 50 scenes and added a 24-outdoor suite. First 2400×1200/DPR2 continuous run: most scenes 115–120 FPS but snow scenes fell as low as 10 FPS / P95 333.3ms / draw 30.05ms. Isolated same scene recovered to119. After bounded terrain buffers: repeat 24 scenes 106–121 FPS, P95 8.6–16.6ms, average draw 0.26–2.41ms; snow scene120 FPS / draw0.51ms. These are short observed samples, not proof of causality, sustained guarantees or phone hardware tests.
+- Added reusable encounter team factories so UI and balance scripts use identical authored enemy levels. New XP formula scales rewards by relative level, gives participants100% and bench85%, and provides bounded catch-up for low-level partners. All participating UIDs survive battle save/restore. Old level/XP totals stay intact.
+- `scripts/campaign-budget.mjs` is an analytical XP-only report (assumes every listed encounter won once). Each island's expedition fights+10 dungeon trainers+boss =>14/15 encounters: before bosses leader9/16/22/28/33/39/45/51; bench9/15/21/26/32/37/43/49. Boss base9/15/21/27/33/39/45/52. Adding2 outdoor trainers+8 wild wins/island gives final57/54 before boss. This does NOT validate actual win rates, chapter pacing or duration.
+- 49 tests and syntax checks passed after final engine/version edits. New tests cover sector reachability, object selection, unique pickup identities, old-save migration, participation/catch-up, campaign XP band and explicit raster eviction.
+- Outstanding: deeper abilities and boss tactics, real campaign simulations/playthroughs, authored travel pacing, actual 16–24h content measurement. 24-hour development goal remains active through2026-10-13 02:46:58 UTC; do not mark complete or claim commercial RPG parity.
+
+0.3 final CUA battle QA (~07:16 UTC): completed an 8-turn trainer encounter with switching, one potion and a refresh after the first switch. Restored turn2 with83/114 HP on the incoming partner and100/100 enemy HP. Victory gold550→634; first participant level5 gained74 XP, switched-out level8 partner gained49 XP (full level-adjusted amount), fainted bench remained fainted. New version0.3.0 and all49 tests are ready for packaging.

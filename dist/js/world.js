@@ -3,11 +3,15 @@ import {drawPerson,drawProp,drawTile,drawMonster} from './art.js';
 import {SIDE_STORIES} from './stories.js';
 import {drawIslandLandmark} from './landmarks.js';
 import {DUNGEONS} from './dungeons.js';
+import {adaptOutdoor} from './outdoor-engine.js';
+import {RasterCache} from './raster-cache.js';
+import {drawOutdoorBlock,drawOutdoorCanopies} from './outdoor-art.js';
 import {expeditionObjects,expeditionObjectActive} from './expedition-engine.js';
 import {adaptDungeon,gateIsOpen,runeValue,RUNE_SYMBOLS} from './dungeon-engine.js';
 export const TILE=36,MAP_W=40,MAP_H=28;
 const hash=(x,y,s=0)=>{let n=Math.imul(x+31,374761393)+Math.imul(y+19,668265263)+s*9127;n=(n^(n>>>13))>>>0;return ((Math.imul(n,1274126177)^(n>>>16))>>>0)/4294967295;};
-export function makeMap(region,place,depth=0){
+export function makeMap(region,place,depth=0,sector=0){
+ if(place==='route')return adaptOutdoor(region,sector);
  const chapter=CHAPTERS[region],objects=[];let n=0;
  if(place==='dungeon'){const floor=DUNGEONS[region].floors[depth],result=adaptDungeon(region,depth,chapter,floor);if(depth===0){const story=SIDE_STORIES.find(s=>s.region===region&&s.place==='dungeon');let point=null;for(let y=1;y<result.height-1&&!point;y++)for(let x=1;x<result.width-1;x++){if(Math.hypot(x-floor.entry.x,y-floor.entry.y)>5||Math.hypot(x-floor.entry.x,y-floor.entry.y)<2)continue;if(![[0,0],[1,0],[-1,0],[0,1],[0,-1]].every(([dx,dy])=>floor.layout[y+dy]?.[x+dx]==='.'))continue;if(result.objects.some(o=>Math.hypot(o.x-x,o.y-y)<2))continue;point={x,y};break;}if(story&&point)result.objects.push({id:story.id,kind:'person',...point,role:story.role,action:'side-story',story:story.id,label:story.giver});}return result;}
  const add=(kind,x,y,extra={})=>objects.push({id:`${region}-${place}-${n++}`,kind,x,y,...extra});
@@ -45,7 +49,7 @@ export function makeMap(region,place,depth=0){
  return {region,place,chapter,objects,width:MAP_W,height:MAP_H};
 }
 export function tileKind(map,x,y){
- if(map.layout){return {'#':'wall','.':'stone','~':'water','=':'wood'}[map.layout[y]?.[x]]||'wall';}
+ if(map.layout){const tile=map.layout[y]?.[x];if(map.outdoor&&tile==='.')return map.region===4?'snow':map.region===2?'sand':hash(x,y,map.region)>.7?'flowers':'grass';return {'#':'wall','.':'stone','~':'water','=':'wood',':':'path',',':'sand'}[tile]||'wall';}
  if(x<2||x>37||y<2||y>25)return map.place==='dungeon'?'stone':'water';
  if(map.place==='town'){
   if(y>=23)return x>=17&&x<=20?'wood':'water';
@@ -66,9 +70,11 @@ export function canWalk(map,g,x,y){
 }
 export function nearest(map,g){return map.objects.filter(o=>o.action&&!isGone(g,o)&&Math.hypot(o.x-g.x,o.y-g.y)<2.2).sort((a,b)=>Math.hypot(a.x-g.x,a.y-g.y)-Math.hypot(b.x-g.x,b.y-g.y))[0]||null;}
 export function camera(g,w,h,map={width:MAP_W,height:MAP_H}){return {x:Math.max(0,Math.min(map.width*TILE-w,g.x*TILE-w/2)),y:Math.max(0,Math.min(map.height*TILE-h,g.y*TILE-h/2))};}
-const terrainCache=new WeakMap(),waterCellsCache=new WeakMap();
+const terrainCache=new RasterCache();
+export const terrainCacheInfo=()=>terrainCache.info();
 function terrainFor(map){
- let result=terrainCache.get(map);if(result)return result;
+ const key=`${map.region}/${map.place}/${map.depth||0}/${map.sector||0}`;
+ const cached=terrainCache.get(key);if(cached)return cached;
  const surface=typeof OffscreenCanvas!=='undefined'?new OffscreenCanvas(map.width*TILE,map.height*TILE):Object.assign(document.createElement('canvas'),{width:map.width*TILE,height:map.height*TILE});
  const ctx=surface.getContext('2d'),left=0,right=map.width,top=0,bottom=map.height,time=0;
  for(let y=top;y<bottom;y++)for(let x=left;x<right;x++){
@@ -79,10 +85,12 @@ function terrainFor(map){
    ctx.fillStyle='#b2dee41c';ctx.fillRect(px+((r*31+time*5)%30),py+12,TILE*.4,2);ctx.fillRect(px+4,py+26,8,1);
   }else if(k==='grass'||k==='flowers'){
    ctx.fillStyle=map.chapter.palette[1]+'55';for(let i=0;i<3;i++){const xx=px+hash(x+i,y,2)*30,yy=py+hash(x,y+i,5)*31;ctx.fillRect(xx,yy,2,4);ctx.fillRect(xx+3,yy-2,2,3);}if(k==='flowers'){ctx.fillStyle=map.region===5?'#ad8fc1':'#d4d6a9';ctx.fillRect(px+9,py+13,3,3);ctx.fillStyle='#f2cc9166';ctx.fillRect(px+25,py+29,2,3);}
-  }else if(k==='wall'){ctx.fillStyle='#223b49';ctx.fillRect(px,py,TILE,TILE-6);ctx.fillStyle='#38515a';ctx.fillRect(px+1,py+1,TILE-2,3);ctx.fillStyle='#0d202b';ctx.fillRect(px,py+TILE-6,TILE,6);if(hash(x,y,3)>.6){ctx.fillStyle='#52716a33';ctx.fillRect(px+5,py+8,11,2);}}else if(k==='path'||k==='sand'){ctx.fillStyle='#ffffff0b';ctx.fillRect(px+r*20,py+8,9,2);ctx.fillStyle='#33342117';ctx.fillRect(px+8,py+r*32,3,2);}
+  }else if(k==='wall'&&map.outdoor){drawOutdoorBlock(ctx,map.region,px,py,TILE,r,{top:tileKind(map,x,y-1)!=='wall',bottom:tileKind(map,x,y+1)!=='wall',left:tileKind(map,x-1,y)!=='wall',right:tileKind(map,x+1,y)!=='wall'});}else if(k==='wall'){ctx.fillStyle='#223b49';ctx.fillRect(px,py,TILE,TILE-6);ctx.fillStyle='#38515a';ctx.fillRect(px+1,py+1,TILE-2,3);ctx.fillStyle='#0d202b';ctx.fillRect(px,py+TILE-6,TILE,6);if(hash(x,y,3)>.6){ctx.fillStyle='#52716a33';ctx.fillRect(px+5,py+8,11,2);}}else if(k==='path'||k==='sand'){ctx.fillStyle='#ffffff0b';ctx.fillRect(px+r*20,py+8,9,2);ctx.fillStyle='#33342117';ctx.fillRect(px+8,py+r*32,3,2);}
   else if(k==='stone'){ctx.strokeStyle='#172b361c';ctx.strokeRect(px+.5,py+.5,TILE,TILE);ctx.fillStyle='#e0dbbd14';ctx.fillRect(px+3,py+3,TILE-6,2);}
   else if(k==='wood'){ctx.fillStyle='#453e3933';ctx.fillRect(px,py+TILE-3,TILE,2);ctx.fillRect(px+TILE-2,py,2,TILE);ctx.fillStyle='#d0ba8844';ctx.fillRect(px+4,py+8,TILE-8,2);}
  }
+
+ if(map.outdoor)drawOutdoorCanopies(ctx,map,TILE);
 
  // Shore foam and a darker bank give every island a readable coast.
  for(let y=2;y<map.height-2;y++)for(let x=2;x<map.width-2;x++){
@@ -97,14 +105,13 @@ function terrainFor(map){
    if(r>.85){ctx.fillStyle=map.region===4?'#fff7e3':'#e8ce91';ctx.fillRect(px+8,py+22,2,2);ctx.fillRect(px+18,py+9,2,2);ctx.fillStyle='#8bb390';ctx.fillRect(px+9,py+24,1,3);}
   }
  }
- const water=[];for(let y=0;y<map.height;y++)for(let x=0;x<map.width;x++)if(tileKind(map,x,y)==='water'&&hash(x,y)>.55)water.push([x,y]);waterCellsCache.set(map,water);
- result=surface;terrainCache.set(map,result);return result;
+ const water=[];for(let y=0;y<map.height;y++)for(let x=0;x<map.width;x++)if(tileKind(map,x,y)==='water'&&hash(x,y)>.55)water.push([x,y]);return terrainCache.set(key,{surface,water});
 }
 
 export function drawWorld(ctx,w,h,map,g,time,{title=false,walking=false}={}){
  const cam=camera(g,w,h,map);ctx.fillStyle=map.chapter.palette[3];ctx.fillRect(0,0,w,h);ctx.save();ctx.translate(-cam.x,-cam.y);
- ctx.drawImage(terrainFor(map),0,0);
- ctx.fillStyle='#badbe22c';for(const [x,y] of waterCellsCache.get(map)||[]){if(x*TILE<cam.x-TILE||x*TILE>cam.x+w||y*TILE<cam.y-TILE||y*TILE>cam.y+h)continue;const offset=(time*4+hash(x,y)*20)%20;ctx.fillRect(x*TILE+offset,y*TILE+18,9,1);}
+ const terrain=terrainFor(map);ctx.drawImage(terrain.surface,0,0);
+ ctx.fillStyle='#badbe22c';for(const [x,y] of terrain.water){if(x*TILE<cam.x-TILE||x*TILE>cam.x+w||y*TILE<cam.y-TILE||y*TILE>cam.y+h)continue;const offset=(time*4+hash(x,y)*20)%20;ctx.fillRect(x*TILE+offset,y*TILE+18,9,1);}
  const drawables=map.objects.filter(o=>!isGone(g,o)&&o.x*TILE>cam.x-200&&o.x*TILE<cam.x+w+200&&o.y*TILE>cam.y-100&&o.y*TILE<cam.y+h+200).map(o=>({...o,sort:o.y}));
  if(!title){drawables.push({kind:'player',x:g.x,y:g.y,sort:g.y});if(g.party[0])drawables.push({kind:'follower',x:g.x-.8,y:g.y+.55,sort:g.y+.4});}
  drawables.sort((a,b)=>a.sort-b.sort);
