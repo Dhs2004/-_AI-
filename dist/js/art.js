@@ -561,7 +561,69 @@ function flower(c, pal, o) {
   if (o.stage === 3) { e(c,17,44,3,3,pal.accent,pal.ink); e(c,48,44,3,3,pal.accent,pal.ink); diamond(c,32,48,2,pal.accent,null); }
 }
 
-const MONSTERS = {fox,cat,turtle,bird,deer,slime,dragon,moth,whale,golem,rabbit,serpent,crab,wolf,owl,flower};
+function otter(c,pal,o){
+  const n=o.stage,dy=o.phase%2;
+  p(c,[[42,40],[51,42],[58,48],[60,54],[56,58],[44,53],[39,46]],pal.shade,pal.ink);
+  p(c,[[46,45],[52,47],[57,53],[54,54],[44,49]],pal.light,null);
+  e(c,31,43,11+n,11+n*.4,pal.base,pal.ink);e(c,29,44,8,9,pal.light,null);
+  e(c,19,54,6,3,pal.shade,pal.ink);e(c,39,55,6,3,pal.shade,pal.ink);
+  e(c,20,17,5,5,pal.base,pal.ink);e(c,41,16,5,5,pal.base,pal.ink);
+  e(c,20,17,2,2,pal.accent,null);e(c,41,16,2,2,pal.accent,null);
+  e(c,30,28,15,13,pal.base,pal.ink);e(c,28,32,12,7,pal.light,null);
+  if(!o.back){eye(c,21,25,pal,o);eye(c,34,25,pal,o);p(c,[[27,29],[31,29],[29,32]],pal.ink,null);line(c,29,32,29,34,pal.ink);line(c,15,32,21,33,pal.shade);line(c,37,32,43,30,pal.shade);}
+  e(c,21,43+dy,4,6,pal.base,pal.ink);e(c,39,43+dy,4,6,pal.base,pal.ink);
+  p(c,[[24,43],[30,39],[36,42],[36,49],[28,52],[23,48]],pal.shade,pal.ink);p(c,[[25,44],[30,41],[34,44],[29,48],[25,47]],pal.accent,null);
+  if(n>1){p(c,[[16,35],[23,38],[40,35],[43,39],[33,42],[21,40],[16,38]],pal.accent,pal.ink);p(c,[[38,39],[43,42],[48,49],[43,48],[38,43]],pal.accent,pal.ink);diamond(c,45,50,2,pal.detail,null);}
+  if(n===3){p(c,[[17,18],[15,9],[23,14],[29,5],[34,13],[43,8],[41,19]],pal.light,pal.ink);p(c,[[23,16],[29,8],[33,15],[29,19]],pal.accent,null);sparkle(c,7,43,pal.glow,2);sparkle(c,52,20,pal.glow,2);}
+  if(o.back){e(c,31,25,10,7,pal.base,null);p(c,[[25,22],[30,18],[36,23],[34,29],[27,28]],pal.light,null);}
+}
+function squid(c,pal,o){
+  const n=o.stage,wave=o.phase%2?2:0;
+  for(const [x,end,shift] of [[19,9,0],[26,22,3],[36,41,1],[44,57,4]]){
+    p(c,[[x-2,37],[x+2,38],[x+3,47+shift],[end+3,52-wave],[end+5,56-wave],[end,59-wave],[end-3,56-wave],[x-2,48+shift]],pal.base,pal.ink);
+    line(c,x,44,end+1,54-wave,pal.light,1);
+  }
+  p(c,[[31,5],[43,16],[47,29],[43,40],[33,46],[22,40],[16,30],[20,17]],pal.base,pal.ink);
+  p(c,[[30,8],[31,34],[23,37],[19,29],[22,18]],pal.light,null);
+  p(c,[[32,10],[40,18],[44,29],[40,36],[33,39]],pal.shade,null);
+  p(c,[[20,18],[11,18],[5,28],[16,34],[23,28]],pal.light,pal.ink);
+  p(c,[[43,18],[53,18],[60,28],[48,35],[40,28]],pal.light,pal.ink);
+  line(c,8,27,20,24,pal.shade);line(c,44,24,56,28,pal.shade);
+  e(c,31,34,10,7,pal.light,null);if(!o.back)face(c,31,30,5,pal,o,{mouth:true});
+  if(n>1){p(c,[[7,20],[10,10],[22,18],[18,25]],pal.accent,pal.ink);p(c,[[44,19],[54,11],[57,21],[48,26]],pal.accent,pal.ink);diamond(c,31,18,3,pal.detail,pal.ink);}
+  if(n===3){p(c,[[17,36],[8,38],[3,48],[15,44],[24,42]],pal.accent,pal.ink);p(c,[[43,36],[54,39],[62,49],[48,44],[39,42]],pal.accent,pal.ink);sparkle(c,31,3,pal.glow,2);line(c,9,40,16,40,pal.detail);line(c,48,40,55,43,pal.detail);}
+  if(o.back){p(c,[[23,31],[31,25],[40,31],[37,39],[30,41],[24,37]],pal.base,null);line(c,31,9,31,36,pal.shade);}
+}
+function beetle(c,pal,o){
+  const n=o.stage;
+  for(const side of [-1,1])for(const [y,reach] of [[33,16],[42,21],[49,16]]){line(c,32+side*10,y,32+side*reach,y+3,pal.ink,3);line(c,32+side*reach,y+3,32+side*(reach+3),y+8,pal.ink,2);r(c,32+side*reach,y+2,3,2,pal.accent);}
+  e(c,32,39,13+n*2,16,pal.shade,pal.ink);
+  p(c,[[31,21],[21,23],[15-n,32],[16-n,45],[24,53],[31,55]],pal.base,pal.ink);
+  p(c,[[33,21],[44,24],[49+n,33],[47+n,46],[41,53],[33,55]],pal.base,pal.ink);
+  p(c,[[26,26],[20,31],[19,41],[25,47],[30,42],[30,29]],pal.light,null);
+  p(c,[[37,27],[43,30],[47,37],[43,44],[35,48],[34,34]],pal.accent,null);
+  line(c,18,41,29,33,pal.shade);line(c,35,47,43,30,pal.shade);
+  e(c,32,21,10,7,pal.shade,pal.ink);if(!o.back){eye(c,25,18,pal,o);eye(c,36,18,pal,o);line(c,29,25,34,25,pal.light);}
+  line(c,26,15,22,10,pal.ink,2);line(c,38,15,42,10,pal.ink,2);diamond(c,21,9,2,pal.accent,pal.ink);diamond(c,43,9,2,pal.accent,pal.ink);
+  if(n>1){p(c,[[29,16],[27,7],[32,2],[37,7],[35,16]],pal.light,pal.ink);diamond(c,32,9,3,pal.accent,pal.ink);}
+  if(n===3){p(c,[[17,26],[8,22],[7,37],[13,47],[20,39]],pal.light,pal.ink);p(c,[[48,26],[57,22],[58,37],[52,47],[44,39]],pal.light,pal.ink);diamond(c,13,32,3,pal.accent,pal.ink);diamond(c,51,32,3,pal.accent,pal.ink);sparkle(c,7,14,pal.glow,2);sparkle(c,57,49,pal.glow,2);}
+  if(o.back){e(c,32,21,8,5,pal.shade,null);line(c,32,27,32,52,pal.ink);diamond(c,25,36,3,pal.detail,null);}
+}
+function mouse(c,pal,o){
+  const n=o.stage;
+  line(c,44,44,54,46,pal.ink,4);line(c,54,46,58,41,pal.ink,4);line(c,58,41,58,31,pal.ink,4);line(c,58,31,53,27,pal.ink,4);line(c,53,27,48,31,pal.ink,4);line(c,48,31,48,36,pal.ink,4);line(c,48,36,52,38,pal.ink,4);
+  line(c,44,44,54,46,pal.accent,2);line(c,54,46,58,41,pal.accent,2);line(c,58,41,58,31,pal.accent,2);line(c,58,31,53,27,pal.accent,2);line(c,53,27,49,31,pal.accent,2);line(c,49,31,49,36,pal.accent,2);
+  e(c,30,43,13,11,pal.base,pal.ink);e(c,28,44,8,8,pal.light,null);e(c,21,53,7,4,pal.shade,pal.ink);e(c,40,53,6,4,pal.shade,pal.ink);
+  e(c,17,16,8,9,pal.base,pal.ink);e(c,39,14,8,9,pal.base,pal.ink);e(c,17,16,5,6,pal.accent,null);e(c,39,14,5,6,pal.accent,null);
+  e(c,28,29,14,12,pal.base,pal.ink);p(c,[[17,28],[12,32],[17,37],[27,38],[32,34],[29,29]],pal.light,null);
+  if(!o.back){eye(c,20,25,pal,o);eye(c,32,25,pal,o);r(c,12,32,3,2,pal.ink);line(c,17,35,22,36,pal.ink);line(c,7,30,15,31,pal.shade);line(c,9,37,16,35,pal.shade);}
+  e(c,18,43,4,5,pal.base,pal.ink);e(c,40,42,4,5,pal.base,pal.ink);
+  if(n>1){p(c,[[17,37],[25,40],[39,36],[40,40],[28,44],[19,42]],pal.accent,pal.ink);e(c,28,43,3,3,pal.detail,pal.ink);line(c,28,42,28,45,pal.shade);}
+  if(n===3){for(const [x,y] of [[13,7],[22,8],[13,23],[43,4],[47,14],[37,23]])r(c,x,y,3,4,pal.light);diamond(c,29,18,3,pal.detail,pal.ink);sparkle(c,54,15,pal.glow,2);sparkle(c,7,45,pal.glow,1);}
+  if(o.back){e(c,29,27,11,8,pal.base,null);p(c,[[23,24],[28,21],[33,24],[31,30],[25,31]],pal.light,null);}
+}
+
+const MONSTERS = {fox,cat,turtle,bird,deer,slime,dragon,moth,whale,golem,rabbit,serpent,crab,wolf,owl,flower,otter,squid,beetle,mouse};
 
 function backDetails(c,shape,pal,o) {
   // Reverse-side markings preserve the individual silhouette while removing

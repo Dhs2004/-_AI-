@@ -1,8 +1,10 @@
+import {COASTAL_BONDS} from './coastal-bond-stories.js';
 /* Original optional companion stories. Every lineage keeps its story through evolution. */
 const C=(label,reply,memory)=>({label,reply,memory});
 const E=(title,lines,choices,echo=null)=>({title,lines,choices,echo});
 export const BOND_REQUIREMENTS=[{bond:8,badges:0},{bond:24,badges:2},{bond:48,badges:4}];
 export const BOND_CHRONICLES={
+ ...COASTAL_BONDS,
  budfox:{title:'不必长成同一片森林',gifts:['voyageCharm','harborCharm'],chapters:[
   E('朝向你的芽',[
    ['旁白','收拾行囊时，你发现伙伴尾尖的新芽总朝着背包偏去。里面装着一张被雨泡坏的归航图。'],

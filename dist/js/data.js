@@ -1,4 +1,4 @@
-export const VERSION = '0.12.0';
+export const VERSION = '0.13.0';
 export const ELEMENTS = {
   moss:{name:'森',color:'#8fd59a',weak:['ember','frost'],strong:['tide','stone']},
   ember:{name:'焰',color:'#ffa076',weak:['tide','stone'],strong:['moss','frost']},
@@ -58,10 +58,18 @@ const lines = [
  ['nightwolf','墨月狼','逐月狼','夜航领主','shade','wolf',[43,58,38,55],'在迷雾里为同伴引路。嚎叫听起来很孤独，实际上是在报平安。'],
  ['stonegolem','石芽偶','古垣卫','群山的记忆','stone','golem',[61,52,64,20],'被遗忘的城墙醒来后，第一件事是寻找曾在墙边种花的人。'],
  ['skydrake','岚角幼龙','巡空龙','九霄青岚','wind','dragon',[44,53,41,52],'相信天上的每一朵云都是一座岛。它正认真地为这些岛屿命名。'],
- ['sunserpent','星鳞蛇','曜纹灵蛇','星海循光','light','serpent',[44,55,43,50],'星辰落海时诞生的潮灵。它的鳞片里偶尔会出现尚未发生的黎明。']
+ ['sunserpent','星鳞蛇','曜纹灵蛇','星海循光','light','serpent',[44,55,43,50],'星辰落海时诞生的潮灵。它的鳞片里偶尔会出现尚未发生的黎明。'],
+ ['frostotter','雪沫獭','浮冰巡獭','霜湾引潮','frost','otter',[49,43,48,42],'把暖石藏在肚皮的口袋里，在浮冰之间为幼小的潮灵搭起歇脚处。它会把最暖的一块留给别人。'],
+ ['kitesquid','纸帆鱿','绘空乌贼','折风巡帆','wind','squid',[40,47,36,64],'触腕像折好的信笺，能在风里展开。每次换一座岛，它都会认真学一种新的打招呼方式。'],
+ ['glassbeetle','棱砂甲虫','琉光甲','棱晶圣甲','stone','beetle',[53,46,63,29],'背甲会把光分成不同颜色。它收集没有人捡的小碎片，从来不认为完整只有一种模样。'],
+ ['clockmouse','齿铃鼠','刻律灵鼠','分秒巡音','volt','mouse',[38,49,37,67],'尾巴卷成发条的形状，耳朵能听出钟摆轻微的偏差。遇见走慢的同伴，它会把节拍也放慢。'],
 ];
 const moveTrees={moss:['leaf','vine','bloom','forest'],ember:['spark','flare','focus','phoenix'],tide:['splash','bubble','bloom','tsunami'],volt:['static','focus','gust','thunder'],stone:['stone','shell','focus','quake'],frost:['chill','shell','wish','blizzard'],shade:['shadow','nightmare','focus','eclipse'],light:['glint','wish','focus','dawn'],wind:['gust','focus','leaf','cyclone']};
 const familyMoves={
+ frostotter:['chill','splash','bloom','blizzard'],
+ kitesquid:['gust','bubble','focus','cyclone'],
+ glassbeetle:['stone','shell','glint','quake'],
+ clockmouse:['static','shell','gust','thunder'],
  mossdeer:['leaf','shell','bloom','forest'],
  duskmoth:['shadow','bubble','venom','nightmare'],
  cinder:['spark','shell','flare','phoenix'],

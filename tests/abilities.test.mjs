@@ -1,11 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {SPECIES} from '../dist/js/data.js';
-import {ABILITIES,abilityFor} from '../dist/js/abilities.js';
+import {ABILITIES,abilityFor,incomingTrait,outgoingTrait} from '../dist/js/abilities.js';
 import {createGame,createMon,stats,makeBattle,takeTurn,settleBattle,estimateDamage,clone,checkpointGame,saveEnvelope,readEnvelope} from '../dist/js/engine.js';
 function fight(species,level=20,enemy='pebble',enemyLevel=3){const g=createGame();g.seed=10;g.party=[createMon(species,level)];return {g,b:makeBattle(g,[createMon(enemy,enemyLevel)])};}
 
-test('every creature retains its family trait through all three evolution forms',()=>{assert.equal(Object.keys(ABILITIES).length,16);for(const mon of Object.values(SPECIES)){assert.ok(abilityFor({species:mon.id})?.desc);assert.equal(abilityFor({species:mon.id}),ABILITIES[mon.family]);}});
+test('every creature retains its family trait through all three evolution forms',()=>{assert.equal(Object.keys(ABILITIES).length,new Set(Object.values(SPECIES).map(s=>s.family)).size);for(const mon of Object.values(SPECIES)){assert.ok(abilityFor({species:mon.id})?.desc);assert.equal(abilityFor({species:mon.id}),ABILITIES[mon.family]);}});
 test('budfox survives a threshold hit with one recovery per battle, never recovers after knockout',()=>{
  const {g,b}=fight('budfox',20,'embercat',1);b.party[0].hp=Math.floor(stats(b.party[0]).hp*.5);
  const first=takeTurn(b,{type:'guard'});assert.equal(first.party[0].battleTrait.firstAid,true);assert.equal(first.events.filter(e=>e.kind==='heal').length,1);assert.equal(b.party[0].battleTrait.firstAid,false);
@@ -63,4 +63,22 @@ test('battle-only trait counters are validated, preserved on suspend and removed
  const {g,b}=fight('dewslime');b.party[0].battleTrait.veilUsed=true;const restored=readEnvelope(saveEnvelope(checkpointGame(g,b)));assert.deepEqual(restored.suspendedBattle.party[0].battleTrait,b.party[0].battleTrait);
  for(const bad of [{cycle:99},{...b.party[0].battleTrait,swift:'yes'},null]){const broken=clone(b);broken.party[0].battleTrait=bad;assert.throws(()=>readEnvelope(saveEnvelope(checkpointGame(g,broken))));}
  b.outcome='win';assert.equal(settleBattle(g,b).game.party[0].battleTrait,undefined);const legacy=clone(b);delete legacy.party[0].battleTrait;delete legacy.outcome;assert.doesNotThrow(()=>readEnvelope(saveEnvelope(checkpointGame(g,legacy))));
+});
+
+test('coastal defenses select attack elements and the light sail only amplifies priority attacks',()=>{
+ for(const id of ['frostotter','frostotter_2','frostotter_3','glassbeetle','glassbeetle_2','glassbeetle_3']){
+  const mon=createMon(id,30),resists=id.startsWith('frostotter')?['tide','frost']:['light','volt'];
+  for(const element of ['moss','ember','tide','frost','stone','light','volt',null])assert.equal(incomingTrait(mon,'clear',stats(mon).hp,{element}),resists.includes(element)?.8:1);
+ }
+ const squid=createMon('kitesquid_2',30),target=createMon('pebble_2',30);target.hp--;
+ assert.equal(outgoingTrait(squid,target,{priority:1},stats(target).hp),1.18);assert.equal(outgoingTrait(squid,target,{priority:0},stats(target).hp),1);
+ const g=createGame();g.party=[squid];g.seed=9;const b=makeBattle(g,[target]);const expected=estimateDamage(b.party[0],b.enemies[0],'gust');
+ const next=takeTurn(b,{type:'move',move:'gust'}),event=next.events.find(e=>e.kind==='attack'&&e.source===squid.uid);
+ assert.ok(event.damage>=Math.floor(expected*.92)&&event.damage<=Math.ceil(expected*1.08));
+});
+test('clockmouse recovers three guard energy on either team, capped at five after suspend',()=>{
+ const {g,b}=fight('clockmouse_2',25,'clockmouse_2',25);b.party[0].energy=0;b.enemies[0].energy=0;b.enemyPlan={actor:b.enemies[0].uid,action:{type:'guard'},label:'守势',reason:'恢复能量'};
+ const next=takeTurn(b,{type:'guard'});assert.equal(next.party[0].energy,3);assert.equal(next.enemies[0].energy,3);assert.ok(next.log.some(l=>l.includes('续拍')));
+ const restored=readEnvelope(saveEnvelope(checkpointGame(g,next))).suspendedBattle;
+ const again=takeTurn(restored,{type:'guard'});assert.equal(again.party[0].energy,5);
 });

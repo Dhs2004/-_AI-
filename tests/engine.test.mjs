@@ -6,7 +6,7 @@ import {SIDE_STORIES,CAMPFIRE_TALKS} from '../dist/js/stories.js';
 import {makeMap,canWalk,MAP_W,MAP_H} from '../dist/js/world.js';
 
 test('all authored content references existing species, moves, items and regions',()=>{
- assert.equal(CHAPTERS.length,8);assert.equal(Object.keys(SPECIES).length,48);assert.equal(SIDEQUESTS.length,24);
+ assert.equal(CHAPTERS.length,8);assert.equal(Object.keys(SPECIES).length,60);assert.equal(SIDEQUESTS.length,24);
  for(const s of Object.values(SPECIES)){assert.ok(s.base.every(n=>Number.isFinite(n)&&n>0));for(const m of s.moves)assert.ok(MOVES[m]);if(s.evolve)assert.ok(SPECIES[s.evolve]);}
  for(const c of CHAPTERS){for(const id of [...c.wild,...c.boss])assert.ok(SPECIES[id],id);assert.ok(c.intro.length&&c.before.length&&c.after.length);}
  for(const q of SIDEQUESTS){assert.ok(CHAPTERS[q.region]);if(q.item)assert.ok(ITEMS[q.item]);if(q.species)assert.ok(SPECIES[q.species]);}

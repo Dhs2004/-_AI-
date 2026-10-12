@@ -16,7 +16,7 @@ test('every lineage has three complete branching stories, distinct choices and v
   }
   assert.equal(story.chapters[2].echo.length,2);assert.notEqual(...story.chapters[2].echo);
  }
- assert.equal(new Set(titles).size,48);
+ assert.equal(new Set(titles).size,Object.keys(BOND_CHRONICLES).length*3);
 });
 
 test('all family branches survive every save boundary and grant rewards only once',()=>{

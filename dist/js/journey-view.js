@@ -1,4 +1,4 @@
-import {CHAPTERS} from './data.js';
+import {CHAPTERS,SPECIES} from './data.js';
 import {journeySummary,chapterJournal,expeditionRecollection} from './journey.js';
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const linesMarkup=lines=>lines.map(([speaker,text])=>`<p><span>${esc(speaker)}</span>${esc(text)}</p>`).join('');
@@ -8,7 +8,7 @@ export function journeyMarkup(game,region=game.region){
  const summary=journeySummary(game),book=chapterJournal(game,region);if(!book)return '';
  const {chapter}=book,next=summary.next;
  return `<section class="journey-cover"><div class="journey-compass" aria-hidden="true">✧<small>航程 · ${String(summary.badges).padStart(2,'0')}</small></div><div><span class="eyebrow">${esc(summary.name)}的旅途纪要</span><h3>海很远，故事还在。</h3><p>停在 ${esc(summary.island)} · ${esc(summary.location)}<br>已经同行 ${summary.time}</p></div></section>
- <div class="journey-totals"><span><b>${summary.badges}<small> / 8</small></b>点亮星灯</span><span><b>${summary.memories}<small> / 24</small></b>岛屿记忆</span><span><b>${summary.families}<small> / 16</small></b>同行家族</span><span><b>${summary.quests}<small> / 24</small></b>居民委托</span></div>
+ <div class="journey-totals"><span><b>${summary.badges}<small> / 8</small></b>点亮星灯</span><span><b>${summary.memories}<small> / 24</small></b>岛屿记忆</span><span><b>${summary.families}<small> / ${new Set(Object.values(SPECIES).map(s=>s.family)).size}</small></b>同行家族</span><span><b>${summary.quests}<small> / 24</small></b>居民委托</span></div>
  <section class="journey-next"><div><small>接下来的一步</small><h3>${esc(next.title)}</h3><p>${esc(next.detail)}</p></div><button id="journey-next" class="primary">${next.kind==='expedition'?'查看当前目标':next.kind==='trial'?'查看试航邀请':next.kind==='travel'?'打开群岛航图':'回到旅途'} →</button></section>
  <div class="journey-archive-heading"><h3>把走过的路，重新读一遍</h3><p>已抵达的岛屿与已经做出的回应，会留在这里。</p></div>
  <div class="journey-chapter-tabs" aria-label="选择回顾的章节">${summary.chapters.map(c=>`<button data-journal-region="${c.id}" aria-pressed="${c.id===region}" ${!c.visited?'disabled':''}><b>${String(c.id+1).padStart(2,'0')}</b><span>${c.visited?CHAPTERS[c.id].island:'尚未抵达'}</span><small>${c.complete?'✧':c.visited?'·':'—'}</small></button>`).join('')}</div>

@@ -1,6 +1,10 @@
 import {SPECIES} from './data.js';
 
 export const ABILITIES={
+ frostotter:{name:'霜绒',icon:'❄',desc:'受到潮属性或霜属性攻击时，伤害降低 20%。'},
+ kitesquid:{name:'轻帆',icon:'↟',desc:'使用具有优先行动效果的攻击招式时，伤害提高 18%。'},
+ glassbeetle:{name:'折光',icon:'◇',desc:'受到辉属性或雷属性攻击时，伤害降低 20%。'},
+ clockmouse:{name:'续拍',icon:'◷',desc:'采取守势时，额外恢复 1 点能量，总共恢复 3 点。'},
  budfox:{name:'回芽',icon:'❧',desc:'每场战斗首次受到攻击后，若生命降至一半以下且仍能战斗，恢复最大生命的 12%。'},
  embercat:{name:'余烬',icon:'♨',desc:'使用焰属性技能攻击灼伤的对手时，伤害提高 20%。'},
  tidefin:{name:'潮衣',icon:'≈',desc:'每次入场时获得护盾，降低当前回合受到的伤害。'},
@@ -35,7 +39,7 @@ export function enterTrait(b,mon){
  if(id==='sparrow')trait.swift=true;
  if(id==='skydrake'&&!trait.awakened){trait.awakened=true;mon.focus=Math.max(mon.focus||0,1);announce(b,mon,'蓄好了下一击的风。');}
 }
-export function guardTrait(b,mon,maxHP){if(family(mon)==='mossdeer')heal(b,mon,maxHP,.08);}
+export function guardTrait(b,mon,maxHP){if(family(mon)==='mossdeer')heal(b,mon,maxHP,.08);if(family(mon)==='clockmouse'){const before=mon.energy;mon.energy=Math.min(5,mon.energy+1);if(mon.energy>before)announce(b,mon,'稳住节拍，额外回复 1 点能量。');}}
 export function damagedTrait(b,mon,maxHP){
  if(family(mon)==='budfox'&&mon.hp>0&&mon.hp<=maxHP*.5&&!state(mon).firstAid){state(mon).firstAid=true;heal(b,mon,maxHP,.12);}
 }
@@ -46,12 +50,13 @@ export function acceptStatus(b,mon,status){
 }
 export function outgoingTrait(mon,target,move,maxTargetHP){
  const id=family(mon);
+ if(id==='kitesquid'&&move.priority>0)return 1.18;
  if(id==='embercat'&&move.element==='ember'&&target.status==='burn')return 1.2;
  if(id==='duskmoth'&&target.status)return 1.2;
  if(id==='nightwolf'&&target.hp<=maxTargetHP/3)return 1.25;
  return 1;
 }
-export function incomingTrait(mon,weather,maxHP){let result=1;if(family(mon)==='pebble'&&mon.hp===maxHP)result*=.75;if(family(mon)==='frostowl'&&weather==='snow')result*=.85;return result;}
+export function incomingTrait(mon,weather,maxHP,move=null){const id=family(mon);let result=1;if(id==='pebble'&&mon.hp===maxHP)result*=.75;if(id==='frostowl'&&weather==='snow')result*=.85;if(id==='frostotter'&&['tide','frost'].includes(move?.element))result*=.8;if(id==='glassbeetle'&&['light','volt'].includes(move?.element))result*=.8;return result;}
 export const shieldFactor=mon=>mon.shield?(family(mon)==='stonegolem'?.4:.55):1;
 export const recoveryFactor=mon=>family(mon)==='glowbud'?1.2:1;
 export const basicRecovery=mon=>family(mon)==='voltkit'?2:1;

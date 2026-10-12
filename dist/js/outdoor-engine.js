@@ -1,3 +1,4 @@
+import {HABITATS} from './ecology.js';
 import {CHAPTERS} from './data.js';
 import {OUTDOOR_AREAS} from './outdoor-areas.js';
 import {expeditionObjects} from './expedition-engine.js';
@@ -38,5 +39,6 @@ export function adaptOutdoor(region,sector=0){
  }
  if(sector<2)place('person',{x:area.entry.x+7,y:area.entry.y-4},{id:`${region}-route-${6+sector}`,role:sector?'warden':'rival',action:'trainer',trainer:sector,label:sector?'潮灵游侠 · 远山':'巡岛学徒 · 寻'});
  for(let i=0;i<12;i++)if(i%3===sector){const item=i<8?'herb':'shard';place(item==='herb'?'flower':'crystal',{x:7+(i*13)%43,y:5+(i*7)%28},{id:`${region}-route-${11+i}`,action:'resource',item,label:item==='herb'?'月息草':'潮晶碎片'});}
+ for(const h of HABITATS.filter(h=>h.region===region&&h.sector===sector))place(h.kind,h.point,{id:'ecology-'+h.family,action:'ecology-trace',family:h.family,label:'潮灵踪迹 · '+h.title});
  return {region,place:'route',sector,outdoor:true,chapter,objects,layout:area.layout,width:56,height:38,entry:area.entry,floorName:area.name};
 }

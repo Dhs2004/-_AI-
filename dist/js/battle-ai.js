@@ -43,7 +43,7 @@ export function planEnemyAction(b,{damage,stats,moves,random}){
   if(!move.power)score*=supportFactor;
   choices.push({action:{type:'move',move:key},score:score+random(b)*3});
  }
- const guardGain=Math.min(2,5-actor.energy),deer=SPECIES[actor.species].family==='mossdeer';
+ const guardGain=Math.min(SPECIES[actor.species].family==='clockmouse'?3:2,5-actor.energy),deer=SPECIES[actor.species].family==='mossdeer';
  let guardScore=(actor.shield?incoming*.1:incoming*.4)*style.guard+guardGain*strongest*.23;
  if(deer)guardScore+=Math.min(missing,maxHP*.08);
  if(b.context.kind==='boss'&&b.context.region===0&&b.turn===0)guardScore+=incoming*.8;

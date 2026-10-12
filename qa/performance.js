@@ -1,3 +1,4 @@
+import {HABITATS} from '../dist/js/ecology.js';
 import {CHAPTERS,ELEMENTS,SPECIES} from '../dist/js/data.js';
 import {createGame,createMon,makeBattle} from '../dist/js/engine.js';
 import {drawWorld,makeMap,terrainCacheInfo} from '../dist/js/world.js';
@@ -6,16 +7,16 @@ import {drawTitleVista} from '../dist/js/landmarks.js';
 import {OUTDOOR_AREAS} from '../dist/js/outdoor-areas.js';
 import {FrameMetrics} from '../dist/js/performance.js';
 const $=s=>document.querySelector(s),canvas=$('#screen'),ctx=canvas.getContext('2d'),metrics=new FrameMetrics();
-const scenarios=[{name:'标题 · 月下群岛',kind:'title'},...CHAPTERS.flatMap((c,region)=>[{name:c.town,kind:'town',region},...OUTDOOR_AREAS[region].areas.map((area,sector)=>({name:area.name,kind:'route',region,sector})),{name:c.dungeon+' · 第三层',kind:'dungeon',region}]),...Object.entries(ELEMENTS).map(([element,e],region)=>({name:e.name+'属性 · 连续对战特效',kind:'battle',region:region%8,element}))];
+const scenarios=[{name:'标题 · 月下群岛',kind:'title'},...CHAPTERS.flatMap((c,region)=>[{name:c.town,kind:'town',region},...OUTDOOR_AREAS[region].areas.map((area,sector)=>({name:area.name,kind:'route',region,sector})),{name:c.dungeon+' · 第三层',kind:'dungeon',region}]),...Object.entries(ELEMENTS).map(([element,e],region)=>({name:e.name+'属性 · 连续对战特效',kind:'battle',region:region%8,element})),...HABITATS.flatMap(h=>[1,2,3].map(stage=>{const species=h.family+(stage>1?'_'+stage:'');return {name:SPECIES[species].name+' · 正反面对战',kind:'battle',region:h.region,element:SPECIES[species].element,coastal:true,species};}))];
 $('#scenario').innerHTML=scenarios.map((s,i)=>`<option value="${i}">${s.name}</option>`).join('');
 let scene,map,game,fight,view,started=0,suite=false,index=0,suitePlan=[],suiteStep=0,rows=[],lastOutput=0;
 function resize(){const r=canvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,+$('#quality').value);view={w:r.width,h:r.height,dpr};canvas.width=Math.round(r.width*dpr);canvas.height=Math.round(r.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);ctx.imageSmoothingEnabled=false;metrics.reset();started=0;}
-function load(i){index=i;scene=scenarios[i];$('#scenario').value=i;game=createGame('渲染测试');game.region=scene.region||0;game.routeSector=scene.sector||0;game.collected={};game.party=[createMon('embercat_3',40)];map=makeMap(game.region,scene.kind==='dungeon'?'dungeon':scene.kind==='route'?'route':'town',2,game.routeSector);game.x=map.entry?.x||19;game.y=map.entry?.y||16;
- const enemy=Object.values(SPECIES).find(s=>s.element===scene.element&&s.stage===3)||SPECIES.tidefin_3;fight=makeBattle(game,[createMon(enemy.id,40)],{kind:'trainer'});metrics.reset();started=0;
+function load(i){index=i;scene=scenarios[i];$('#scenario').value=i;game=createGame('渲染测试');game.region=scene.region||0;game.routeSector=scene.sector||0;game.collected={};game.party=[createMon(scene.species||'embercat_3',40)];map=makeMap(game.region,scene.kind==='dungeon'?'dungeon':scene.kind==='route'?'route':'town',2,game.routeSector);game.x=map.entry?.x||19;game.y=map.entry?.y||16;
+ const enemy=SPECIES[scene.species]||Object.values(SPECIES).find(s=>s.element===scene.element&&s.stage===3)||SPECIES.tidefin_3;fight=makeBattle(game,[createMon(enemy.id,40)],{kind:'trainer'});metrics.reset();started=0;
 }
 $('#scenario').onchange=()=>{suite=false;load(+$('#scenario').value);};$('#quality').onchange=resize;
-function startSuite(kind){rows=[];$('#results').innerHTML='';suitePlan=scenarios.flatMap((s,i)=>!kind||s.kind===kind?[i]:[]);suiteStep=0;suite=true;load(suitePlan[0]);}
-$('#suite').onclick=()=>startSuite();$('#battles').onclick=()=>startSuite('battle');$('#outdoors').onclick=()=>startSuite('route');$('#stop').onclick=()=>{suite=false;};
+function startSuite(kind){rows=[];$('#results').innerHTML='';suitePlan=scenarios.flatMap((s,i)=>!kind||(kind==='coastal'?s.coastal:s.kind===kind&&!s.coastal)?[i]:[]);suiteStep=0;suite=true;load(suitePlan[0]);}
+$('#suite').onclick=()=>startSuite();$('#battles').onclick=()=>startSuite('battle');$('#outdoors').onclick=()=>startSuite('route');$('#coastal').onclick=()=>startSuite('coastal');$('#stop').onclick=()=>{suite=false;};
 new ResizeObserver(resize).observe(canvas);document.addEventListener('visibilitychange',()=>{started=0;metrics.reset();});
 function frame(ms){if(document.hidden){requestAnimationFrame(frame);return;}if(!started)started=ms;const start=performance.now(),t=ms/1000;
  if(scene.kind==='title')drawTitleVista(ctx,view.w,view.h,t);

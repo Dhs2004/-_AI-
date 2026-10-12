@@ -1,3 +1,4 @@
+import {validateEcology} from './ecology.js';
 import {TRIAL_CIRCUIT_ID,trialAt,trialAfterScene,trialReward} from './trial-data.js';
 import {moveList,learnedMoves,validateLoadout} from './moves.js';
 import {validateBondStories} from './bond-engine.js';
@@ -24,7 +25,7 @@ export function createMon(species,level=5,seed=1){
  const mon={uid:`m${Date.now().toString(36)}${(++serial).toString(36)}${seed}`,species,level:clamp(level,1,65),xp:0,hp:0,energy:5,status:null,statusTurns:0,equip:null,bond:0};mon.hp=stats(mon).hp;return mon;
 }
 export function createGame(name='旅人',starter='budfox'){
- const mon=createMon(starter,5);return {version:VERSION,name:name.trim().slice(0,12)||'旅人',region:0,place:'town',x:18,y:19,facing:'down',party:[mon],reserve:[],bag:{potion:8,superpotion:0,revive:2,cure:3,orb:10,greatorb:0,herb:0,shard:0},gold:550,badges:[],flags:{intro:true},quest:{},collected:{},wins:{},trainerWins:{},seen:[starter],caught:[starter],steps:0,playtime:0,createdAt:Date.now(),lastSave:0,difficulty:'normal',sound:true,reduceMotion:false,battleSpeed:1,seed:(Date.now()>>>0),ending:false,trial:0,dungeonFloor:0,routeSector:0,runes:{},openGates:{},pendingScenes:[],suspendedBattle:null,bondStories:{},relics:{},expeditions:{},trackedExpedition:null};
+ const mon=createMon(starter,5);return {version:VERSION,name:name.trim().slice(0,12)||'旅人',region:0,place:'town',x:18,y:19,facing:'down',party:[mon],reserve:[],bag:{potion:8,superpotion:0,revive:2,cure:3,orb:10,greatorb:0,herb:0,shard:0},gold:550,badges:[],flags:{intro:true},quest:{},collected:{},wins:{},trainerWins:{},seen:[starter],caught:[starter],steps:0,playtime:0,createdAt:Date.now(),lastSave:0,difficulty:'normal',sound:true,reduceMotion:false,battleSpeed:1,seed:(Date.now()>>>0),ending:false,trial:0,dungeonFloor:0,routeSector:0,runes:{},openGates:{},pendingScenes:[],suspendedBattle:null,ecologyTraces:{},ecologyRewards:{},bondStories:{},relics:{},expeditions:{},trackedExpedition:null};
 }
 export function healParty(g){for(const m of g.party){m.hp=stats(m).hp;m.energy=5;m.status=null;m.statusTurns=0;}}
 export function xpNeed(m){return 35+m.level*22;}
@@ -62,7 +63,7 @@ function speed(m){return stats(m).spd*(m.status==='shock'?.55:m.status==='root'?
 function weatherBoost(element,weather){if(weather==='rain')return element==='tide'?1.25:element==='ember'?.8:1;if(weather==='sun')return element==='ember'?1.25:element==='tide'?.8:1;if(weather==='snow'&&element==='frost'||weather==='sand'&&element==='stone'||weather==='mist'&&element==='shade')return 1.2;return 1;}
 export function estimateDamage(a,d,move,weather='clear'){
  const m=MOVES[move];if(!m||!m.power)return 0;
- return Math.max(1,Math.floor(((a.level*.4+2)*m.power*stats(a).atk/stats(d).def/18+3)*effectiveness(m.element,SPECIES[d.species].element)*(m.element===SPECIES[a.species].element?1.2:1)*weatherBoost(m.element,weather)*(a.focus?1.45:1)*shieldFactor(d)*(a.status==='burn'?.85:1)*outgoingTrait(a,d,m,maxhp(d))*incomingTrait(d,weather,maxhp(d))));
+ return Math.max(1,Math.floor(((a.level*.4+2)*m.power*stats(a).atk/stats(d).def/18+3)*effectiveness(m.element,SPECIES[d.species].element)*(m.element===SPECIES[a.species].element?1.2:1)*weatherBoost(m.element,weather)*(a.focus?1.45:1)*shieldFactor(d)*(a.status==='burn'?.85:1)*outgoingTrait(a,d,m,maxhp(d))*incomingTrait(d,weather,maxhp(d),m)));
 }
 function prepareEnemyPlan(b){return planEnemyAction(b,{damage:estimateDamage,stats,moves:moveList,random});}
 function enemyAction(b,action){
@@ -254,6 +255,7 @@ export function validateSave(input){
  validateExpeditions(g);
  validateRelics(g);
  validateBondStories(g);
+ validateEcology(g);
  g.trial??=0;if(!Number.isSafeInteger(g.trial)||g.trial<0)throw new Error('存档中的星海试炼进度损坏。');
  if(g.pendingScenes!==undefined&&(!Array.isArray(g.pendingScenes)||g.pendingScenes.length>18||!g.pendingScenes.every(id=>typeof id==='string'&&(/^(intro[0-7]|after[0-7]|ending)$/.test(id)||trialAfterScene(g,id)||expeditionScene(g,id)))))throw new Error('存档中的剧情记录损坏。');
  g.pendingScenes??=[];g.battleSpeed=g.battleSpeed===2?2:1;

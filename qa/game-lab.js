@@ -1,3 +1,4 @@
+import {HABITATS} from '../dist/js/ecology.js';
 import {createGame,createMon,saveEnvelope,makeBattle,stats,estimateDamage,moveList,random} from '../dist/js/engine.js';
 import {planEnemyAction} from '../dist/js/battle-ai.js';
 import {outdoorSite} from '../dist/js/outdoor-engine.js';
@@ -6,7 +7,13 @@ import {makeMap,canWalk} from '../dist/js/world.js';
 const frame=document.querySelector('iframe'),select=document.querySelector('select');
 document.querySelector('#load').onclick=()=>{
  const type=select.value,g=createGame('测试旅人','embercat');g.sound=false;g.seed=4149;g.flags.entered0=true;g.party.push(createMon('tidefin',8),createMon('budfox',8));g.bag.superpotion=12;g.bag.greatorb=12;g.party[1].hp=0;
- if(type==='journey'){
+ if(type.startsWith('ecology')){
+  const h=HABITATS.find(h=>h.family===(type==='ecology-snow'?'frostotter':'kitesquid'));
+  g.region=h.region;g.place='route';g.routeSector=h.sector;g.badges=Array.from({length:h.region},(_,i)=>i);g.flags['entered'+h.region]=true;
+  g.party=[createMon('tidefin_2',30),createMon('clockmouse_2',30)];g.bag.greatorb=12;g.battleSpeed=2;
+  const map=makeMap(h.region,'route',0,h.sector),o=map.objects.find(o=>o.family===h.family);g.x=o.x;g.y=o.y+1;
+  if(type==='ecology-reward'){for(const h of HABITATS){g.ecologyTraces[h.family]=true;g.reserve.push(createMon(h.family+'_3',40));g.caught.push(h.family+'_3');}}
+ }else if(type==='journey'){
   g.region=1;g.place='route';g.routeSector=1;g.x=26;g.y=27;g.badges=[0];g.flags.entered1=true;g.playtime=5*3600+23*60;g.gold=1840;
   const e=getExpedition('exp0a');g.expeditions[e.id]={step:e.stages.length,choices:{}};for(const stage of e.stages)if(stage.kind==='choice')g.expeditions[e.id].choices[stage.id]=1;
   g.expeditions.exp1a={step:2,choices:{}};g.trackedExpedition='exp1a';
