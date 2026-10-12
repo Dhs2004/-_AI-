@@ -6,7 +6,11 @@ import {makeMap,canWalk} from '../dist/js/world.js';
 const frame=document.querySelector('iframe'),select=document.querySelector('select');
 document.querySelector('#load').onclick=()=>{
  const type=select.value,g=createGame('测试旅人','embercat');g.sound=false;g.seed=4149;g.flags.entered0=true;g.party.push(createMon('tidefin',8),createMon('budfox',8));g.bag.superpotion=12;g.bag.greatorb=12;g.party[1].hp=0;
- if(type==='trial-route'){g.region=7;g.flags.entered7=true;g.ending=true;g.badges=[0,1,2,3,4,5,6,7];g.trial=3;g.x=32;g.y=17;g.party=['voltkit_3','budfox_3','tidefin_3','cinder_3','sunserpent_3','nightwolf_3'].map(id=>createMon(id,65));g.party[0].hp=Math.floor(stats(g.party[0]).hp*.4);g.bag.superpotion=18;g.bag.cure=12;}else if(type==='bond-stories'){
+ if(type==='journey'){
+  g.region=1;g.place='route';g.routeSector=1;g.x=26;g.y=27;g.badges=[0];g.flags.entered1=true;g.playtime=5*3600+23*60;g.gold=1840;
+  const e=getExpedition('exp0a');g.expeditions[e.id]={step:e.stages.length,choices:{}};for(const stage of e.stages)if(stage.kind==='choice')g.expeditions[e.id].choices[stage.id]=1;
+  g.expeditions.exp1a={step:2,choices:{}};g.trackedExpedition='exp1a';
+ }else if(type==='trial-route'){g.region=7;g.flags.entered7=true;g.ending=true;g.badges=[0,1,2,3,4,5,6,7];g.trial=3;g.x=32;g.y=17;g.party=['voltkit_3','budfox_3','tidefin_3','cinder_3','sunserpent_3','nightwolf_3'].map(id=>createMon(id,65));g.party[0].hp=Math.floor(stats(g.party[0]).hp*.4);g.bag.superpotion=18;g.bag.cure=12;}else if(type==='bond-stories'){
   g.region=4;g.flags.entered4=true;g.badges=[0,1,2,3];g.x=15;g.y=23;g.party=[createMon('budfox_2',30),createMon('embercat_2',30),createMon('voltkit_2',30)];g.party.forEach((m,i)=>m.bond=[48,23,7][i]);g.party[0].hp=Math.floor(stats(g.party[0]).hp*.5);g.reserve=[createMon('tidefin_3',40)];g.reserve[0].bond=60;g.bag.heartCharm=1;g.bag.harborCharm=1;g.bag.hearthCharm=1;g.bag.horizonCharm=1;
  }else if(type==='move-book'){
   g.party=[createMon('voltkit_3',35),createMon('budfox',8)];g.place='route';const o=makeMap(0,'route').objects.find(o=>o.action==='trainer');g.x=o.x;g.y=o.y+1;
