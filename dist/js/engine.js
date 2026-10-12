@@ -19,7 +19,7 @@ export function createMon(species,level=5,seed=1){
  const mon={uid:`m${Date.now().toString(36)}${(++serial).toString(36)}${seed}`,species,level:clamp(level,1,65),xp:0,hp:0,energy:5,status:null,statusTurns:0,equip:null,bond:0};mon.hp=stats(mon).hp;return mon;
 }
 export function createGame(name='旅人',starter='budfox'){
- const mon=createMon(starter,5);return {version:VERSION,name:name.trim().slice(0,12)||'旅人',region:0,place:'town',x:18,y:19,facing:'down',party:[mon],reserve:[],bag:{potion:8,superpotion:0,revive:2,cure:3,orb:10,greatorb:0,herb:0,shard:0},gold:550,badges:[],flags:{intro:true},quest:{},collected:{},wins:{},seen:[starter],caught:[starter],steps:0,playtime:0,createdAt:Date.now(),lastSave:0,difficulty:'normal',sound:true,reduceMotion:false,seed:(Date.now()>>>0),ending:false,trial:0,dungeonFloor:0,routeSector:0,runes:{},openGates:{},pendingScenes:[],suspendedBattle:null,expeditions:{},trackedExpedition:null};
+ const mon=createMon(starter,5);return {version:VERSION,name:name.trim().slice(0,12)||'旅人',region:0,place:'town',x:18,y:19,facing:'down',party:[mon],reserve:[],bag:{potion:8,superpotion:0,revive:2,cure:3,orb:10,greatorb:0,herb:0,shard:0},gold:550,badges:[],flags:{intro:true},quest:{},collected:{},wins:{},trainerWins:{},seen:[starter],caught:[starter],steps:0,playtime:0,createdAt:Date.now(),lastSave:0,difficulty:'normal',sound:true,reduceMotion:false,seed:(Date.now()>>>0),ending:false,trial:0,dungeonFloor:0,routeSector:0,runes:{},openGates:{},pendingScenes:[],suspendedBattle:null,expeditions:{},trackedExpedition:null};
 }
 export function healParty(g){for(const m of g.party){m.hp=stats(m).hp;m.energy=5;m.status=null;m.statusTurns=0;}}
 export function xpNeed(m){return 35+m.level*22;}
@@ -145,6 +145,7 @@ export function settleBattle(game,b){
   const participants=new Set(b.participants||[b.party[b.activeP].uid]);g.gold+=b.context.kind==='boss'?350+g.region*220:35+b.enemies[0].level*7;
   for(const m of g.party){events.push(...gainXP(m,battleExperience(m,b.enemies,participants.has(m.uid))));m.bond=Math.min(100,m.bond+1);}
   g.wins[g.region]=(g.wins[g.region]||0)+1;
+  if(b.outcome==='win'&&b.context.trainer){g.trainerWins??={};g.trainerWins[b.context.trainer]=Math.min(9999,(g.trainerWins[b.context.trainer]||0)+1);}
   if(b.caught){const caught=clone(b.caught);delete caught.shield;delete caught.focus;delete caught.battleTrait;caught.energy=5;if(g.party.length<6)g.party.push(caught);else g.reserve.push(caught);if(!g.caught.includes(caught.species))g.caught.push(caught.species);events.push(`${SPECIES[caught.species].name} 已加入${g.party.length>=6&&g.reserve.some(m=>m.uid===caught.uid)?'潮灵驿站':'队伍'}。`);}
   for(const m of g.party)if(!g.caught.includes(m.species))g.caught.push(m.species);
   if(b.context.kind==='boss'&&!g.badges.includes(g.region)){g.badges.push(g.region);g.flags['won'+g.region]=true;events.push(`获得${CHAPTERS[g.region].reward}！`);g.pendingScenes??=[];g.pendingScenes.push('after'+g.region);if(g.region===7){g.ending=true;g.pendingScenes.push('ending');}}
@@ -222,6 +223,8 @@ export function validateSave(input){
  g.routeSector??=0;if(!Number.isInteger(g.routeSector)||g.routeSector<0||g.routeSector>2)throw new Error('存档户外分区损坏。');
  g.dungeonFloor??=0;g.runes??={};g.openGates??={};if(!Number.isInteger(g.dungeonFloor)||g.dungeonFloor<0||g.dungeonFloor>3)throw new Error('存档地牢层数损坏。');g.reserve??=[];g.flags??={};g.quest??={};g.collected??={};g.wins??={};g.seen??=[];g.caught??=[];g.playtime??=0;g.steps??=0;g.seed??=1;
  for(const field of ['flags','quest','collected','wins','runes','openGates'])if(!g[field]||typeof g[field]!=='object'||Array.isArray(g[field]))throw new Error('存档进度字段损坏。');
+ if(g.trainerWins===undefined)g.trainerWins={};
+ if(!g.trainerWins||typeof g.trainerWins!=='object'||Array.isArray(g.trainerWins)||!Object.entries(g.trainerWins).every(([id,n])=>id.length>0&&id.length<=120&&Number.isInteger(n)&&n>=1&&n<=9999))throw new Error('存档切磋记录损坏。');
  for(const field of ['seen','caught'])if(!Array.isArray(g[field])||!g[field].every(id=>typeof id==='string'&&SPECIES[id]))throw new Error('存档图鉴数据损坏。');
  if(!Object.values(g.runes).every(n=>Number.isInteger(n)&&n>=0&&n<=2)||!Object.values(g.openGates).every(v=>typeof v==='boolean'))throw new Error('存档机关状态损坏。');
  if(g.stories!==undefined){if(!g.stories||typeof g.stories!=='object'||Array.isArray(g.stories))throw new Error('存档故事记录损坏。');for(const [id,index] of Object.entries(g.stories)){const story=SIDE_STORIES.find(s=>s.id===id);if(!story||!Number.isInteger(index)||!story.choices[index])throw new Error('存档故事选择损坏。');}}

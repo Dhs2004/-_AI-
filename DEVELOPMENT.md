@@ -167,3 +167,23 @@ User clarified: target is **16–24 actual gameplay hours across two days** (not
 - Continue the active24h development goal through2026-10-13 02:46:58UTC. Next: complete campaign progression/attrition study, improve encounter pacing and distinct puzzle mechanics, continue content and visual polish. Actual16-24-hour gameplay remains unverified.
 
 0.4 final validation: all67 tests, syntax checks and diff checks passed after final UI/version edits. README now includes both the earlier outdoor high-FPS samples and the current low-battery29-30FPS battle samples. No source checks remain before packaging.
+
+## 0.4 private publication (2026-10-12 08:01 UTC)
+
+- Same owner-private URL: https://starfall-chronicle.seedagi.chatgpt.site.
+- Source commit `a32cd72c1e00582561a0e2cd1718a80b8fb9a5ee`; immutable archive `/private/tmp/starfall-checkpoint-04.tar.gz`.
+- Saved version `appgprj_6acc4a59bf048191be795d4359b47d27~appgver_9234628813748191b766dc1fe6c5b603`.
+- Deployment `appgdep_6acc93cad9ac8191b1e92fc266dfe293` returned terminal `succeeded`; do not poll it again. Function stores updated to complete helper result, terminal deployment and owner-only site state.
+- Post-publication 390x844 help screenshot readable; viewport RESET. labTab56383933 direct localhost4174/dist/index.html, help open over guard fixture. Keeping modal open pauses background drawing. Main4173 previews/saves and hosted login tab preserved.
+- Next small clarity finding: light and shade have the same opposing element in both strong/weak data. Engine prioritizes strong, but help lists both, causing an ambiguous hint. Remove the ineffective duplicate weakness and omit empty resistance descriptions without altering actual combat multipliers.
+
+## 0.5 supply interface and trainer progress update (2026-10-12 ~08:28 UTC)
+
+- Added shared `economy.js` purchase/craft quotes and atomic operations. UI and future campaign studies can use the same price/material rules. Batch counts are validated, missing funds/materials cannot mutate state, and purchases/crafts cannot exceed the9999-item save capacity.
+- Redesigned shop and workshop with merchant portrait/intro, item cards, category filters, 1/5/10 quantity groups, total prices, explicit owned/required ingredients and affordable/insufficient states. Mobile uses a single column. Menus continue to pause background rendering.
+- Shop now stocks herb and shard at their existing declared prices. This matches expedition delivery guidance and permits replenishment when finite field pickups were already consumed by crafting.
+- Actual CUA: bought5herbs for100 (gold550->450,herb12->17), bought5potions for325 (gold450->125,potion8->13), crafted5groups yielding10potions (herb17->7,potion13->23). Reload/direct page restored gold125,herb7,shard6,potion23. Missing-material actions disabled; mobile shop showed correct50gold deficit for5shards. Desktop and390x844 shop/craft screenshots inspected; shortened orphaning mobile header and rechecked. Viewport RESET.
+- Added `trainerWins` to new games and validated old-save defaults. Actual victories record counts; completed trainers remain present for rematches and show a green check, updated interaction label and return dialogue. Actual CUA trainer fixture victory:gold550->634,player333->325HP,completion marker present; refresh preserved label/634gold. Existing pre0.5 saves have no per-trainer history and cannot infer old marks, but all previous quest/win/level progress remains.
+- Removed duplicate shade/light weaknesses which the engine already ignored due to advantage precedence. Mutual1.6x damage is unchanged; help no longer gives conflicting attack guidance.
+- All73 tests, syntax and diff checks passed after functional/UI edits. New checks exercise batches, capacity, replenishment, true trainer victories/rematch/save and affinity consistency. Final version/doc edits only afterward. No claim of a complete campaign study or16-24-hour playtime yet.
+- Power at08:08UTC was9%on battery. Sent an asynchronous request to connect power; no answer yet. Continue authorized work while tools remain available; do not treat silence as confirmation or change system power settings. Private0.4 release is already safely published; package0.5 next.

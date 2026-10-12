@@ -1,4 +1,4 @@
-export const VERSION = '0.4.0';
+export const VERSION = '0.5.0';
 export const ELEMENTS = {
   moss:{name:'森',color:'#8fd59a',weak:['ember','frost'],strong:['tide','stone']},
   ember:{name:'焰',color:'#ffa076',weak:['tide','stone'],strong:['moss','frost']},
@@ -6,8 +6,8 @@ export const ELEMENTS = {
   volt:{name:'雷',color:'#f4d97f',weak:['stone'],strong:['tide','wind']},
   stone:{name:'岩',color:'#c8ad8c',weak:['tide','moss'],strong:['volt','ember']},
   frost:{name:'霜',color:'#b4e8f4',weak:['ember','stone'],strong:['moss','wind']},
-  shade:{name:'影',color:'#beabea',weak:['light'],strong:['light']},
-  light:{name:'辉',color:'#f5e9b3',weak:['shade'],strong:['shade']},
+  shade:{name:'影',color:'#beabea',weak:[],strong:['light']},
+  light:{name:'辉',color:'#f5e9b3',weak:[],strong:['shade']},
   wind:{name:'风',color:'#a1d9bc',weak:['volt','frost'],strong:['moss']}
 };
 

@@ -6,7 +6,11 @@ import {makeMap,canWalk} from '../dist/js/world.js';
 const frame=document.querySelector('iframe'),select=document.querySelector('select');
 document.querySelector('#load').onclick=()=>{
  const type=select.value,g=createGame('测试旅人','embercat');g.sound=false;g.seed=4149;g.flags.entered0=true;g.party.push(createMon('tidefin',8),createMon('budfox',8));g.bag.superpotion=12;g.bag.greatorb=12;g.party[1].hp=0;
- if(type.startsWith('intent-')){
+ if(type==='supply'){
+  g.bag.herb=12;g.bag.shard=6;g.x=28;g.y=16;
+ }else if(type==='trainer-progress'){
+  g.place='route';g.party=[createMon('embercat_3',40)];const o=makeMap(0,'route').objects.find(o=>o.action==='trainer');g.x=o.x;g.y=o.y+1;
+ }else if(type.startsWith('intent-')){
   g.region=6;g.flags.entered6=true;g.party=[createMon(type==='intent-switch'?'tidefin_3':'embercat_3',35)];
   g.suspendedBattle=makeBattle(g,(type==='intent-switch'?['embercat_3','voltkit_3']:['budfox_3']).map(id=>createMon(id,35)),{kind:'boss',name:type==='intent-switch'?'对手轮换练习':'对手守势练习'});
   if(type==='intent-guard'){g.suspendedBattle.enemies[0].energy=0;g.suspendedBattle.enemyPlan=planEnemyAction(g.suspendedBattle,{damage:estimateDamage,stats,moves:moveList,random});}
