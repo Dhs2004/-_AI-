@@ -4,6 +4,7 @@ export const SHOP_GROUPS={
  medicine:{name:'药品',icon:'✚',items:['potion','superpotion','revive','cure']},
  pact:{name:'缔约',icon:'◈',items:['orb','greatorb']},
  charm:{name:'护符',icon:'♢',items:['emberCharm','shellCharm','featherCharm','heartCharm']},
+ food:{name:'食材',icon:'▱',items:['coastfruit','oatflour','warmspice','seasalt']},
  material:{name:'素材',icon:'❧',items:['herb','shard']}
 };
 export const SHOP_STOCK=Object.values(SHOP_GROUPS).flatMap(group=>group.items);

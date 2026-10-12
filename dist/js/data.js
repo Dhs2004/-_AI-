@@ -1,5 +1,6 @@
+import {INGREDIENTS,MEAL_ITEMS} from './cooking-data.js';
 import {ADVANCED_MOVES} from './technique-data.js';
-export const VERSION = '0.14.0';
+export const VERSION = '0.15.0';
 export const ELEMENTS = {
   moss:{name:'森',color:'#8fd59a',weak:['ember','frost'],strong:['tide','stone']},
   ember:{name:'焰',color:'#ffa076',weak:['tide','stone'],strong:['moss','frost']},
@@ -86,6 +87,7 @@ for(const [family,a,b,c,element,shape,base,lore] of lines){
 }
 export const STARTERS=['budfox','embercat','tidefin'];
 export const ITEMS={
+  ...INGREDIENTS,...MEAL_ITEMS,
   potion:{name:'晨露药',icon:'✚',price:65,desc:'恢复一只潮灵 55 点生命。',heal:55},
   superpotion:{name:'月露药',icon:'✚',price:180,desc:'恢复一只潮灵 160 点生命。',heal:160},
   revive:{name:'回声种',icon:'✦',price:360,desc:'唤醒倒下的潮灵并恢复一半生命。',revive:true},

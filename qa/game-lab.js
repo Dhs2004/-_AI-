@@ -1,3 +1,4 @@
+import {MEALS} from '../dist/js/cooking-data.js';
 import {HABITATS} from '../dist/js/ecology.js';
 import {createGame,createMon,saveEnvelope,makeBattle,stats,estimateDamage,moveList,random} from '../dist/js/engine.js';
 import {planEnemyAction} from '../dist/js/battle-ai.js';
@@ -7,7 +8,14 @@ import {makeMap,canWalk} from '../dist/js/world.js';
 const frame=document.querySelector('iframe'),select=document.querySelector('select');
 document.querySelector('#load').onclick=()=>{
  const type=select.value,g=createGame('测试旅人','embercat');g.sound=false;g.seed=4149;g.flags.entered0=true;g.party.push(createMon('tidefin',8),createMon('budfox',8));g.bag.superpotion=12;g.bag.greatorb=12;g.party[1].hp=0;
- if(type.startsWith('technique-')){
+ if(type.startsWith('cooking')){
+  g.party=[createMon('pebble_3',40),createMon('dewslime_3',40)];g.bag.coastfruit=12;g.bag.oatflour=10;g.bag.warmspice=8;g.bag.seasalt=8;g.bag.herb=12;g.gold=3200;g.x=15;g.y=23;
+  if(type==='cooking-all'){g.region=7;g.badges=[0,1,2,3,4,5,6];g.flags.entered7=true;for(const r of MEALS){g.cookingLessons[r.id]=r.region%2;g.bag[r.id]=3;}}
+  if(type==='cooking-battle'||type==='cooking-ward'){
+   const id=type==='cooking-battle'?'snowbroth':'mossbrew';g.cookingLessons[id]=0;g.bag[id]=3;g.packedMeal=id;g.party[0].hp=90;g.battleSpeed=2;
+   const b=makeBattle(g,[createMon('duskmoth_3',40)],{kind:'trainer',name:'露营料理 · '+(id==='snowbroth'?'暖石汤':'清露茶')});b.enemies[0].loadout=['venom','shadow','bubble','nightmare'];b.enemyPlan={actor:b.enemies[0].uid,action:id==='snowbroth'?{type:'guard'}:{type:'move',move:'venom'}};g.suspendedBattle=b;
+  }
+ }else if(type.startsWith('technique-')){
   g.party=[createMon('budfox',12)];
   if(type!=='technique-memory'){
    const setups={

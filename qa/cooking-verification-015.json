@@ -1,0 +1,18 @@
+{
+  "version": "0.15.0",
+  "automatedTests": {"passed": 136, "failed": 0, "newCookingTests": 10},
+  "syntaxChecks": "passed",
+  "browserOrigin": "http://localhost:4174",
+  "browserChecks": {
+    "lesson": "First reply saved; sample count 1; reread no second reward",
+    "craftThree": {"fruitBefore":12,"fruitAfter":6,"flourBefore":10,"flourAfter":7,"mealBefore":1,"mealAfter":4},
+    "pack": "Selected fruit meal; count remains 4",
+    "purchase": {"goldBefore":3200,"goldAfter":3175,"fruitBefore":6,"fruitAfter":7},
+    "regen": {"hpBefore":90,"hpAfter":118,"turnsAfter":2,"reloadHP":118,"reloadTurns":2},
+    "ward": {"hpBefore":90,"hpAfter":64,"statusApplied":false,"unusedWardAlly":"镜潮之心"},
+    "phoneViewport": [390,844],
+    "phonePanelClientScrollWidths": [357,357],
+    "allEightPhoneCardsClientScrollWidths": [319,319]
+  },
+  "limitations": ["QA fixtures are setup data, not a human campaign playthrough", "No new sustained performance benchmark", "16–24 hours of actual player duration remains unverified"]
+}
