@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>星坠纪行 · 原创像素素材图鉴</title>
+<style>
+  *{box-sizing:border-box}body{margin:0;padding:36px;background:#112b36;color:#ecdfbb;font:14px ui-monospace,SFMono-Regular,monospace}h1{font-size:30px;font-weight:600;letter-spacing:3px;margin:0 0 8px}h1 small{font-size:12px;color:#89b2af;letter-spacing:1px;font-weight:400}p{color:#a8c1b7;margin:0 0 24px}h2{font-size:15px;letter-spacing:3px;margin:30px 0 16px;color:#e8c998}#monsters{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:12px}.card{position:relative;display:flex;align-items:center;flex-direction:column;background:#1b3841;border:1px solid #36505a;border-radius:12px;padding:12px 6px 14px;overflow:hidden}.card:before{content:'';position:absolute;left:20px;right:20px;top:32px;height:95px;border-radius:50%;background:radial-gradient(ellipse,#5d868540,#263a4700)}.card span{font-size:12px;color:#8bacaa;margin-top:7px}.card b{font-size:13px;letter-spacing:1px}.row{display:flex;gap:12px;flex-wrap:wrap}.row .card{min-width:112px}canvas{position:relative;image-rendering:pixelated;max-width:100%;height:auto}.badge{position:absolute;top:10px;left:10px;color:#bfd3bb;font-size:10px;letter-spacing:2px}.note{max-width:1000px;font-size:12px;line-height:1.7;color:#a8c1b7;border-top:1px solid #34505a;padding-top:18px;margin-top:28px}@media(max-width:900px){#monsters{grid-template-columns:repeat(4,minmax(0,1fr))}}
+</style>
+<h1>星坠纪行 <small>STARFALL CHRONICLE / ORIGINAL PIXEL ATLAS</small></h1>
+<p>孤岛、星海，与成为同伴的陌生生命。16 种原创轮廓 · 9 种属性配色 · 3 个成长阶段</p>
+<div id="monsters"></div>
+<h2>岛上的人们 · 四向地图角色</h2>
+<div id="people" class="row"></div>
+<h2>旅人的伙伴 · 战斗背面纹理</h2>
+<div id="backs" class="row"></div>
+<h2>微光港与失落遗迹 · 地图建筑与道具</h2>
+<div id="props" class="row"></div>
+<h2>地面与海水 · 无缝地图纹理</h2>
+<div id="tiles" class="row"></div>
+<p class="note">所有素材均由 art.js 的 Canvas 像素几何实时生成，无外部图片。坐标采用左上角锚点，原生网格为 64 × 64 像素；在不同尺寸下关闭插值以保留清晰边缘。此页用于制作过程中的视觉检查。</p>
+<script type="module">
+import {drawMonster,drawPerson,drawProp,drawTile} from '../dist/js/art.js';
+const shapes=['fox','cat','turtle','bird','deer','slime','dragon','moth','whale','golem','rabbit','serpent','crab','wolf','owl','flower'];
+const names=['烬灯狐','月绒灵猫','花园岩龟','风翎巡鸟','苔枝灵鹿','小潮星冻','破晓翼龙','琉璃星蛾','云海浮鲸','沉钟石灵','折耳信使','涟光长蛇','琥珀岸蟹','暮鬃霜狼','夜灯贤鸮','星瓣花灵'];
+const elements=['ember','shade','moss','wind','moss','tide','light','shade','tide','stone','volt','frost','ember','frost','light','moss'];
+function card(id,title,width=160,sub=''){const wrap=document.createElement('div');wrap.className='card';const c=document.createElement('canvas');c.width=width;c.height=width;wrap.append(c);const text=document.createElement('b');text.textContent=title;wrap.append(text);if(sub){const s=document.createElement('span');s.textContent=sub;wrap.append(s)}document.getElementById(id).append(wrap);return c.getContext('2d')}
+shapes.forEach((shape,i)=>{const c=card('monsters',names[i],160,`${shape} · ${elements[i]}`);drawMonster(c,{id:'gallery'+i,shape,element:elements[i],stage:i%3===0?3:2},0,0,160,{time:2});});
+['player','scholar','rival','healer','merchant','warden','sailor','villager'].forEach((role,i)=>{const c=card('people',role,100);drawPerson(c,0,0,100,{role,time:2,facing:i>3?'right':'down',walking:true});});
+['fox','cat','bird','dragon','rabbit','owl','golem','flower'].forEach((shape,i)=>{const c=card('backs',shape,124);drawMonster(c,{id:'back'+i,shape,element:elements[i],stage:3},0,0,124,{time:2,back:true});});
+['tree','pine','house','clinic','shop','ruin','crystal','flower','grass','rock','chest','lantern','boat','bridge','portal','sign','well'].forEach((kind,i)=>{const c=card('props',kind,108);drawProp(c,kind,0,0,108,{time:2,variant:i%3,night:true});});
+['grass','path','water','sand','stone','flowers','wood'].forEach(kind=>{const c=card('tiles',kind,84);drawTile(c,kind,0,0,84,{time:2,variant:1});});
+window.__ART_READY__=true;
+</script>
+</html>
