@@ -1,4 +1,5 @@
 import {moveList,learnedMoves,validateLoadout} from './moves.js';
+import {validateBondStories} from './bond-engine.js';
 export {moveList,learnedMoves} from './moves.js';
 import {planEnemyAction} from './battle-ai.js';
 import {validateRelics} from './relic-engine.js';
@@ -13,7 +14,8 @@ export function random(rng){rng.seed=(Math.imul(rng.seed,1664525)+1013904223)>>>
 export function stats(mon){
  const s=SPECIES[mon.species],l=mon.level,b=s.base;
  const out={hp:Math.floor(b[0]*1.4+l*5+16),atk:Math.floor(b[1]*.65+l*2.4),def:Math.floor(b[2]*.65+l*2.1),spd:Math.floor(b[3]*.7+l*1.8)};
- const e=ITEMS[mon.equip]?.equip;if(e)out[e]=Math.floor(out[e]*(e==='atk'?1.12:1.15));return out;
+ const item=ITEMS[mon.equip],e=item?.equip;if(typeof e==='string')out[e]=Math.floor(out[e]*(e==='atk'?1.12:1.15));
+ for(const [key,factor] of Object.entries(item?.modifiers||{}))out[key]=Math.max(1,Math.floor(out[key]*factor));return out;
 }
 let serial=0;
 export function createMon(species,level=5,seed=1){
@@ -21,7 +23,7 @@ export function createMon(species,level=5,seed=1){
  const mon={uid:`m${Date.now().toString(36)}${(++serial).toString(36)}${seed}`,species,level:clamp(level,1,65),xp:0,hp:0,energy:5,status:null,statusTurns:0,equip:null,bond:0};mon.hp=stats(mon).hp;return mon;
 }
 export function createGame(name='旅人',starter='budfox'){
- const mon=createMon(starter,5);return {version:VERSION,name:name.trim().slice(0,12)||'旅人',region:0,place:'town',x:18,y:19,facing:'down',party:[mon],reserve:[],bag:{potion:8,superpotion:0,revive:2,cure:3,orb:10,greatorb:0,herb:0,shard:0},gold:550,badges:[],flags:{intro:true},quest:{},collected:{},wins:{},trainerWins:{},seen:[starter],caught:[starter],steps:0,playtime:0,createdAt:Date.now(),lastSave:0,difficulty:'normal',sound:true,reduceMotion:false,battleSpeed:1,seed:(Date.now()>>>0),ending:false,trial:0,dungeonFloor:0,routeSector:0,runes:{},openGates:{},pendingScenes:[],suspendedBattle:null,relics:{},expeditions:{},trackedExpedition:null};
+ const mon=createMon(starter,5);return {version:VERSION,name:name.trim().slice(0,12)||'旅人',region:0,place:'town',x:18,y:19,facing:'down',party:[mon],reserve:[],bag:{potion:8,superpotion:0,revive:2,cure:3,orb:10,greatorb:0,herb:0,shard:0},gold:550,badges:[],flags:{intro:true},quest:{},collected:{},wins:{},trainerWins:{},seen:[starter],caught:[starter],steps:0,playtime:0,createdAt:Date.now(),lastSave:0,difficulty:'normal',sound:true,reduceMotion:false,battleSpeed:1,seed:(Date.now()>>>0),ending:false,trial:0,dungeonFloor:0,routeSector:0,runes:{},openGates:{},pendingScenes:[],suspendedBattle:null,bondStories:{},relics:{},expeditions:{},trackedExpedition:null};
 }
 export function healParty(g){for(const m of g.party){m.hp=stats(m).hp;m.energy=5;m.status=null;m.statusTurns=0;}}
 export function xpNeed(m){return 35+m.level*22;}
@@ -183,6 +185,8 @@ function validateBattleMon(mon){
  for(const field of ['hp','xp','energy'])if(!Number.isFinite(mon[field]))throw new Error('存档中的对战数值损坏。');
  if(mon.hp<0||mon.hp>stats(mon).hp||mon.xp<0||!Number.isInteger(mon.energy)||mon.energy<0||mon.energy>5)throw new Error('存档中的对战数值超出范围。');
  if(mon.status!==null&&mon.status!==undefined&&!STATUS[mon.status])throw new Error('存档中的异常状态不存在。');
+ if(mon.equip!==null&&mon.equip!==undefined&&!ITEMS[mon.equip]?.equip)throw new Error('存档中的对战护符不存在。');
+ mon.bond??=0;if(!Number.isInteger(mon.bond)||mon.bond<0||mon.bond>100)throw new Error('存档中的对战默契损坏。');
  for(const field of ['shield','focus','statusTurns'])if(mon[field]!==undefined&&(!Number.isFinite(mon[field])||mon[field]<0||mon[field]>20))throw new Error('存档中的临时战斗状态损坏。');
  validateTraitState(mon.battleTrait);validateLoadout(mon);return mon;
 }
@@ -221,7 +225,7 @@ export function validateSave(input){
  const g=clone(input);if(!Number.isInteger(g.region)||g.region<0||g.region>7)throw new Error('存档地图不存在。');
  if(!['town','route','dungeon'].includes(g.place))throw new Error('存档地点不存在。');
  if(g.reserve!==undefined&&!Array.isArray(g.reserve))throw new Error('存档驿站数据损坏。');
- for(const m of [...g.party,...(g.reserve||[])]){if(!m||!SPECIES[m.species]||!Number.isInteger(m.level)||m.level<1||m.level>65||!Number.isFinite(m.hp)||!Number.isFinite(m.xp))throw new Error('存档潮灵数据损坏。');m.hp=clamp(m.hp,0,stats(m).hp);m.energy=5;validateLoadout(m);}
+ for(const m of [...g.party,...(g.reserve||[])]){if(!m||!SPECIES[m.species]||!Number.isInteger(m.level)||m.level<1||m.level>65||!Number.isFinite(m.hp)||!Number.isFinite(m.xp))throw new Error('存档潮灵数据损坏。');m.hp=clamp(m.hp,0,stats(m).hp);m.energy=5;m.bond??=0;if(!Number.isInteger(m.bond)||m.bond<0||m.bond>100)throw new Error('存档中的伙伴默契损坏。');if(m.equip!==null&&m.equip!==undefined&&!ITEMS[m.equip]?.equip)throw new Error('存档中的护符不存在。');validateLoadout(m);}
  if(!Number.isFinite(g.gold)||g.gold<0||!g.badges.every(n=>Number.isInteger(n)&&n>=0&&n<=7))throw new Error('存档进度损坏。');
  g.name=String(g.name||'旅人').slice(0,12);g.x=Math.round(clamp(Number.isFinite(g.x)?g.x:18,1,g.place==='dungeon'?46:g.place==='route'?54:37));g.y=Math.round(clamp(Number.isFinite(g.y)?g.y:19,1,g.place==='dungeon'?30:g.place==='route'?36:25));
  for(const id of Object.keys(g.bag)){if(!ITEMS[id])delete g.bag[id];else g.bag[id]=clamp(Math.floor(Number(g.bag[id])||0),0,9999);}
@@ -235,6 +239,7 @@ export function validateSave(input){
  if(g.stories!==undefined){if(!g.stories||typeof g.stories!=='object'||Array.isArray(g.stories))throw new Error('存档故事记录损坏。');for(const [id,index] of Object.entries(g.stories)){const story=SIDE_STORIES.find(s=>s.id===id);if(!story||!Number.isInteger(index)||!story.choices[index])throw new Error('存档故事选择损坏。');}}
  validateExpeditions(g);
  validateRelics(g);
+ validateBondStories(g);
  if(g.pendingScenes!==undefined&&(!Array.isArray(g.pendingScenes)||g.pendingScenes.length>18||!g.pendingScenes.every(id=>typeof id==='string'&&(/^(intro[0-7]|after[0-7]|ending)$/.test(id)||expeditionScene(g,id)))))throw new Error('存档中的剧情记录损坏。');
  g.pendingScenes??=[];g.battleSpeed=g.battleSpeed===2?2:1;
  if(g.suspendedBattle)g.suspendedBattle=validateSuspendedBattle(g.suspendedBattle,g);else g.suspendedBattle=null;

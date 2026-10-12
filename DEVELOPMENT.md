@@ -246,3 +246,22 @@ User clarified: target is **16–24 actual gameplay hours across two days** (not
 - Actual Chrome nine-effect suite,2400x1200/DPR2: moss119/0.54ms,ember121/0.33ms,tide119/0.38ms,volt120/0.47ms,stone119/0.37ms,frost118/0.60ms,shade120/0.45ms,light120/0.33ms,wind120/0.55ms(FPS/mean draw). P958.8-9.3ms. These are short renderer samples, not sustained, whole-UI or phone-hardware guarantees. Actual isolated gameplay checks also displayed around120FPS; no long-duration claim.
 - Current labTab56383933 is qa/performance.html, nine-scene suite finished. Current4174 save is the traits battle after3 turns, active tidefin200/243HP with burn,2x. Hosted login and both4173 previews preserved.
 - Next: continue content depth and actual campaign/pacing QA during the active24h window through2026-10-13 02:46:58UTC. Human full campaign and16-24h gameplay remain unverified. Do not mark the goal complete.
+
+## 0.8 private publication (2026-10-12 10:08 UTC)
+
+- Same owner-private URL: https://starfall-chronicle.seedagi.chatgpt.site.
+- Source commit `034f7ed9a90056d83952c715c5db06ce4eddcc59`; immutable archive `/private/tmp/starfall-checkpoint-08.tar.gz`.
+- Saved version `appgprj_6acc4a59bf048191be795d4359b47d27~appgver_06604742c2c88191a13ae7eae2874b24`.
+- Deployment `appgdep_6accb1a18de081919d3d962c8a959f54` returned terminal `succeeded`. Do not poll it again. Function stores retain full helper result and terminal deployment.
+- Continue the existing goal. Do not create another goal or claim the 24-hour work/gameplay-duration target is complete.
+
+
+## 0.9 companion chronicles and keepsakes (2026-10-12 ~10:36 UTC, publication next)
+
+- Added 16 original family companion storylines, three chapters each and two authored responses per chapter. Third openings respond to the second choice; all choices and memories persist. Unlocks use highest family bond across party/reserve/evolved forms: 8/24/48 bond and 0/2/4 badges. Completed chapters can be reread; rewards cannot repeat or choices be rewritten. Invalid choices and suspended battles are rejected.
+- Added four original keepsakes with explicit stat tradeoffs and matching cached 32px icons: voyage atk+18%/def-8%, harbor def+20%/spd-12%, hearth hp+18%/atk-8%, horizon spd+22%/hp-8%. Original equipment stat behavior remains compatible. New charms are story rewards, not shop stock.
+- Redesigned equipment selection with portraits, owned counts and resulting four-stat previews/deltas. New atomic equipment operation supports party/reserve and returns replaced items. Equipping AND removing preserve HP proportion with floor rounding (living min1, fainted0); fixes prior heart-charm repeat-equip healing exploit. Reserve detail buttons added.
+- Added responsive story index, family chapters, illustrated reader, saved response and reward views. Campfire heals immediately, then opens story/talk/continue menu; prior badge-specific Axi talks remain. New modal panels reset their scroll position so headings do not inherit scroll from the previous menu. World rendering pauses during reading.
+- Actual CUA at isolated4174: budfox choices[0,1,0] across all3chapters, final opening correctly mentioned agreed meeting place. Supplies12->15superpotion,12->13greatorb,herb2,voyage1. Equippedvoyage127/255HP,atk115->135,def103->94; reload preserved choices/gear. Completed reread had no choice buttons or duplicate rewards. Switchedtoheart145/293HP,removed126/255HP; voyagecountremained1. Campfire restored255HP, two Axi lines returned to camp. Desktop and390x844 story/gear layouts inspected, viewport RESET; no current console errors. User4173savespreserved.
+- All95automatic tests passed after functional edits. Seven new tests cover every family/branch, evolution/reserve/save gates, actual battle bond unlock, one-time rewards, malformed saves, new gear damage/tradeoffs, inventory atomicity and equip/remove HP invariants. Version/docs changed afterward; syntax/diff checks remain before packaging. No new renderer benchmark in0.9;0.8short118-121FPSsamplesremainlatestfullsuite.
+- Continue active24h development through2026-10-13 02:46:58UTC. Actual16-24h gameplay and human full campaign remain unverified.

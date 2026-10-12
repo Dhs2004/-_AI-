@@ -174,6 +174,38 @@ const ICONS={
   }),
 };
 
+Object.assign(ICONS,{
+ voyageCharm:sprite(({poly,rect,line,ring,put})=>{
+  ring(16,3);line(16,6,16,25,INK,3);line(16,7,16,24,GOLD);
+  poly([[14,8],[5,20],[14,20]],'#e1cea0');poly([[18,9],[26,21],[18,20]],'#86bbaa');
+  line(12,12,8,18,CREAM);line(19,13,23,19,'#b6d9bc');
+  poly([[5,24],[26,24],[22,29],[10,29]],'#95755a');rect(9,24,13,2,GOLD);put(13,25,CREAM);line(11,28,21,28,'#5e726b');
+ }),
+ harborCharm:sprite(({poly,line,oval,ring,put})=>{
+  ring(16,3);line(16,6,16,10,GOLD,2);
+  oval(12,16,6,8,'#b3936b');oval(12,16,3,5,INK,null);
+  oval(20,20,6,8,'#d1b17e');oval(20,20,3,5,INK,null);
+  poly([[10,10],[14,10],[23,26],[20,29]],'#dbbf88');
+  line(12,10,22,27,CREAM);line(9,13,9,17,'#f2d79c');line(24,17,25,21,'#eed9a8');
+  line(6,26,11,28,'#a3bcaa',2);put(8,26,CREAM);line(21,11,27,13,'#a3bcaa',2);
+ }),
+ hearthCharm:sprite(({poly,rect,line,ring,diamond})=>{
+  ring(16,3);poly([[11,9],[16,6],[21,9],[23,12],[9,12]],'#aa8c64');
+  poly([[9,13],[23,13],[21,27],[16,30],[11,27]],'#c2ab7b');
+  poly([[12,15],[20,15],[19,25],[16,27],[13,25]],'#e9c98f');
+  diamond(16,21,3,5,'#f9eab9',null);line(10,13,12,26,'#678f8a',2);line(22,13,20,26,'#678f8a',2);
+  rect(8,11,17,2,INK);rect(9,11,15,1,CREAM);rect(12,27,9,2,INK);rect(13,27,7,1,GOLD);
+ }),
+ horizonCharm:sprite(({poly,oval,line,ring,diamond,put})=>{
+  ring(16,3);line(16,6,16,9,GOLD,2);
+  oval(16,17,10,10,'#b19a78');oval(16,17,8,8,'#77aaa8');
+  poly([[10,11],[16,9],[21,12],[18,17],[11,20],[9,16]],'#bad9c0',null);
+  poly([[20,12],[23,17],[19,23],[13,24],[17,18]],'#527e95',null);
+  line(8,18,23,18,'#dce1b6');diamond(17,13,2,3,CREAM,null);
+  line(19,25,23,29,INK,3);line(20,25,24,29,GOLD,2);put(22,27,CREAM);line(9,12,11,10,CREAM);
+ })
+});
+
 /** Draw an original item at x/y, scaled from 32px; returns false for unknown IDs. */
 export function drawItemIcon(ctx,id,x=0,y=0,size=32){
   if(!ctx||!Number.isFinite(x)||!Number.isFinite(y)||!Number.isFinite(size)||size<=0||!Object.hasOwn(ICONS,id))return false;

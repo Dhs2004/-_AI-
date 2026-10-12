@@ -1,4 +1,4 @@
-export const VERSION = '0.8.0';
+export const VERSION = '0.9.0';
 export const ELEMENTS = {
   moss:{name:'森',color:'#8fd59a',weak:['ember','frost'],strong:['tide','stone']},
   ember:{name:'焰',color:'#ffa076',weak:['tide','stone'],strong:['moss','frost']},
@@ -87,7 +87,11 @@ export const ITEMS={
   emberCharm:{name:'炉火坠',icon:'♢',price:450,desc:'携带后攻击提高 12%。',equip:'atk'},
   shellCharm:{name:'海螺护符',icon:'♢',price:450,desc:'携带后防御提高 15%。',equip:'def'},
   featherCharm:{name:'顺风羽',icon:'♢',price:450,desc:'携带后速度提高 15%。',equip:'spd'},
-  heartCharm:{name:'心灯吊坠',icon:'♢',price:600,desc:'携带后最大生命提高 15%。',equip:'hp'}
+  heartCharm:{name:'心灯吊坠',icon:'♢',price:600,desc:'携带后最大生命提高 15%。',equip:'hp'},
+  voyageCharm:{name:'同行小帆',icon:'♢',price:0,desc:'攻击提高 18%，防御降低 8%。来自与潮灵共同走过的故事。',equip:true,modifiers:{atk:1.18,def:.92}},
+  harborCharm:{name:'系泊绳结',icon:'♢',price:0,desc:'防御提高 20%，速度降低 12%。来自与潮灵共同走过的故事。',equip:true,modifiers:{def:1.2,spd:.88}},
+  hearthCharm:{name:'掌心暖灯',icon:'♢',price:0,desc:'最大生命提高 18%，攻击降低 8%。来自与潮灵共同走过的故事。',equip:true,modifiers:{hp:1.18,atk:.92}},
+  horizonCharm:{name:'望远鳞镜',icon:'♢',price:0,desc:'速度提高 22%，最大生命降低 8%。来自与潮灵共同走过的故事。',equip:true,modifiers:{spd:1.22,hp:.92}}
 };
 export const RECIPES=[{id:'potion',needs:{herb:2},count:2},{id:'superpotion',needs:{herb:4,shard:1},count:1},{id:'orb',needs:{shard:2},count:2},{id:'greatorb',needs:{shard:4,herb:1},count:1},{id:'revive',needs:{herb:5,shard:3},count:1}];
 export const STATUS={burn:'灼伤',poison:'中毒',sleep:'入眠',shock:'麻痹',root:'缠绕'};

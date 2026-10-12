@@ -6,7 +6,9 @@ import {makeMap,canWalk} from '../dist/js/world.js';
 const frame=document.querySelector('iframe'),select=document.querySelector('select');
 document.querySelector('#load').onclick=()=>{
  const type=select.value,g=createGame('测试旅人','embercat');g.sound=false;g.seed=4149;g.flags.entered0=true;g.party.push(createMon('tidefin',8),createMon('budfox',8));g.bag.superpotion=12;g.bag.greatorb=12;g.party[1].hp=0;
- if(type==='move-book'){
+ if(type==='bond-stories'){
+  g.region=4;g.flags.entered4=true;g.badges=[0,1,2,3];g.x=15;g.y=23;g.party=[createMon('budfox_2',30),createMon('embercat_2',30),createMon('voltkit_2',30)];g.party.forEach((m,i)=>m.bond=[48,23,7][i]);g.party[0].hp=Math.floor(stats(g.party[0]).hp*.5);g.reserve=[createMon('tidefin_3',40)];g.reserve[0].bond=60;g.bag.heartCharm=1;g.bag.harborCharm=1;g.bag.hearthCharm=1;g.bag.horizonCharm=1;
+ }else if(type==='move-book'){
   g.party=[createMon('voltkit_3',35),createMon('budfox',8)];g.place='route';const o=makeMap(0,'route').objects.find(o=>o.action==='trainer');g.x=o.x;g.y=o.y+1;
  }else if(type.startsWith('relic-')){
   g.region={'relic-mirror':0,'relic-weave':1,'relic-lamps':2,'relic-night':6}[type];g.place='dungeon';g.dungeonFloor=3;
