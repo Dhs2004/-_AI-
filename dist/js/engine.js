@@ -1,3 +1,5 @@
+import {moveList,learnedMoves,validateLoadout} from './moves.js';
+export {moveList,learnedMoves} from './moves.js';
 import {planEnemyAction} from './battle-ai.js';
 import {validateRelics} from './relic-engine.js';
 import {freshTraitState,enterTrait,guardTrait,damagedTrait,acceptStatus,outgoingTrait,incomingTrait,shieldFactor,recoveryFactor,basicRecovery,traitPriority,attackedTrait,validateTraitState} from './abilities.js';
@@ -13,7 +15,6 @@ export function stats(mon){
  const out={hp:Math.floor(b[0]*1.4+l*5+16),atk:Math.floor(b[1]*.65+l*2.4),def:Math.floor(b[2]*.65+l*2.1),spd:Math.floor(b[3]*.7+l*1.8)};
  const e=ITEMS[mon.equip]?.equip;if(e)out[e]=Math.floor(out[e]*(e==='atk'?1.12:1.15));return out;
 }
-export function moveList(mon){const tree=SPECIES[mon.species].moves;return ['tackle',tree[0],...(mon.level>=9?[tree[1]]:[]),...(mon.level>=18?[tree[2]]:[]),...(mon.level>=27?[tree[3]]:[])].slice(-4);}
 let serial=0;
 export function createMon(species,level=5,seed=1){
  if(!SPECIES[species])throw new Error('Unknown species '+species);
@@ -34,8 +35,9 @@ export function battleExperience(mon,enemies,participated=true){
 }
 export function gainXP(mon,amount){
  const changes=[];const wasFainted=mon.hp<=0;mon.xp+=amount;
- while(mon.level<65&&mon.xp>=xpNeed(mon)){mon.xp-=xpNeed(mon);const old=stats(mon).hp;mon.level++;mon.hp+=stats(mon).hp-old;changes.push(`${SPECIES[mon.species].name} 升到了 ${mon.level} 级！`);
+ while(mon.level<65&&mon.xp>=xpNeed(mon)){mon.xp-=xpNeed(mon);const old=stats(mon).hp,previousSkills=learnedMoves(mon);mon.level++;mon.hp+=stats(mon).hp-old;changes.push(`${SPECIES[mon.species].name} 升到了 ${mon.level} 级！`);
   const species=SPECIES[mon.species];if(species.evolve&&mon.level>=species.evolveAt){const oldHP=stats(mon).hp;mon.species=species.evolve;mon.hp+=stats(mon).hp-oldHP;changes.push(`${species.name} 进化为 ${SPECIES[mon.species].name}！`);}
+  for(const key of learnedMoves(mon))if(!previousSkills.includes(key))changes.push(`${SPECIES[mon.species].name} 领悟了「${MOVES[key].name}」，可在技能记忆中调整。`);
  }
  if(mon.level===65)mon.xp=0;if(wasFainted)mon.hp=0;return changes;
 }
@@ -181,7 +183,7 @@ function validateBattleMon(mon){
  if(mon.hp<0||mon.hp>stats(mon).hp||mon.xp<0||!Number.isInteger(mon.energy)||mon.energy<0||mon.energy>5)throw new Error('存档中的对战数值超出范围。');
  if(mon.status!==null&&mon.status!==undefined&&!STATUS[mon.status])throw new Error('存档中的异常状态不存在。');
  for(const field of ['shield','focus','statusTurns'])if(mon[field]!==undefined&&(!Number.isFinite(mon[field])||mon[field]<0||mon[field]>20))throw new Error('存档中的临时战斗状态损坏。');
- validateTraitState(mon.battleTrait);return mon;
+ validateTraitState(mon.battleTrait);validateLoadout(mon);return mon;
 }
 export function validateSuspendedBattle(input,game){
  if(!input||typeof input!=='object'||Array.isArray(input)||input.outcome)throw new Error('存档中的对战已经结束或无法读取。');
@@ -190,6 +192,7 @@ export function validateSuspendedBattle(input,game){
  const ids=new Set();
  for(const mon of [...battle.party,...battle.enemies]){validateBattleMon(mon);if(ids.has(mon.uid))throw new Error('存档中的对战伙伴重复。');ids.add(mon.uid);}
  for(let i=0;i<game.party.length;i++)if(battle.party[i].uid!==game.party[i].uid||battle.party[i].species!==game.party[i].species||battle.party[i].level!==game.party[i].level)throw new Error('对战队伍与旅途存档不一致。');
+ for(let i=0;i<game.party.length;i++)if(moveList(battle.party[i]).join(',')!==moveList(game.party[i]).join(','))throw new Error('对战技能与旅途伙伴的搭配不一致。');
  if(!Number.isInteger(battle.activeP)||!Number.isInteger(battle.activeE)||!battle.party[battle.activeP]?.hp||!battle.enemies[battle.activeE]?.hp)throw new Error('存档中的出战伙伴无效。');
  battle.participants??=[battle.party[battle.activeP].uid];
  if(!Array.isArray(battle.participants)||!battle.participants.length||battle.participants.length>battle.party.length||new Set(battle.participants).size!==battle.participants.length||!battle.participants.includes(battle.party[battle.activeP].uid)||!battle.participants.every(id=>battle.party.some(m=>m.uid===id)))throw new Error('存档中的参战记录损坏。');
@@ -217,7 +220,7 @@ export function validateSave(input){
  const g=clone(input);if(!Number.isInteger(g.region)||g.region<0||g.region>7)throw new Error('存档地图不存在。');
  if(!['town','route','dungeon'].includes(g.place))throw new Error('存档地点不存在。');
  if(g.reserve!==undefined&&!Array.isArray(g.reserve))throw new Error('存档驿站数据损坏。');
- for(const m of [...g.party,...(g.reserve||[])]){if(!m||!SPECIES[m.species]||!Number.isInteger(m.level)||m.level<1||m.level>65||!Number.isFinite(m.hp)||!Number.isFinite(m.xp))throw new Error('存档潮灵数据损坏。');m.hp=clamp(m.hp,0,stats(m).hp);m.energy=5;}
+ for(const m of [...g.party,...(g.reserve||[])]){if(!m||!SPECIES[m.species]||!Number.isInteger(m.level)||m.level<1||m.level>65||!Number.isFinite(m.hp)||!Number.isFinite(m.xp))throw new Error('存档潮灵数据损坏。');m.hp=clamp(m.hp,0,stats(m).hp);m.energy=5;validateLoadout(m);}
  if(!Number.isFinite(g.gold)||g.gold<0||!g.badges.every(n=>Number.isInteger(n)&&n>=0&&n<=7))throw new Error('存档进度损坏。');
  g.name=String(g.name||'旅人').slice(0,12);g.x=Math.round(clamp(Number.isFinite(g.x)?g.x:18,1,g.place==='dungeon'?46:g.place==='route'?54:37));g.y=Math.round(clamp(Number.isFinite(g.y)?g.y:19,1,g.place==='dungeon'?30:g.place==='route'?36:25));
  for(const id of Object.keys(g.bag)){if(!ITEMS[id])delete g.bag[id];else g.bag[id]=clamp(Math.floor(Number(g.bag[id])||0),0,9999);}
