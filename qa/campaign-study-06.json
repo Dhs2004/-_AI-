@@ -1,0 +1,2718 @@
+{
+  "description": "Ordered actual-engine economic replay. Not a browser/human playthrough or duration validation.",
+  "assumptions": [
+    "Starts with one level-5 budfox and createGame inventory. Party, XP, currency and stock carry forward.",
+    "Eight scheduled wild encounters per island, two from each local family; real capture probabilities and battle outcomes.",
+    "Assumes outdoor caches and optional stories are discovered; first story branches chosen. Optional relic instruments added in 0.6 are NOT solved or rewarded by this replay.",
+    "Free clinic/camp recovery between outdoor fights; dungeon damage carries through inventory, defeat retreats or final-floor spring.",
+    "Known rune/sequence puzzle answers supplied. No walking, random encounter frequency, puzzle discovery or human strategy timing simulated.",
+    "180-turn diagnostic caps in earlier work were not proof of a deadlock. Current cap360; failures are reported, never assigned wins."
+  ],
+  "seeds": [
+    100,
+    8019,
+    15938,
+    23857,
+    31776,
+    39695
+  ],
+  "rows": [
+    {
+      "case": "explorer",
+      "seed": 100,
+      "conditions": {
+        "trainers": true,
+        "loot": true,
+        "sideStories": true,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": true,
+      "blocked": null,
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "11/10/10/10",
+          "gold": 1712,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 23,
+          "losses": 0
+        },
+        {
+          "chapter": 2,
+          "levels": "18/17/17/17/17",
+          "gold": 5503,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 76,
+          "losses": 0
+        },
+        {
+          "chapter": 3,
+          "levels": "24/24/24/23/23/23",
+          "gold": 10644,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 11,
+          "items": 121,
+          "losses": 0
+        },
+        {
+          "chapter": 4,
+          "levels": "31/30/30/29/29/30",
+          "gold": 18141,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 11,
+          "items": 145,
+          "losses": 0
+        },
+        {
+          "chapter": 5,
+          "levels": "37/35/36/36/36/37",
+          "gold": 27099,
+          "party": "budfox/sunserpent/stonegolem/tidefin/embercat/voltkit",
+          "dungeonBattles": 12,
+          "items": 182,
+          "losses": 1
+        },
+        {
+          "chapter": 6,
+          "levels": "44/43/42/43/43/43",
+          "gold": 37553,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 12,
+          "items": 233,
+          "losses": 2
+        },
+        {
+          "chapter": 7,
+          "levels": "50/49/48/49/49/49",
+          "gold": 49835,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 265,
+          "losses": 2
+        },
+        {
+          "chapter": 8,
+          "levels": "57/56/55/56/55/56",
+          "gold": 63960,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 314,
+          "losses": 2
+        }
+      ],
+      "usage": {
+        "purchased": 30,
+        "crafted": 63,
+        "items": 314,
+        "clinicRetreats": 2,
+        "captures": 10
+      },
+      "battles": 195,
+      "turns": 2937,
+      "turnLimited": 0,
+      "longestBattle": {
+        "region": 1,
+        "kind": "trainer",
+        "name": "听雨员 · 柔澄",
+        "attempt": 1,
+        "outcome": "win",
+        "turns": 128
+      },
+      "finalGold": 63960,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    },
+    {
+      "case": "explorer",
+      "seed": 8019,
+      "conditions": {
+        "trainers": true,
+        "loot": true,
+        "sideStories": true,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": true,
+      "blocked": null,
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "11/10/10/10",
+          "gold": 2065,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 23,
+          "losses": 0
+        },
+        {
+          "chapter": 2,
+          "levels": "18/18/17/17/17",
+          "gold": 5992,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 61,
+          "losses": 0
+        },
+        {
+          "chapter": 3,
+          "levels": "25/24/24/25/23/23",
+          "gold": 11182,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 11,
+          "items": 110,
+          "losses": 0
+        },
+        {
+          "chapter": 4,
+          "levels": "31/30/30/31/30/30",
+          "gold": 18474,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 11,
+          "items": 148,
+          "losses": 0
+        },
+        {
+          "chapter": 5,
+          "levels": "37/36/36/36/37/37",
+          "gold": 27561,
+          "party": "budfox/sunserpent/stonegolem/tidefin/embercat/voltkit",
+          "dungeonBattles": 11,
+          "items": 181,
+          "losses": 0
+        },
+        {
+          "chapter": 6,
+          "levels": "44/43/43/43/42/43",
+          "gold": 37747,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 12,
+          "items": 236,
+          "losses": 1
+        },
+        {
+          "chapter": 7,
+          "levels": "50/49/49/49/49/49",
+          "gold": 49973,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 271,
+          "losses": 1
+        },
+        {
+          "chapter": 8,
+          "levels": "57/55/55/56/55/56",
+          "gold": 63886,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 318,
+          "losses": 1
+        }
+      ],
+      "usage": {
+        "purchased": 36,
+        "crafted": 59,
+        "items": 318,
+        "clinicRetreats": 1,
+        "captures": 10
+      },
+      "battles": 194,
+      "turns": 2594,
+      "turnLimited": 0,
+      "longestBattle": {
+        "region": 5,
+        "kind": "trainer",
+        "name": "树心引场 · 隐荻",
+        "attempt": 1,
+        "outcome": "win",
+        "turns": 61
+      },
+      "finalGold": 63886,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    },
+    {
+      "case": "explorer",
+      "seed": 15938,
+      "conditions": {
+        "trainers": true,
+        "loot": true,
+        "sideStories": true,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": true,
+      "blocked": null,
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "10/11/10/10",
+          "gold": 1616,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 26,
+          "losses": 1
+        },
+        {
+          "chapter": 2,
+          "levels": "18/18/17/17/17",
+          "gold": 5174,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 78,
+          "losses": 1
+        },
+        {
+          "chapter": 3,
+          "levels": "24/24/24/23/23/23",
+          "gold": 10050,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 11,
+          "items": 125,
+          "losses": 1
+        },
+        {
+          "chapter": 4,
+          "levels": "31/31/30/30/28/30",
+          "gold": 17457,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 11,
+          "items": 152,
+          "losses": 1
+        },
+        {
+          "chapter": 5,
+          "levels": "37/35/37/36/36/37",
+          "gold": 26544,
+          "party": "budfox/sunserpent/stonegolem/tidefin/embercat/voltkit",
+          "dungeonBattles": 11,
+          "items": 185,
+          "losses": 1
+        },
+        {
+          "chapter": 6,
+          "levels": "44/42/42/43/42/43",
+          "gold": 36824,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 12,
+          "items": 239,
+          "losses": 2
+        },
+        {
+          "chapter": 7,
+          "levels": "50/48/48/49/49/49",
+          "gold": 49175,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 273,
+          "losses": 2
+        },
+        {
+          "chapter": 8,
+          "levels": "57/55/55/56/55/56",
+          "gold": 63102,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 315,
+          "losses": 2
+        }
+      ],
+      "usage": {
+        "purchased": 42,
+        "crafted": 57,
+        "items": 315,
+        "clinicRetreats": 2,
+        "captures": 10
+      },
+      "battles": 194,
+      "turns": 2673,
+      "turnLimited": 0,
+      "longestBattle": {
+        "region": 7,
+        "kind": "boss",
+        "name": "最后的守灯人 · 闻舟",
+        "attempt": 1,
+        "outcome": "win",
+        "turns": 52
+      },
+      "finalGold": 63102,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    },
+    {
+      "case": "explorer",
+      "seed": 23857,
+      "conditions": {
+        "trainers": true,
+        "loot": true,
+        "sideStories": true,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": true,
+      "blocked": null,
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "10/10/10/10",
+          "gold": 1878,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 24,
+          "losses": 0
+        },
+        {
+          "chapter": 2,
+          "levels": "18/18/17/17/17",
+          "gold": 5443,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 77,
+          "losses": 0
+        },
+        {
+          "chapter": 3,
+          "levels": "24/24/24/23/24/23",
+          "gold": 10405,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 11,
+          "items": 117,
+          "losses": 0
+        },
+        {
+          "chapter": 4,
+          "levels": "31/30/30/30/28/30",
+          "gold": 17683,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 11,
+          "items": 152,
+          "losses": 0
+        },
+        {
+          "chapter": 5,
+          "levels": "37/36/36/36/37/37",
+          "gold": 26791,
+          "party": "budfox/sunserpent/stonegolem/tidefin/embercat/voltkit",
+          "dungeonBattles": 11,
+          "items": 187,
+          "losses": 0
+        },
+        {
+          "chapter": 6,
+          "levels": "44/42/43/43/42/43",
+          "gold": 36998,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 12,
+          "items": 236,
+          "losses": 1
+        },
+        {
+          "chapter": 7,
+          "levels": "50/48/49/49/49/49",
+          "gold": 49283,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 270,
+          "losses": 1
+        },
+        {
+          "chapter": 8,
+          "levels": "57/55/55/56/55/56",
+          "gold": 63060,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 12,
+          "items": 322,
+          "losses": 2
+        }
+      ],
+      "usage": {
+        "purchased": 44,
+        "crafted": 66,
+        "items": 322,
+        "clinicRetreats": 2,
+        "captures": 10
+      },
+      "battles": 195,
+      "turns": 2822,
+      "turnLimited": 0,
+      "longestBattle": {
+        "region": 7,
+        "kind": "trainer",
+        "name": "给休息处留出空地",
+        "attempt": 1,
+        "outcome": "win",
+        "turns": 68
+      },
+      "finalGold": 63060,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    },
+    {
+      "case": "explorer",
+      "seed": 31776,
+      "conditions": {
+        "trainers": true,
+        "loot": true,
+        "sideStories": true,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": true,
+      "blocked": null,
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "11/11/10/11",
+          "gold": 1906,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 25,
+          "losses": 0
+        },
+        {
+          "chapter": 2,
+          "levels": "18/17/18/17/17",
+          "gold": 5732,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 67,
+          "losses": 0
+        },
+        {
+          "chapter": 3,
+          "levels": "24/25/24/23/24/23",
+          "gold": 10800,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 11,
+          "items": 103,
+          "losses": 0
+        },
+        {
+          "chapter": 4,
+          "levels": "31/31/30/30/29/30",
+          "gold": 18036,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 11,
+          "items": 151,
+          "losses": 0
+        },
+        {
+          "chapter": 5,
+          "levels": "37/35/37/36/36/37",
+          "gold": 27144,
+          "party": "budfox/sunserpent/stonegolem/tidefin/embercat/voltkit",
+          "dungeonBattles": 11,
+          "items": 188,
+          "losses": 0
+        },
+        {
+          "chapter": 6,
+          "levels": "44/42/42/43/42/43",
+          "gold": 37219,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 12,
+          "items": 235,
+          "losses": 1
+        },
+        {
+          "chapter": 7,
+          "levels": "50/48/48/50/48/49",
+          "gold": 49431,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 268,
+          "losses": 1
+        },
+        {
+          "chapter": 8,
+          "levels": "57/55/55/56/55/56",
+          "gold": 63490,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 318,
+          "losses": 1
+        }
+      ],
+      "usage": {
+        "purchased": 39,
+        "crafted": 63,
+        "items": 318,
+        "clinicRetreats": 1,
+        "captures": 10
+      },
+      "battles": 194,
+      "turns": 2656,
+      "turnLimited": 0,
+      "longestBattle": {
+        "region": 4,
+        "kind": "trainer",
+        "name": "夜巡客 · 朔棉",
+        "attempt": 1,
+        "outcome": "win",
+        "turns": 82
+      },
+      "finalGold": 63490,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    },
+    {
+      "case": "explorer",
+      "seed": 39695,
+      "conditions": {
+        "trainers": true,
+        "loot": true,
+        "sideStories": true,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": true,
+      "blocked": null,
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "11/10/10/10",
+          "gold": 2079,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 21,
+          "losses": 0
+        },
+        {
+          "chapter": 2,
+          "levels": "18/17/18/17/17",
+          "gold": 5825,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 61,
+          "losses": 0
+        },
+        {
+          "chapter": 3,
+          "levels": "24/24/24/23/24/23",
+          "gold": 10966,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 11,
+          "items": 95,
+          "losses": 0
+        },
+        {
+          "chapter": 4,
+          "levels": "31/30/30/30/29/30",
+          "gold": 18470,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 11,
+          "items": 132,
+          "losses": 0
+        },
+        {
+          "chapter": 5,
+          "levels": "37/34/36/36/36/37",
+          "gold": 27529,
+          "party": "budfox/sunserpent/stonegolem/tidefin/embercat/voltkit",
+          "dungeonBattles": 11,
+          "items": 173,
+          "losses": 0
+        },
+        {
+          "chapter": 6,
+          "levels": "44/42/41/43/42/43",
+          "gold": 37900,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 225,
+          "losses": 0
+        },
+        {
+          "chapter": 7,
+          "levels": "50/48/48/49/48/49",
+          "gold": 50206,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 258,
+          "losses": 0
+        },
+        {
+          "chapter": 8,
+          "levels": "57/55/55/56/55/56",
+          "gold": 64119,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 306,
+          "losses": 0
+        }
+      ],
+      "usage": {
+        "purchased": 34,
+        "crafted": 54,
+        "items": 306,
+        "clinicRetreats": 0,
+        "captures": 10
+      },
+      "battles": 193,
+      "turns": 2583,
+      "turnLimited": 0,
+      "longestBattle": {
+        "region": 3,
+        "kind": "trainer",
+        "name": "踏风学徒 · 竹哨",
+        "attempt": 1,
+        "outcome": "win",
+        "turns": 48
+      },
+      "finalGold": 64119,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    },
+    {
+      "case": "skip-trainers",
+      "seed": 100,
+      "conditions": {
+        "trainers": false,
+        "loot": true,
+        "sideStories": true,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": true,
+      "blocked": null,
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "8/7/7/8",
+          "gold": 627,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 1,
+          "items": 9,
+          "losses": 0
+        },
+        {
+          "chapter": 2,
+          "levels": "13/14/14/12/13",
+          "gold": 2843,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 1,
+          "items": 26,
+          "losses": 0
+        },
+        {
+          "chapter": 3,
+          "levels": "18/19/18/20/18/17",
+          "gold": 6065,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 1,
+          "items": 59,
+          "losses": 0
+        },
+        {
+          "chapter": 4,
+          "levels": "23/24/23/24/27/23",
+          "gold": 11066,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 1,
+          "items": 73,
+          "losses": 0
+        },
+        {
+          "chapter": 5,
+          "levels": "29/32/29/28/29/28",
+          "gold": 17059,
+          "party": "budfox/sunserpent/stonegolem/tidefin/embercat/voltkit",
+          "dungeonBattles": 1,
+          "items": 162,
+          "losses": 0
+        },
+        {
+          "chapter": 6,
+          "levels": "34/37/36/33/33/33",
+          "gold": 23593,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 1,
+          "items": 208,
+          "losses": 1
+        },
+        {
+          "chapter": 7,
+          "levels": "39/41/40/38/38/38",
+          "gold": 32037,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 1,
+          "items": 238,
+          "losses": 1
+        },
+        {
+          "chapter": 8,
+          "levels": "45/46/46/44/44/44",
+          "gold": 41546,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 1,
+          "items": 293,
+          "losses": 1
+        }
+      ],
+      "usage": {
+        "purchased": 24,
+        "crafted": 67,
+        "items": 293,
+        "clinicRetreats": 1,
+        "captures": 10
+      },
+      "battles": 97,
+      "turns": 2083,
+      "turnLimited": 0,
+      "longestBattle": {
+        "region": 4,
+        "kind": "boss",
+        "name": "观星人 · 陆凛",
+        "attempt": 1,
+        "outcome": "win",
+        "turns": 249
+      },
+      "finalGold": 41546,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    },
+    {
+      "case": "skip-trainers",
+      "seed": 8019,
+      "conditions": {
+        "trainers": false,
+        "loot": true,
+        "sideStories": true,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": false,
+      "blocked": "boss:7",
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "8/7/7/7",
+          "gold": 980,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 1,
+          "items": 9,
+          "losses": 0
+        },
+        {
+          "chapter": 2,
+          "levels": "13/14/14/12/12",
+          "gold": 2649,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 1,
+          "items": 31,
+          "losses": 0
+        },
+        {
+          "chapter": 3,
+          "levels": "18/20/18/20/18/17",
+          "gold": 5938,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 1,
+          "items": 51,
+          "losses": 0
+        },
+        {
+          "chapter": 4,
+          "levels": "24/24/23/24/26/23",
+          "gold": 10953,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 1,
+          "items": 68,
+          "losses": 0
+        },
+        {
+          "chapter": 5,
+          "levels": "28/33/29/28/28/28",
+          "gold": 16537,
+          "party": "budfox/sunserpent/stonegolem/tidefin/embercat/voltkit",
+          "dungeonBattles": 1,
+          "items": 167,
+          "losses": 1
+        },
+        {
+          "chapter": 6,
+          "levels": "33/39/36/33/32/33",
+          "gold": 22641,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 1,
+          "items": 207,
+          "losses": 3
+        },
+        {
+          "chapter": 7,
+          "levels": "39/42/41/38/38/38",
+          "gold": 31071,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 1,
+          "items": 251,
+          "losses": 3
+        }
+      ],
+      "usage": {
+        "purchased": 23,
+        "crafted": 68,
+        "items": 297,
+        "clinicRetreats": 6,
+        "captures": 10
+      },
+      "battles": 99,
+      "turns": 2229,
+      "turnLimited": 0,
+      "longestBattle": {
+        "region": 4,
+        "kind": "boss",
+        "name": "观星人 · 陆凛",
+        "attempt": 1,
+        "outcome": "win",
+        "turns": 339
+      },
+      "finalGold": 38177,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    },
+    {
+      "case": "skip-trainers",
+      "seed": 15938,
+      "conditions": {
+        "trainers": false,
+        "loot": true,
+        "sideStories": true,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": false,
+      "blocked": "boss:4",
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "8/9/7/7",
+          "gold": 531,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 1,
+          "items": 10,
+          "losses": 1
+        },
+        {
+          "chapter": 2,
+          "levels": "13/16/14/12/12",
+          "gold": 3008,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 1,
+          "items": 27,
+          "losses": 1
+        },
+        {
+          "chapter": 3,
+          "levels": "18/20/19/21/18/17",
+          "gold": 5884,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 1,
+          "items": 58,
+          "losses": 1
+        },
+        {
+          "chapter": 4,
+          "levels": "24/24/24/25/26/23",
+          "gold": 10739,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 1,
+          "items": 75,
+          "losses": 1
+        }
+      ],
+      "usage": {
+        "purchased": 20,
+        "crafted": 33,
+        "items": 167,
+        "clinicRetreats": 1,
+        "captures": 9
+      },
+      "battles": 60,
+      "turns": 1072,
+      "turnLimited": 1,
+      "longestBattle": {
+        "region": 4,
+        "kind": "boss",
+        "name": "观星人 · 陆凛",
+        "attempt": 1,
+        "outcome": "turn-limit",
+        "turns": 360
+      },
+      "finalGold": 15509,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    },
+    {
+      "case": "skip-trainers",
+      "seed": 23857,
+      "conditions": {
+        "trainers": false,
+        "loot": true,
+        "sideStories": true,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": true,
+      "blocked": null,
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "8/8/8/7",
+          "gold": 793,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 1,
+          "items": 9,
+          "losses": 0
+        },
+        {
+          "chapter": 2,
+          "levels": "13/15/14/13/12",
+          "gold": 2930,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 1,
+          "items": 29,
+          "losses": 0
+        },
+        {
+          "chapter": 3,
+          "levels": "18/21/19/21/18/17",
+          "gold": 6305,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 1,
+          "items": 52,
+          "losses": 0
+        },
+        {
+          "chapter": 4,
+          "levels": "23/25/23/25/25/23",
+          "gold": 11306,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 1,
+          "items": 68,
+          "losses": 0
+        },
+        {
+          "chapter": 5,
+          "levels": "29/32/30/28/29/28",
+          "gold": 17313,
+          "party": "budfox/sunserpent/stonegolem/tidefin/embercat/voltkit",
+          "dungeonBattles": 1,
+          "items": 166,
+          "losses": 0
+        },
+        {
+          "chapter": 6,
+          "levels": "34/38/35/34/33/34",
+          "gold": 23861,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 1,
+          "items": 219,
+          "losses": 1
+        },
+        {
+          "chapter": 7,
+          "levels": "39/42/40/39/38/38",
+          "gold": 32016,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 1,
+          "items": 240,
+          "losses": 1
+        },
+        {
+          "chapter": 8,
+          "levels": "45/47/45/45/44/44",
+          "gold": 41382,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 1,
+          "items": 292,
+          "losses": 1
+        }
+      ],
+      "usage": {
+        "purchased": 25,
+        "crafted": 67,
+        "items": 292,
+        "clinicRetreats": 1,
+        "captures": 10
+      },
+      "battles": 97,
+      "turns": 1991,
+      "turnLimited": 0,
+      "longestBattle": {
+        "region": 4,
+        "kind": "boss",
+        "name": "观星人 · 陆凛",
+        "attempt": 1,
+        "outcome": "win",
+        "turns": 287
+      },
+      "finalGold": 41382,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    },
+    {
+      "case": "skip-trainers",
+      "seed": 31776,
+      "conditions": {
+        "trainers": false,
+        "loot": true,
+        "sideStories": true,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": false,
+      "blocked": "boss:7",
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "8/9/7/9",
+          "gold": 821,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 1,
+          "items": 7,
+          "losses": 0
+        },
+        {
+          "chapter": 2,
+          "levels": "13/16/13/12/13",
+          "gold": 3298,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 1,
+          "items": 17,
+          "losses": 0
+        },
+        {
+          "chapter": 3,
+          "levels": "18/19/19/19/18/17",
+          "gold": 6805,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 1,
+          "items": 36,
+          "losses": 0
+        },
+        {
+          "chapter": 4,
+          "levels": "23/24/24/24/27/23",
+          "gold": 11820,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 1,
+          "items": 52,
+          "losses": 0
+        },
+        {
+          "chapter": 5,
+          "levels": "29/33/28/28/28/28",
+          "gold": 17813,
+          "party": "budfox/sunserpent/stonegolem/tidefin/embercat/voltkit",
+          "dungeonBattles": 1,
+          "items": 149,
+          "losses": 0
+        },
+        {
+          "chapter": 6,
+          "levels": "34/39/37/33/33/33",
+          "gold": 24368,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 1,
+          "items": 182,
+          "losses": 1
+        },
+        {
+          "chapter": 7,
+          "levels": "39/42/41/39/38/38",
+          "gold": 32819,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 1,
+          "items": 217,
+          "losses": 1
+        }
+      ],
+      "usage": {
+        "purchased": 12,
+        "crafted": 59,
+        "items": 272,
+        "clinicRetreats": 4,
+        "captures": 10
+      },
+      "battles": 99,
+      "turns": 2026,
+      "turnLimited": 0,
+      "longestBattle": {
+        "region": 4,
+        "kind": "boss",
+        "name": "观星人 · 陆凛",
+        "attempt": 1,
+        "outcome": "win",
+        "turns": 335
+      },
+      "finalGold": 40259,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    },
+    {
+      "case": "skip-trainers",
+      "seed": 39695,
+      "conditions": {
+        "trainers": false,
+        "loot": true,
+        "sideStories": true,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": false,
+      "blocked": "boss:7",
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "8/8/8/8",
+          "gold": 994,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 1,
+          "items": 7,
+          "losses": 0
+        },
+        {
+          "chapter": 2,
+          "levels": "13/13/14/12/13",
+          "gold": 3443,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 1,
+          "items": 25,
+          "losses": 0
+        },
+        {
+          "chapter": 3,
+          "levels": "18/21/18/22/18/17",
+          "gold": 6739,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 1,
+          "items": 49,
+          "losses": 0
+        },
+        {
+          "chapter": 4,
+          "levels": "23/25/23/25/26/23",
+          "gold": 11740,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 1,
+          "items": 62,
+          "losses": 0
+        },
+        {
+          "chapter": 5,
+          "levels": "29/31/29/28/29/28",
+          "gold": 17747,
+          "party": "budfox/sunserpent/stonegolem/tidefin/embercat/voltkit",
+          "dungeonBattles": 1,
+          "items": 91,
+          "losses": 0
+        },
+        {
+          "chapter": 6,
+          "levels": "34/40/35/34/33/34",
+          "gold": 24732,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 1,
+          "items": 209,
+          "losses": 0
+        },
+        {
+          "chapter": 7,
+          "levels": "39/43/39/39/38/39",
+          "gold": 33155,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 1,
+          "items": 234,
+          "losses": 0
+        }
+      ],
+      "usage": {
+        "purchased": 18,
+        "crafted": 66,
+        "items": 283,
+        "clinicRetreats": 3,
+        "captures": 10
+      },
+      "battles": 99,
+      "turns": 1959,
+      "turnLimited": 0,
+      "longestBattle": {
+        "region": 5,
+        "kind": "boss",
+        "name": "守梦者 · 鹿隐",
+        "attempt": 1,
+        "outcome": "win",
+        "turns": 288
+      },
+      "finalGold": 40188,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    },
+    {
+      "case": "no-field-loot",
+      "seed": 100,
+      "conditions": {
+        "trainers": true,
+        "loot": false,
+        "sideStories": true,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": true,
+      "blocked": null,
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "10/10/10/10",
+          "gold": 1669,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 26,
+          "losses": 0
+        },
+        {
+          "chapter": 2,
+          "levels": "18/17/17/17/17",
+          "gold": 2199,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 12,
+          "items": 56,
+          "losses": 1
+        },
+        {
+          "chapter": 3,
+          "levels": "24/23/24/23/23/23",
+          "gold": 4921,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 11,
+          "items": 88,
+          "losses": 1
+        },
+        {
+          "chapter": 4,
+          "levels": "31/30/30/30/28/30",
+          "gold": 11035,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 12,
+          "items": 106,
+          "losses": 2
+        },
+        {
+          "chapter": 5,
+          "levels": "37/36/36/36/36/37",
+          "gold": 18163,
+          "party": "budfox/sunserpent/stonegolem/tidefin/embercat/voltkit",
+          "dungeonBattles": 11,
+          "items": 127,
+          "losses": 2
+        },
+        {
+          "chapter": 6,
+          "levels": "44/43/42/43/42/43",
+          "gold": 27557,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 12,
+          "items": 152,
+          "losses": 3
+        },
+        {
+          "chapter": 7,
+          "levels": "50/49/49/49/49/49",
+          "gold": 38662,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 169,
+          "losses": 3
+        },
+        {
+          "chapter": 8,
+          "levels": "57/55/55/56/55/56",
+          "gold": 50798,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 12,
+          "items": 196,
+          "losses": 4
+        }
+      ],
+      "usage": {
+        "purchased": 105,
+        "crafted": 20,
+        "items": 196,
+        "clinicRetreats": 4,
+        "captures": 10
+      },
+      "battles": 197,
+      "turns": 2915,
+      "turnLimited": 0,
+      "longestBattle": {
+        "region": 4,
+        "kind": "wild",
+        "name": "霜月鸮",
+        "attempt": 1,
+        "outcome": "win",
+        "turns": 87
+      },
+      "finalGold": 50798,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    },
+    {
+      "case": "no-field-loot",
+      "seed": 8019,
+      "conditions": {
+        "trainers": true,
+        "loot": false,
+        "sideStories": true,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": true,
+      "blocked": null,
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "11/10/10/10",
+          "gold": 1412,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 29,
+          "losses": 0
+        },
+        {
+          "chapter": 2,
+          "levels": "18/18/17/17/17",
+          "gold": 3302,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 50,
+          "losses": 0
+        },
+        {
+          "chapter": 3,
+          "levels": "24/23/24/25/23/23",
+          "gold": 6818,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 11,
+          "items": 79,
+          "losses": 0
+        },
+        {
+          "chapter": 4,
+          "levels": "31/30/30/31/30/30",
+          "gold": 12650,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 11,
+          "items": 98,
+          "losses": 0
+        },
+        {
+          "chapter": 5,
+          "levels": "37/34/36/36/37/37",
+          "gold": 20332,
+          "party": "budfox/sunserpent/stonegolem/tidefin/embercat/voltkit",
+          "dungeonBattles": 11,
+          "items": 121,
+          "losses": 0
+        },
+        {
+          "chapter": 6,
+          "levels": "44/42/42/43/43/43",
+          "gold": 28392,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 12,
+          "items": 148,
+          "losses": 1
+        },
+        {
+          "chapter": 7,
+          "levels": "50/48/48/49/49/49",
+          "gold": 39185,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 168,
+          "losses": 1
+        },
+        {
+          "chapter": 8,
+          "levels": "57/55/55/56/55/56",
+          "gold": 51557,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 12,
+          "items": 194,
+          "losses": 2
+        }
+      ],
+      "usage": {
+        "purchased": 103,
+        "crafted": 20,
+        "items": 194,
+        "clinicRetreats": 2,
+        "captures": 10
+      },
+      "battles": 195,
+      "turns": 2638,
+      "turnLimited": 0,
+      "longestBattle": {
+        "region": 7,
+        "kind": "trainer",
+        "name": "回响记录 · 听澜",
+        "attempt": 1,
+        "outcome": "win",
+        "turns": 48
+      },
+      "finalGold": 51557,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    },
+    {
+      "case": "no-field-loot",
+      "seed": 15938,
+      "conditions": {
+        "trainers": true,
+        "loot": false,
+        "sideStories": true,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": true,
+      "blocked": null,
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "11/10/11/11",
+          "gold": 1557,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 25,
+          "losses": 0
+        },
+        {
+          "chapter": 2,
+          "levels": "18/18/18/17/17",
+          "gold": 2968,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 53,
+          "losses": 0
+        },
+        {
+          "chapter": 3,
+          "levels": "24/24/24/23/24/23",
+          "gold": 5805,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 11,
+          "items": 83,
+          "losses": 0
+        },
+        {
+          "chapter": 4,
+          "levels": "31/30/30/30/29/30",
+          "gold": 12546,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 12,
+          "items": 98,
+          "losses": 1
+        },
+        {
+          "chapter": 5,
+          "levels": "37/35/37/36/36/37",
+          "gold": 19327,
+          "party": "budfox/sunserpent/stonegolem/tidefin/embercat/voltkit",
+          "dungeonBattles": 12,
+          "items": 129,
+          "losses": 2
+        },
+        {
+          "chapter": 6,
+          "levels": "44/43/42/43/42/43",
+          "gold": 28402,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 12,
+          "items": 155,
+          "losses": 3
+        },
+        {
+          "chapter": 7,
+          "levels": "50/49/48/49/49/49",
+          "gold": 39029,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 175,
+          "losses": 3
+        },
+        {
+          "chapter": 8,
+          "levels": "57/55/55/56/55/56",
+          "gold": 51332,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 12,
+          "items": 201,
+          "losses": 4
+        }
+      ],
+      "usage": {
+        "purchased": 104,
+        "crafted": 20,
+        "items": 201,
+        "clinicRetreats": 4,
+        "captures": 10
+      },
+      "battles": 197,
+      "turns": 2780,
+      "turnLimited": 0,
+      "longestBattle": {
+        "region": 4,
+        "kind": "trainer",
+        "name": "观测副员 · 冬灯",
+        "attempt": 1,
+        "outcome": "lose",
+        "turns": 71
+      },
+      "finalGold": 51332,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    },
+    {
+      "case": "no-field-loot",
+      "seed": 23857,
+      "conditions": {
+        "trainers": true,
+        "loot": false,
+        "sideStories": true,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": true,
+      "blocked": null,
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "11/10/11/11",
+          "gold": 1648,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 27,
+          "losses": 0
+        },
+        {
+          "chapter": 2,
+          "levels": "18/18/17/18/18",
+          "gold": 3005,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 54,
+          "losses": 0
+        },
+        {
+          "chapter": 3,
+          "levels": "24/23/24/23/23/23",
+          "gold": 5872,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 11,
+          "items": 84,
+          "losses": 0
+        },
+        {
+          "chapter": 4,
+          "levels": "31/30/30/30/30/30",
+          "gold": 12347,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 12,
+          "items": 99,
+          "losses": 1
+        },
+        {
+          "chapter": 5,
+          "levels": "37/34/36/36/37/37",
+          "gold": 19325,
+          "party": "budfox/sunserpent/stonegolem/tidefin/embercat/voltkit",
+          "dungeonBattles": 12,
+          "items": 118,
+          "losses": 2
+        },
+        {
+          "chapter": 6,
+          "levels": "44/42/41/43/42/43",
+          "gold": 27791,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 12,
+          "items": 149,
+          "losses": 3
+        },
+        {
+          "chapter": 7,
+          "levels": "50/48/48/49/49/49",
+          "gold": 38476,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 173,
+          "losses": 3
+        },
+        {
+          "chapter": 8,
+          "levels": "57/55/55/56/55/56",
+          "gold": 50192,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 12,
+          "items": 201,
+          "losses": 4
+        }
+      ],
+      "usage": {
+        "purchased": 111,
+        "crafted": 20,
+        "items": 201,
+        "clinicRetreats": 4,
+        "captures": 10
+      },
+      "battles": 197,
+      "turns": 2917,
+      "turnLimited": 0,
+      "longestBattle": {
+        "region": 4,
+        "kind": "trainer",
+        "name": "观测副员 · 冬灯",
+        "attempt": 1,
+        "outcome": "lose",
+        "turns": 66
+      },
+      "finalGold": 50192,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    },
+    {
+      "case": "no-field-loot",
+      "seed": 31776,
+      "conditions": {
+        "trainers": true,
+        "loot": false,
+        "sideStories": true,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": true,
+      "blocked": null,
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "11/10/10/11",
+          "gold": 1465,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 25,
+          "losses": 0
+        },
+        {
+          "chapter": 2,
+          "levels": "18/18/17/17/17",
+          "gold": 3414,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 12,
+          "items": 46,
+          "losses": 1
+        },
+        {
+          "chapter": 3,
+          "levels": "24/24/24/23/23/23",
+          "gold": 6549,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 11,
+          "items": 74,
+          "losses": 1
+        },
+        {
+          "chapter": 4,
+          "levels": "31/30/30/30/28/30",
+          "gold": 12583,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 12,
+          "items": 91,
+          "losses": 2
+        },
+        {
+          "chapter": 5,
+          "levels": "37/35/36/36/36/37",
+          "gold": 19937,
+          "party": "budfox/sunserpent/stonegolem/tidefin/embercat/voltkit",
+          "dungeonBattles": 13,
+          "items": 112,
+          "losses": 4
+        },
+        {
+          "chapter": 6,
+          "levels": "44/42/42/43/42/43",
+          "gold": 28257,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 12,
+          "items": 141,
+          "losses": 5
+        },
+        {
+          "chapter": 7,
+          "levels": "50/48/48/49/49/49",
+          "gold": 39029,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 164,
+          "losses": 5
+        },
+        {
+          "chapter": 8,
+          "levels": "57/55/55/56/55/56",
+          "gold": 50415,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 13,
+          "items": 193,
+          "losses": 7
+        }
+      ],
+      "usage": {
+        "purchased": 103,
+        "crafted": 20,
+        "items": 193,
+        "clinicRetreats": 7,
+        "captures": 10
+      },
+      "battles": 200,
+      "turns": 2937,
+      "turnLimited": 0,
+      "longestBattle": {
+        "region": 4,
+        "kind": "trainer",
+        "name": "观测副员 · 冬灯",
+        "attempt": 2,
+        "outcome": "lose",
+        "turns": 103
+      },
+      "finalGold": 50415,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    },
+    {
+      "case": "no-field-loot",
+      "seed": 39695,
+      "conditions": {
+        "trainers": true,
+        "loot": false,
+        "sideStories": true,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": true,
+      "blocked": null,
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "11/10/10/10",
+          "gold": 1694,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 30,
+          "losses": 0
+        },
+        {
+          "chapter": 2,
+          "levels": "18/17/18/17/17",
+          "gold": 3422,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 46,
+          "losses": 0
+        },
+        {
+          "chapter": 3,
+          "levels": "24/24/24/24/24/23",
+          "gold": 6664,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 11,
+          "items": 76,
+          "losses": 0
+        },
+        {
+          "chapter": 4,
+          "levels": "31/31/30/30/30/30",
+          "gold": 13298,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 12,
+          "items": 88,
+          "losses": 1
+        },
+        {
+          "chapter": 5,
+          "levels": "37/34/37/36/37/37",
+          "gold": 20924,
+          "party": "budfox/sunserpent/stonegolem/tidefin/embercat/voltkit",
+          "dungeonBattles": 11,
+          "items": 111,
+          "losses": 1
+        },
+        {
+          "chapter": 6,
+          "levels": "44/42/41/43/42/43",
+          "gold": 29316,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 12,
+          "items": 138,
+          "losses": 2
+        },
+        {
+          "chapter": 7,
+          "levels": "50/48/48/49/48/49",
+          "gold": 40362,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 155,
+          "losses": 2
+        },
+        {
+          "chapter": 8,
+          "levels": "57/55/55/56/55/56",
+          "gold": 52707,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 12,
+          "items": 181,
+          "losses": 3
+        }
+      ],
+      "usage": {
+        "purchased": 91,
+        "crafted": 20,
+        "items": 181,
+        "clinicRetreats": 3,
+        "captures": 10
+      },
+      "battles": 196,
+      "turns": 2628,
+      "turnLimited": 0,
+      "longestBattle": {
+        "region": 3,
+        "kind": "trainer",
+        "name": "庭院信使 · 风简",
+        "attempt": 1,
+        "outcome": "win",
+        "turns": 48
+      },
+      "finalGold": 52707,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    },
+    {
+      "case": "no-optional-stories",
+      "seed": 100,
+      "conditions": {
+        "trainers": true,
+        "loot": true,
+        "sideStories": false,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": true,
+      "blocked": null,
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "11/10/10/10",
+          "gold": 1522,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 23,
+          "losses": 0
+        },
+        {
+          "chapter": 2,
+          "levels": "18/17/17/17/17",
+          "gold": 4123,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 76,
+          "losses": 0
+        },
+        {
+          "chapter": 3,
+          "levels": "24/24/24/23/23/23",
+          "gold": 8219,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 11,
+          "items": 115,
+          "losses": 0
+        },
+        {
+          "chapter": 4,
+          "levels": "31/30/30/30/29/30",
+          "gold": 14613,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 11,
+          "items": 142,
+          "losses": 0
+        },
+        {
+          "chapter": 5,
+          "levels": "37/36/37/36/36/37",
+          "gold": 22514,
+          "party": "budfox/sunserpent/stonegolem/tidefin/embercat/voltkit",
+          "dungeonBattles": 12,
+          "items": 184,
+          "losses": 1
+        },
+        {
+          "chapter": 6,
+          "levels": "44/41/43/43/42/43",
+          "gold": 30899,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 234,
+          "losses": 1
+        },
+        {
+          "chapter": 7,
+          "levels": "50/48/49/49/49/49",
+          "gold": 41900,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 266,
+          "losses": 1
+        },
+        {
+          "chapter": 8,
+          "levels": "57/54/56/56/55/56",
+          "gold": 54386,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 310,
+          "losses": 1
+        }
+      ],
+      "usage": {
+        "purchased": 51,
+        "crafted": 60,
+        "items": 310,
+        "clinicRetreats": 1,
+        "captures": 10
+      },
+      "battles": 194,
+      "turns": 2877,
+      "turnLimited": 0,
+      "longestBattle": {
+        "region": 5,
+        "kind": "trainer",
+        "name": "场记 · 木苓",
+        "attempt": 1,
+        "outcome": "win",
+        "turns": 114
+      },
+      "finalGold": 54386,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    },
+    {
+      "case": "no-optional-stories",
+      "seed": 8019,
+      "conditions": {
+        "trainers": true,
+        "loot": true,
+        "sideStories": false,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": true,
+      "blocked": null,
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "11/10/10/10",
+          "gold": 1445,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 23,
+          "losses": 0
+        },
+        {
+          "chapter": 2,
+          "levels": "18/18/17/17/17",
+          "gold": 4632,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 61,
+          "losses": 0
+        },
+        {
+          "chapter": 3,
+          "levels": "25/24/24/25/23/23",
+          "gold": 8782,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 11,
+          "items": 108,
+          "losses": 0
+        },
+        {
+          "chapter": 4,
+          "levels": "31/30/30/30/30/30",
+          "gold": 14929,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 11,
+          "items": 139,
+          "losses": 0
+        },
+        {
+          "chapter": 5,
+          "levels": "37/36/36/36/37/37",
+          "gold": 22973,
+          "party": "budfox/sunserpent/stonegolem/tidefin/embercat/voltkit",
+          "dungeonBattles": 11,
+          "items": 182,
+          "losses": 0
+        },
+        {
+          "chapter": 6,
+          "levels": "44/42/43/43/42/43",
+          "gold": 31783,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 12,
+          "items": 227,
+          "losses": 1
+        },
+        {
+          "chapter": 7,
+          "levels": "50/48/49/49/49/49",
+          "gold": 42624,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 261,
+          "losses": 1
+        },
+        {
+          "chapter": 8,
+          "levels": "57/55/56/56/55/56",
+          "gold": 55075,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 12,
+          "items": 306,
+          "losses": 2
+        }
+      ],
+      "usage": {
+        "purchased": 47,
+        "crafted": 61,
+        "items": 306,
+        "clinicRetreats": 2,
+        "captures": 10
+      },
+      "battles": 195,
+      "turns": 2879,
+      "turnLimited": 0,
+      "longestBattle": {
+        "region": 4,
+        "kind": "trainer",
+        "name": "暖炉员 · 迟冬",
+        "attempt": 1,
+        "outcome": "win",
+        "turns": 122
+      },
+      "finalGold": 55075,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    },
+    {
+      "case": "no-optional-stories",
+      "seed": 15938,
+      "conditions": {
+        "trainers": true,
+        "loot": true,
+        "sideStories": false,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": true,
+      "blocked": null,
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "10/11/10/10",
+          "gold": 1451,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 25,
+          "losses": 1
+        },
+        {
+          "chapter": 2,
+          "levels": "18/18/17/17/17",
+          "gold": 3899,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 75,
+          "losses": 1
+        },
+        {
+          "chapter": 3,
+          "levels": "24/24/24/23/23/23",
+          "gold": 8214,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 11,
+          "items": 114,
+          "losses": 1
+        },
+        {
+          "chapter": 4,
+          "levels": "31/30/30/30/28/30",
+          "gold": 14556,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 11,
+          "items": 141,
+          "losses": 1
+        },
+        {
+          "chapter": 5,
+          "levels": "37/34/37/36/37/37",
+          "gold": 22601,
+          "party": "budfox/sunserpent/stonegolem/tidefin/embercat/voltkit",
+          "dungeonBattles": 11,
+          "items": 174,
+          "losses": 1
+        },
+        {
+          "chapter": 6,
+          "levels": "44/41/41/43/42/43",
+          "gold": 31000,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 226,
+          "losses": 1
+        },
+        {
+          "chapter": 7,
+          "levels": "50/48/48/50/49/49",
+          "gold": 42074,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 257,
+          "losses": 1
+        },
+        {
+          "chapter": 8,
+          "levels": "57/55/55/56/55/56",
+          "gold": 54127,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 301,
+          "losses": 1
+        }
+      ],
+      "usage": {
+        "purchased": 54,
+        "crafted": 56,
+        "items": 301,
+        "clinicRetreats": 1,
+        "captures": 10
+      },
+      "battles": 193,
+      "turns": 2950,
+      "turnLimited": 0,
+      "longestBattle": {
+        "region": 5,
+        "kind": "wild",
+        "name": "千年森守",
+        "attempt": 1,
+        "outcome": "win",
+        "turns": 133
+      },
+      "finalGold": 54127,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    },
+    {
+      "case": "no-optional-stories",
+      "seed": 23857,
+      "conditions": {
+        "trainers": true,
+        "loot": true,
+        "sideStories": false,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": true,
+      "blocked": null,
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "10/10/10/10",
+          "gold": 1688,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 25,
+          "losses": 0
+        },
+        {
+          "chapter": 2,
+          "levels": "18/17/18/17/17",
+          "gold": 4150,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 65,
+          "losses": 0
+        },
+        {
+          "chapter": 3,
+          "levels": "24/24/23/23/24/23",
+          "gold": 8358,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 11,
+          "items": 114,
+          "losses": 0
+        },
+        {
+          "chapter": 4,
+          "levels": "31/31/30/30/30/31",
+          "gold": 14735,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 11,
+          "items": 144,
+          "losses": 0
+        },
+        {
+          "chapter": 5,
+          "levels": "37/36/37/36/37/37",
+          "gold": 22685,
+          "party": "budfox/sunserpent/stonegolem/tidefin/embercat/voltkit",
+          "dungeonBattles": 11,
+          "items": 175,
+          "losses": 0
+        },
+        {
+          "chapter": 6,
+          "levels": "44/43/42/43/42/43",
+          "gold": 31086,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 226,
+          "losses": 0
+        },
+        {
+          "chapter": 7,
+          "levels": "50/49/49/49/49/49",
+          "gold": 42059,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 260,
+          "losses": 0
+        },
+        {
+          "chapter": 8,
+          "levels": "57/56/55/56/55/56",
+          "gold": 53976,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 12,
+          "items": 306,
+          "losses": 1
+        }
+      ],
+      "usage": {
+        "purchased": 58,
+        "crafted": 57,
+        "items": 306,
+        "clinicRetreats": 1,
+        "captures": 10
+      },
+      "battles": 194,
+      "turns": 2882,
+      "turnLimited": 0,
+      "longestBattle": {
+        "region": 5,
+        "kind": "wild",
+        "name": "千年森守",
+        "attempt": 1,
+        "outcome": "win",
+        "turns": 74
+      },
+      "finalGold": 53976,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    },
+    {
+      "case": "no-optional-stories",
+      "seed": 31776,
+      "conditions": {
+        "trainers": true,
+        "loot": true,
+        "sideStories": false,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": true,
+      "blocked": null,
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "11/11/10/11",
+          "gold": 1266,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 25,
+          "losses": 0
+        },
+        {
+          "chapter": 2,
+          "levels": "18/17/18/17/17",
+          "gold": 4352,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 68,
+          "losses": 0
+        },
+        {
+          "chapter": 3,
+          "levels": "24/25/24/23/24/23",
+          "gold": 8580,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 11,
+          "items": 104,
+          "losses": 0
+        },
+        {
+          "chapter": 4,
+          "levels": "31/31/30/30/30/31",
+          "gold": 15068,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 11,
+          "items": 133,
+          "losses": 0
+        },
+        {
+          "chapter": 5,
+          "levels": "37/36/37/36/36/37",
+          "gold": 23112,
+          "party": "budfox/sunserpent/stonegolem/tidefin/embercat/voltkit",
+          "dungeonBattles": 11,
+          "items": 168,
+          "losses": 0
+        },
+        {
+          "chapter": 6,
+          "levels": "44/43/43/43/42/43",
+          "gold": 31927,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 219,
+          "losses": 0
+        },
+        {
+          "chapter": 7,
+          "levels": "50/49/49/50/48/49",
+          "gold": 42900,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 254,
+          "losses": 0
+        },
+        {
+          "chapter": 8,
+          "levels": "57/55/56/56/55/56",
+          "gold": 54714,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 299,
+          "losses": 0
+        }
+      ],
+      "usage": {
+        "purchased": 50,
+        "crafted": 56,
+        "items": 299,
+        "clinicRetreats": 0,
+        "captures": 10
+      },
+      "battles": 193,
+      "turns": 2770,
+      "turnLimited": 0,
+      "longestBattle": {
+        "region": 4,
+        "kind": "wild",
+        "name": "霜月鸮",
+        "attempt": 1,
+        "outcome": "win",
+        "turns": 142
+      },
+      "finalGold": 54714,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    },
+    {
+      "case": "no-optional-stories",
+      "seed": 39695,
+      "conditions": {
+        "trainers": true,
+        "loot": true,
+        "sideStories": false,
+        "maxRetries": 3,
+        "maxTurns": 360,
+        "adaptive": true
+      },
+      "ending": true,
+      "blocked": null,
+      "chapters": [
+        {
+          "chapter": 1,
+          "levels": "11/10/10/10",
+          "gold": 1459,
+          "party": "budfox/dewslime/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 21,
+          "losses": 0
+        },
+        {
+          "chapter": 2,
+          "levels": "18/17/18/17/17",
+          "gold": 4465,
+          "party": "budfox/tidefin/voltkit/pebble/sparrow",
+          "dungeonBattles": 11,
+          "items": 60,
+          "losses": 0
+        },
+        {
+          "chapter": 3,
+          "levels": "24/25/24/23/24/23",
+          "gold": 8426,
+          "party": "budfox/stonegolem/tidefin/embercat/voltkit/sparrow",
+          "dungeonBattles": 11,
+          "items": 109,
+          "losses": 0
+        },
+        {
+          "chapter": 4,
+          "levels": "31/31/30/30/30/30",
+          "gold": 14834,
+          "party": "budfox/stonegolem/tidefin/embercat/glowbud/voltkit",
+          "dungeonBattles": 11,
+          "items": 137,
+          "losses": 0
+        },
+        {
+          "chapter": 5,
+          "levels": "37/34/37/36/36/37",
+          "gold": 22871,
+          "party": "budfox/sunserpent/stonegolem/tidefin/embercat/voltkit",
+          "dungeonBattles": 11,
+          "items": 169,
+          "losses": 0
+        },
+        {
+          "chapter": 6,
+          "levels": "44/43/41/43/42/43",
+          "gold": 31702,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 12,
+          "items": 216,
+          "losses": 1
+        },
+        {
+          "chapter": 7,
+          "levels": "50/49/48/49/48/49",
+          "gold": 42741,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 243,
+          "losses": 1
+        },
+        {
+          "chapter": 8,
+          "levels": "57/56/55/56/55/56",
+          "gold": 54926,
+          "party": "budfox/duskmoth/sunserpent/stonegolem/tidefin/embercat",
+          "dungeonBattles": 11,
+          "items": 292,
+          "losses": 1
+        }
+      ],
+      "usage": {
+        "purchased": 46,
+        "crafted": 55,
+        "items": 292,
+        "clinicRetreats": 1,
+        "captures": 10
+      },
+      "battles": 194,
+      "turns": 2645,
+      "turnLimited": 0,
+      "longestBattle": {
+        "region": 3,
+        "kind": "trainer",
+        "name": "踏风学徒 · 竹哨",
+        "attempt": 1,
+        "outcome": "win",
+        "turns": 55
+      },
+      "finalGold": 54926,
+      "finalEquipment": [
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm",
+        "shellCharm"
+      ]
+    }
+  ]
+}

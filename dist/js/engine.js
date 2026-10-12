@@ -1,4 +1,5 @@
 import {planEnemyAction} from './battle-ai.js';
+import {validateRelics} from './relic-engine.js';
 import {freshTraitState,enterTrait,guardTrait,damagedTrait,acceptStatus,outgoingTrait,incomingTrait,shieldFactor,recoveryFactor,basicRecovery,traitPriority,attackedTrait,validateTraitState} from './abilities.js';
 import {SPECIES,MOVES,ELEMENTS,ITEMS,CHAPTERS,SIDEQUESTS,VERSION,STATUS,WEATHER} from './data.js';
 import {SIDE_STORIES} from './stories.js';
@@ -19,7 +20,7 @@ export function createMon(species,level=5,seed=1){
  const mon={uid:`m${Date.now().toString(36)}${(++serial).toString(36)}${seed}`,species,level:clamp(level,1,65),xp:0,hp:0,energy:5,status:null,statusTurns:0,equip:null,bond:0};mon.hp=stats(mon).hp;return mon;
 }
 export function createGame(name='旅人',starter='budfox'){
- const mon=createMon(starter,5);return {version:VERSION,name:name.trim().slice(0,12)||'旅人',region:0,place:'town',x:18,y:19,facing:'down',party:[mon],reserve:[],bag:{potion:8,superpotion:0,revive:2,cure:3,orb:10,greatorb:0,herb:0,shard:0},gold:550,badges:[],flags:{intro:true},quest:{},collected:{},wins:{},trainerWins:{},seen:[starter],caught:[starter],steps:0,playtime:0,createdAt:Date.now(),lastSave:0,difficulty:'normal',sound:true,reduceMotion:false,seed:(Date.now()>>>0),ending:false,trial:0,dungeonFloor:0,routeSector:0,runes:{},openGates:{},pendingScenes:[],suspendedBattle:null,expeditions:{},trackedExpedition:null};
+ const mon=createMon(starter,5);return {version:VERSION,name:name.trim().slice(0,12)||'旅人',region:0,place:'town',x:18,y:19,facing:'down',party:[mon],reserve:[],bag:{potion:8,superpotion:0,revive:2,cure:3,orb:10,greatorb:0,herb:0,shard:0},gold:550,badges:[],flags:{intro:true},quest:{},collected:{},wins:{},trainerWins:{},seen:[starter],caught:[starter],steps:0,playtime:0,createdAt:Date.now(),lastSave:0,difficulty:'normal',sound:true,reduceMotion:false,seed:(Date.now()>>>0),ending:false,trial:0,dungeonFloor:0,routeSector:0,runes:{},openGates:{},pendingScenes:[],suspendedBattle:null,relics:{},expeditions:{},trackedExpedition:null};
 }
 export function healParty(g){for(const m of g.party){m.hp=stats(m).hp;m.energy=5;m.status=null;m.statusTurns=0;}}
 export function xpNeed(m){return 35+m.level*22;}
@@ -229,6 +230,7 @@ export function validateSave(input){
  if(!Object.values(g.runes).every(n=>Number.isInteger(n)&&n>=0&&n<=2)||!Object.values(g.openGates).every(v=>typeof v==='boolean'))throw new Error('存档机关状态损坏。');
  if(g.stories!==undefined){if(!g.stories||typeof g.stories!=='object'||Array.isArray(g.stories))throw new Error('存档故事记录损坏。');for(const [id,index] of Object.entries(g.stories)){const story=SIDE_STORIES.find(s=>s.id===id);if(!story||!Number.isInteger(index)||!story.choices[index])throw new Error('存档故事选择损坏。');}}
  validateExpeditions(g);
+ validateRelics(g);
  if(g.pendingScenes!==undefined&&(!Array.isArray(g.pendingScenes)||g.pendingScenes.length>18||!g.pendingScenes.every(id=>typeof id==='string'&&(/^(intro[0-7]|after[0-7]|ending)$/.test(id)||expeditionScene(g,id)))))throw new Error('存档中的剧情记录损坏。');
  g.pendingScenes??=[];
  if(g.suspendedBattle)g.suspendedBattle=validateSuspendedBattle(g.suspendedBattle,g);else g.suspendedBattle=null;

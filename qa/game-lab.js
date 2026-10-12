@@ -6,7 +6,11 @@ import {makeMap,canWalk} from '../dist/js/world.js';
 const frame=document.querySelector('iframe'),select=document.querySelector('select');
 document.querySelector('#load').onclick=()=>{
  const type=select.value,g=createGame('测试旅人','embercat');g.sound=false;g.seed=4149;g.flags.entered0=true;g.party.push(createMon('tidefin',8),createMon('budfox',8));g.bag.superpotion=12;g.bag.greatorb=12;g.party[1].hp=0;
- if(type==='supply'){
+ if(type.startsWith('relic-')){
+  g.region={'relic-mirror':0,'relic-weave':1,'relic-lamps':2,'relic-night':6}[type];g.place='dungeon';g.dungeonFloor=3;
+  const map=makeMap(g.region,'dungeon',3),o=map.objects.find(o=>o.action==='relic');
+  for(const [dx,dy] of [[0,1],[1,0],[-1,0],[0,-1]])if(canWalk(map,g,o.x+dx,o.y+dy)){g.x=o.x+dx;g.y=o.y+dy;break;}
+ }else if(type==='supply'){
   g.bag.herb=12;g.bag.shard=6;g.x=28;g.y=16;
  }else if(type==='trainer-progress'){
   g.place='route';g.party=[createMon('embercat_3',40)];const o=makeMap(0,'route').objects.find(o=>o.action==='trainer');g.x=o.x;g.y=o.y+1;
