@@ -1,3 +1,4 @@
+import {FISHING_SPOTS} from '../dist/js/fishing-data.js';
 import {MEALS} from '../dist/js/cooking-data.js';
 import {HABITATS} from '../dist/js/ecology.js';
 import {createGame,createMon,saveEnvelope,makeBattle,stats,estimateDamage,moveList,random} from '../dist/js/engine.js';
@@ -8,7 +9,11 @@ import {makeMap,canWalk} from '../dist/js/world.js';
 const frame=document.querySelector('iframe'),select=document.querySelector('select');
 document.querySelector('#load').onclick=()=>{
  const type=select.value,g=createGame('测试旅人','embercat');g.sound=false;g.seed=4149;g.flags.entered0=true;g.party.push(createMon('tidefin',8),createMon('budfox',8));g.bag.superpotion=12;g.bag.greatorb=12;g.party[1].hp=0;
- if(type.startsWith('cooking')){
+ if(type.startsWith('fishing')){
+  const spot=FISHING_SPOTS[type==='fishing-snow'?4:0];g.region=spot.region;g.place='route';g.routeSector=spot.sector;g.flags['entered'+spot.region]=true;g.badges=Array.from({length:spot.region},(_,i)=>i);g.party=[createMon('cinder_3',65),createMon('tidefin_3',65)];g.party[0].loadout=['mercy','tackle','spark','shell'];g.bag.greatorb=30;g.bag.herb=8;g.bag.coastfruit=8;g.battleSpeed=2;
+  const map=makeMap(g.region,'route',0,g.routeSector),o=map.objects.find(o=>o.id===spot.id);g.x=o.x;g.y=o.y+1;
+  if(type==='fishing-book'){for(const s of FISHING_SPOTS){g.flags['entered'+s.region]=true;g.fishing.catches[s.id]=Object.fromEntries(s.families.map(f=>[f,1]));if(s.id!==spot.id){g.fishing.claimed[s.id]=true;g.fishing.choices[s.id]=s.region%2;}}}
+ }else if(type.startsWith('cooking')){
   g.party=[createMon('pebble_3',40),createMon('dewslime_3',40)];g.bag.coastfruit=12;g.bag.oatflour=10;g.bag.warmspice=8;g.bag.seasalt=8;g.bag.herb=12;g.gold=3200;g.x=15;g.y=23;
   if(type==='cooking-all'){g.region=7;g.badges=[0,1,2,3,4,5,6];g.flags.entered7=true;for(const r of MEALS){g.cookingLessons[r.id]=r.region%2;g.bag[r.id]=3;}}
   if(type==='cooking-battle'||type==='cooking-ward'){

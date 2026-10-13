@@ -1,3 +1,6 @@
+import {fishingSpot} from './fishing-data.js';
+import {castFishing,fishingTurn,putAwayFishing,releaseFishing,fishingEncounter,claimFishingRecord,fishingHere} from './fishing.js';
+import {fishingMarkup,fishingNotebookMarkup,fishingRecordMarkup} from './fishing-view.js';
 import {mealFor,MEALS} from './cooking-data.js';
 import {cookMeal,packMeal,learnRecipe,recipeLearned} from './cooking.js';
 import {cookingMarkup,cookingLessonMarkup} from './cooking-view.js';
@@ -186,6 +189,7 @@ function interact(){if(!game||fight||modalType)return;if(dialogue){nextDialogue(
   case 'exit':transition(o.to);break;
   case 'expedition':interactExpedition(o.expedition);break;
   case 'outdoor-exit':if(typeof o.to==='number')transition('route',game.region,0,false,o.to);else transition(o.to);break;
+  case 'fishing':openFishing(o.spot);break;
   case 'ecology-trace':openEcologyTrace(o.family);break;
   case 'outdoor-lore':showDialogue([[o.label,o.text]]);break;
   case 'stairs':if(o.direction==='back'){if(game.dungeonFloor===0)transition('route');else transition('dungeon',game.region,game.dungeonFloor-1,true);}else transition('dungeon',game.region,game.dungeonFloor+1);break;
@@ -254,6 +258,27 @@ function openShop(category='all',count=1){
  $$('[data-buy]').forEach(b=>b.onclick=()=>{try{const id=b.dataset.buy;game=purchaseItem(game,id,count);save();updateHUD();sfx('get');openShop(category,count);toast(`已装入行囊：${ITEMS[id].name} × ${count}`);}catch(error){toast(error.message);}});
 }
 
+function openFishing(id,lure='plain',feedback=''){
+ const spot=fishingSpot(id);if(!spot||!fishingHere(game,spot))return;
+ openModal('星浮垂钓',fishingMarkup(game,id,lure,feedback),'fishing','八岛水岸 · 观察鱼讯，慢慢靠近');
+ $$('[data-fish-lure]').forEach(b=>b.onclick=()=>openFishing(id,b.dataset.fishLure));
+ if($('#fishing-cast'))$('#fishing-cast').onclick=()=>{try{game=castFishing(game,id,lure);save();openFishing(id,lure,'星浮落进水里，第一阵涟漪来了。');}catch(error){toast(error.message);}};
+ $$('[data-fish-action]').forEach(b=>b.onclick=()=>{try{const result=fishingTurn(game,b.dataset.fishAction);game=result.game;save();openFishing(id,lure,result.message);}catch(error){toast(error.message);}});
+ if($('#fishing-abandon'))$('#fishing-abandon').onclick=()=>{game=putAwayFishing(game);save();openFishing(id,lure,'线已经收好，可以重新选择浮饵。');};
+ if($('#fishing-release'))$('#fishing-release').onclick=()=>{game=releaseFishing(game);save();openFishing(id,lure,'你松开星浮，它把一圈涟漪留在岸边。放归不会计入缔约记录。');};
+ if($('#fishing-battle'))$('#fishing-battle').onclick=()=>{try{const next=fishingEncounter(game),battle=makeBattle(next.game,[createMon(next.species,next.level,next.game.seed)],next.context);game=next.game;if(!game.seen.includes(next.species))game.seen.push(next.species);closeModal();enterBattle(battle);save();sfx('battle');}catch(error){toast(error.message);}};
+ $('#fishing-record').onclick=()=>openFishingRecord(id);$('#fishing-notebook').onclick=openFishingNotebook;
+}
+function openFishingNotebook(){
+ openModal('八岛水岸手册',fishingNotebookMarkup(game),'fishing-book','星浮落下的地方，都有人在等');
+ $$('[data-shore-record]').forEach(b=>b.onclick=()=>openFishingRecord(b.dataset.shoreRecord));$('#fishing-dex').onclick=()=>openDex();
+}
+function openFishingRecord(id){
+ const spot=fishingSpot(id);openModal(spot.name,fishingRecordMarkup(game,id),'fishing-record','把每一份信任，认真记下来');
+ $$('[data-shore-choice]').forEach(b=>b.onclick=()=>{try{const result=claimFishingRecord(game,id,+b.dataset.shoreChoice);game=result.game;save();updateHUD();sfx('get');openFishingRecord(id);toast(Object.entries(result.gift||{}).map(([key,n])=>ITEMS[key].name+' × '+n).join('，'));}catch(error){toast(error.message);}});
+ $('#shore-chart').onclick=()=>{closeModal();if(fishingHere(game,spot))openLocalChart(id);else openMap();};$('#shore-book-back').onclick=openFishingNotebook;
+}
+
 function openEcology(){
  openModal('群岛生态手帐',ecologyMarkup(game),'ecology','每一种相遇，都有迹可循');
  $$('[data-ecology-family]').forEach(b=>b.onclick=()=>openEcologyEntry(b.dataset.ecologyFamily));$('#ecology-dex').onclick=()=>openDex();
@@ -296,7 +321,7 @@ function openJournal(){
  openModal('旅途手记',`<button class="journey-entry" id="open-journey"><span>▤</span><div><strong>旅途纪要与往事</strong><small>接上下一站，重读已经走过的故事</small></div><b>→</b></button><div class="tab-row"><button id="open-memories">路上拾起的故事 · ${Object.keys(game.stories||{}).length}</button><button id="open-letters">群岛回信 · ${restoredLetters(game).length} / 8</button></div><div class="journal-chapter"><span class="eyebrow">第 ${game.region+1} 章 · ${escape(ch.island)}</span><h3>${escape(ch.name)}</h3><p>${escape(ch.problem)}</p><span class="journal-seal">${game.badges.includes(game.region)?'✧ 星灯已经点亮':fragmentCount()+' / 3 份记忆'}</span></div><div class="journal-heading"><h3>这座岛的三份记忆</h3><small>与人相遇，让星灯重新亮起</small></div><div class="expedition-grid">${EXPEDITIONS.filter(e=>e.region===game.region).map(expeditionCard).join('')}</div><div class="journal-heading"><h3>居民委托</h3><small>旅途中的小小帮助</small></div>${quests.map(q=>`<button class="quest-card" style="display:block;width:100%;text-align:left" data-openquest="${q.id}"><small>${CHAPTERS[q.region].island} · ${game.quest[q.id]==='done'?'已完成':game.quest[q.id]?'进行中':'可接受'}</small><h3>${q.name}</h3><p>${q.text}</p></button>`).join('')}<div class="journal-heading"><h3>已经点亮的灯</h3></div>${game.badges.map(i=>`<div class="quest-card"><h3>✧ ${CHAPTERS[i].reward}</h3><p>${CHAPTERS[i].lore}</p></div>`).join('')||'<p class="section-note">你的第一盏灯，正在等你。</p>'}`,'journal','每一次停留，都有回声');
  $('#open-journey').onclick=()=>openJourney();$$('[data-openquest]').forEach(b=>b.onclick=()=>openQuest(b.dataset.openquest));$('#open-memories').onclick=openMemories;$('#open-letters').onclick=openLetters;bindExpeditionCards();
 }
-function openDex(element='all'){const ids=Object.keys(SPECIES).filter(id=>element==='all'||SPECIES[id].element===element);openModal('潮灵图鉴',`<button class="region-map-link" id="dex-ecology"><span>❧</span><div><strong>群岛生态手帐</strong><small>追随四份野外线索，寻找新的同行伙伴</small></div><b>→</b></button><p class="section-note">已相遇 ${new Set([...game.seen,...game.caught]).size} / ${Object.keys(SPECIES).length} · 已缔约 ${game.caught.length}。每一个小小的生命，都有自己的故事。</p><div class="tab-row"><button data-element="all" class="${element==='all'?'active':''}">全部</button>${Object.keys(ELEMENTS).map(e=>`<button data-element="${e}" class="${element===e?'active':''}">${ELEMENTS[e].name}</button>`).join('')}</div><div class="dex-grid">${ids.map(id=>{const known=game.caught.includes(id)||game.seen.includes(id);return `<button class="dex-cell ${known?'':'unknown'}" data-dex="${id}"><small>No.${String(Object.keys(SPECIES).indexOf(id)+1).padStart(3,'0')} ${game.caught.includes(id)?'✦':''}</small>${monCanvas(id,100)}<p>${known?SPECIES[id].name:'尚未相遇'}</p></button>`;}).join('')}</div>`,'dex');$('#dex-ecology').onclick=openEcology;$$('[data-element]').forEach(b=>b.onclick=()=>openDex(b.dataset.element));$$('[data-dex]').forEach(b=>b.onclick=()=>{const s=SPECIES[b.dataset.dex];if(!game.caught.includes(s.id)&&!game.seen.includes(s.id))return toast('继续探索，未来也许会遇见它。');const locations=speciesHabitats(s.family).join('、');openModal(s.name,`${monCanvas(s.id,210)}<div style="text-align:center">${typeTag(s.element)}<p class="section-note" style="margin:20px">${s.lore}</p>${traitCard({species:s.id})}<p class="section-note">栖息地：${locations||'需要通过进化认识它'}<br>${s.stage>1?'此形态主要由伙伴成长进化而来。':''}</p></div>`,'dex-entry');});}
+function openDex(element='all'){const ids=Object.keys(SPECIES).filter(id=>element==='all'||SPECIES[id].element===element);openModal('潮灵图鉴',`<button class="region-map-link" id="dex-fishing"><span>≈</span><div><strong>八岛水岸手册</strong><small>观察鱼讯、邀请同行，认识各岛的渔人</small></div><b>→</b></button><button class="region-map-link" id="dex-ecology"><span>❧</span><div><strong>群岛生态手帐</strong><small>追随四份野外线索，寻找新的同行伙伴</small></div><b>→</b></button><p class="section-note">已相遇 ${new Set([...game.seen,...game.caught]).size} / ${Object.keys(SPECIES).length} · 已缔约 ${game.caught.length}。每一个小小的生命，都有自己的故事。</p><div class="tab-row"><button data-element="all" class="${element==='all'?'active':''}">全部</button>${Object.keys(ELEMENTS).map(e=>`<button data-element="${e}" class="${element===e?'active':''}">${ELEMENTS[e].name}</button>`).join('')}</div><div class="dex-grid">${ids.map(id=>{const known=game.caught.includes(id)||game.seen.includes(id);return `<button class="dex-cell ${known?'':'unknown'}" data-dex="${id}"><small>No.${String(Object.keys(SPECIES).indexOf(id)+1).padStart(3,'0')} ${game.caught.includes(id)?'✦':''}</small>${monCanvas(id,100)}<p>${known?SPECIES[id].name:'尚未相遇'}</p></button>`;}).join('')}</div>`,'dex');$('#dex-ecology').onclick=openEcology;$('#dex-fishing').onclick=openFishingNotebook;$$('[data-element]').forEach(b=>b.onclick=()=>openDex(b.dataset.element));$$('[data-dex]').forEach(b=>b.onclick=()=>{const s=SPECIES[b.dataset.dex];if(!game.caught.includes(s.id)&&!game.seen.includes(s.id))return toast('继续探索，未来也许会遇见它。');const locations=speciesHabitats(s.family).join('、');openModal(s.name,`${monCanvas(s.id,210)}<div style="text-align:center">${typeTag(s.element)}<p class="section-note" style="margin:20px">${s.lore}</p>${traitCard({species:s.id})}<p class="section-note">栖息地：${locations||'需要通过进化认识它'}<br>${s.stage>1?'此形态主要由伙伴成长进化而来。':''}</p></div>`,'dex-entry');});}
 
 function openSideStory(id){
  const story=SIDE_STORIES.find(s=>s.id===id);if(!story)return;

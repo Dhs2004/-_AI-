@@ -1,3 +1,4 @@
+import {freshFishing,validateFishing,validateFishingBattle,settleFishing} from './fishing.js';
 import {prepareMeal,enterMeal,acceptMealStatus,mealCaptureFactor,mealHealingFactor,mealExperienceFactor,validateCooking,validateBattleMeal} from './cooking.js';
 import {techniqueDamage,techniqueSpeed,leaveTechniques,applyTechniques,tickTechniques,validateTechniques,recordBattleState} from './techniques.js';
 import {validateEcology} from './ecology.js';
@@ -27,7 +28,7 @@ export function createMon(species,level=5,seed=1){
  const mon={uid:`m${Date.now().toString(36)}${(++serial).toString(36)}${seed}`,species,level:clamp(level,1,65),xp:0,hp:0,energy:5,status:null,statusTurns:0,equip:null,bond:0};mon.hp=stats(mon).hp;return mon;
 }
 export function createGame(name='旅人',starter='budfox'){
- const mon=createMon(starter,5);return {version:VERSION,name:name.trim().slice(0,12)||'旅人',region:0,place:'town',x:18,y:19,facing:'down',party:[mon],reserve:[],bag:{potion:8,superpotion:0,revive:2,cure:3,orb:10,greatorb:0,herb:0,shard:0},gold:550,badges:[],flags:{intro:true},quest:{},collected:{},wins:{},trainerWins:{},seen:[starter],caught:[starter],steps:0,playtime:0,createdAt:Date.now(),lastSave:0,difficulty:'normal',sound:true,reduceMotion:false,battleSpeed:1,seed:(Date.now()>>>0),ending:false,trial:0,dungeonFloor:0,routeSector:0,runes:{},openGates:{},pendingScenes:[],suspendedBattle:null,ecologyTraces:{},ecologyRewards:{},bondStories:{},relics:{},expeditions:{},trackedExpedition:null,cookingLessons:{},packedMeal:null};
+ const mon=createMon(starter,5);return {version:VERSION,name:name.trim().slice(0,12)||'旅人',region:0,place:'town',x:18,y:19,facing:'down',party:[mon],reserve:[],bag:{potion:8,superpotion:0,revive:2,cure:3,orb:10,greatorb:0,herb:0,shard:0},gold:550,badges:[],flags:{intro:true},quest:{},collected:{},wins:{},trainerWins:{},seen:[starter],caught:[starter],steps:0,playtime:0,createdAt:Date.now(),lastSave:0,difficulty:'normal',sound:true,reduceMotion:false,battleSpeed:1,seed:(Date.now()>>>0),ending:false,trial:0,dungeonFloor:0,routeSector:0,runes:{},openGates:{},pendingScenes:[],suspendedBattle:null,ecologyTraces:{},ecologyRewards:{},bondStories:{},relics:{},expeditions:{},trackedExpedition:null,cookingLessons:{},packedMeal:null,fishing:freshFishing()};
 }
 export function healParty(g){for(const m of g.party){m.hp=stats(m).hp;m.energy=5;m.status=null;m.statusTurns=0;}}
 export function xpNeed(m){return 35+m.level*22;}
@@ -53,6 +54,7 @@ export function makeBattle(g,enemy,context={}){
  if(context.circuit!==undefined&&(!trial||context.kind!=='trial'||!g.ending||g.region!==7||g.place!=='town'||context.floor>(g.trial||0)+1))throw new Error('试航邀请与当前进度不一致。');
  const b={party:clone(g.party),enemies:clone(enemy),activeP:g.party.findIndex(m=>m.hp>0),activeE:0,turn:0,weather:trial?.weather||CHAPTERS[g.region].weather,seed:g.seed>>>0,log:[],history:[],outcome:null,caught:null,inventory:clone(g.bag),context:{kind:'wild',region:g.region,...context}};
  if(b.activeP<0)throw new Error('No healthy companion');
+ validateFishingBattle(b,g);
  b.participants=[b.party[b.activeP].uid];b.enemySupportStreak=0;
  for(const m of [...b.party,...b.enemies]){m.energy=5;m.shield=0;m.focus=0;m.regen=0;m.haste=0;m.statusTurns=m.status?2:0;m.battleTrait=freshTraitState();}
  b.log=[['boss','trainer','trial'].includes(context.kind)?`${context.name||'星海试炼'} 向你发起挑战！`:`野生的 ${SPECIES[b.enemies[0].species].name} 出现了！`];prepareMeal(g,b);enterCompanion(b,b.party[b.activeP]);enterCompanion(b,b.enemies[b.activeE]);b.enemyPlan=prepareEnemyPlan(b);return b;
@@ -177,6 +179,7 @@ export function settleBattle(game,b){
    }else{g.gold+=b.context.floor*45;g.bag.greatorb=Math.min(9999,(g.bag.greatorb||0)+1);events.push(`星海试炼第 ${b.context.floor} 阶完成。获得辉光星约石与额外星砂。`);}
   }
  }else if(b.outcome==='lose'){g.gold=Math.max(0,g.gold-Math.min(150,Math.floor(g.gold*.08)));healParty(g);g.place='town';g.dungeonFloor=0;g.routeSector=0;g.x=18;g.y=19;events.push('阿汐带你们回到了镇上的潮灵诊所。休息后再试一次吧。');}
+ const water=settleFishing(g,b);g=water.game;if(water.message)events.push(water.message);
  return {game:g,events};
 }
 export function questReady(g,q){
@@ -226,6 +229,7 @@ export function validateSuspendedBattle(input,game){
  if(!battle.inventory||typeof battle.inventory!=='object'||Array.isArray(battle.inventory))throw new Error('存档中的对战背包损坏。');
  for(const [id,count] of Object.entries(battle.inventory))if(!ITEMS[id]||!Number.isInteger(count)||count<0||count>9999)throw new Error('存档中的对战道具损坏。');
  validateBattleMeal(battle,game);
+ validateFishingBattle(battle,game);
  for(const field of ['log','history']){if(!Array.isArray(battle[field])||!battle[field].every(s=>typeof s==='string'&&s.length<=1000))throw new Error('存档中的对战记录损坏。');battle[field]=battle[field].slice(field==='log'?-30:-80);}
  if(battle.context.kind==='trial'&&(!Number.isSafeInteger(battle.context.floor)||battle.context.floor<1))throw new Error('存档中的试炼层数损坏。');
  if(battle.context.circuit!==undefined){
@@ -267,6 +271,7 @@ export function validateSave(input){
  validateBondStories(g);
  validateEcology(g);
  validateCooking(g);
+ validateFishing(g);
  g.trial??=0;if(!Number.isSafeInteger(g.trial)||g.trial<0)throw new Error('存档中的星海试炼进度损坏。');
  if(g.pendingScenes!==undefined&&(!Array.isArray(g.pendingScenes)||g.pendingScenes.length>18||!g.pendingScenes.every(id=>typeof id==='string'&&(/^(intro[0-7]|after[0-7]|ending)$/.test(id)||trialAfterScene(g,id)||expeditionScene(g,id)))))throw new Error('存档中的剧情记录损坏。');
  g.pendingScenes??=[];g.battleSpeed=g.battleSpeed===2?2:1;

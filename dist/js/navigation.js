@@ -9,7 +9,7 @@ export const CHART_GROUPS={
  discovery:{name:'见闻与行囊',symbol:'•',color:'#bcb5e2'},
  mechanism:{name:'遗迹机关',symbol:'✦',color:'#d7c298'}
 };
-const GROUP_FOR_ACTION={'ecology-trace':'discovery',expedition:'story',story:'story',companion:'story',quest:'story','side-story':'story',heal:'service',rest:'service',campfire:'service',craft:'service',shop:'service',travel:'exit',exit:'exit','outdoor-exit':'exit',gate:'exit',stairs:'exit',trainer:'challenge','dungeon-trainer':'challenge',boss:'challenge',trial:'challenge',chest:'discovery',resource:'discovery','dungeon-lore':'discovery','outdoor-lore':'discovery',relic:'mechanism',rune:'mechanism',seal:'mechanism'};
+const GROUP_FOR_ACTION={fishing:'discovery','ecology-trace':'discovery',expedition:'story',story:'story',companion:'story',quest:'story','side-story':'story',heal:'service',rest:'service',campfire:'service',craft:'service',shop:'service',travel:'exit',exit:'exit','outdoor-exit':'exit',gate:'exit',stairs:'exit',trainer:'challenge','dungeon-trainer':'challenge',boss:'challenge',trial:'challenge',chest:'discovery',resource:'discovery','dungeon-lore':'discovery','outdoor-lore':'discovery',relic:'mechanism',rune:'mechanism',seal:'mechanism'};
 
 // One traversal per open chart. Walking and the animation loop never rebuild this field.
 export function navigationField(map,game){
@@ -40,6 +40,7 @@ export function pathToObject(field,object){
 export function chartMarkers(map,game){
  return map.objects.filter(o=>GROUP_FOR_ACTION[o.action]&&!isGone(game,o)).map(o=>{
   const group=GROUP_FOR_ACTION[o.action];let status='';
+  if(o.action==='fishing'&&game.fishing?.claimed?.[o.spot])status='水岸记录已交换';
   if(o.action==='ecology-trace'&&game.ecologyTraces?.[o.family])status='踪迹已读懂';
   if(game.trainerWins?.[o.id])status='已切磋';
   if(o.relic&&game.relics?.[o.relic]?.solved)status='已修复';

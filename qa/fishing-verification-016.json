@@ -1,0 +1,54 @@
+{
+  "version": "0.16.0",
+  "date": "2026-10-13",
+  "environment": "Chrome on this Mac, isolated localhost:4174 QA origin",
+  "protectedOrigins": ["http://localhost:4173", "http://127.0.0.1:4173"],
+  "automated": {
+    "fullSuitePassed": 143,
+    "newFishingTestsPassed": 7,
+    "coverage": [
+      "Eight shoreline posts selected and reached through actual chart/pathfinding rules",
+      "Every spot and lure, weighted encounter sampling, deterministic save/resume, mistakes, tension and release",
+      "All 24 local captures through real wild battles and settlement",
+      "Every story branch, atomic capacity checks, one-time local rewards and grand charm",
+      "Legacy saves and malformed active-line, record and suspended-battle rejection"
+    ]
+  },
+  "interactiveCapture": {
+    "fixture": "星浮垂钓初体验",
+    "setupCaveat": "High-level party and starting supplies are QA setup data. Fishing actions, battle, capture and rewards below were performed through the visible UI.",
+    "spot": "旧栈桥的星浮",
+    "lure": "草叶浮饵",
+    "herbBefore": 8,
+    "herbAfter": 7,
+    "landed": "熔砂蟹 Lv7",
+    "lineReload": "Progress 2 and tension 3 with the same next dive signal survived reload",
+    "battle": "留星一触 reduced enemy HP from 121 to 1; reload retained enemy HP 1, ally HP 466, energy 4 and round 2; one 辉光星约石 captured the creature",
+    "result": "Party joined, local 熔砂蟹 record 1, total 1/24, story 1/3 with no claim available"
+  },
+  "interactiveReward": {
+    "fixture": "水岸故事答谢",
+    "setupCaveat": "All 24 records and seven previously claimed sites are fixture data, not a human collection playthrough.",
+    "action": "Completed the final unclaimed 潮伯 story using the reply inviting his apprentice",
+    "result": "Saved reply and ending visible; story became read-only; all eight notebook buttons show reread",
+    "inventoryAfter": {"coastfruit": 12, "seasalt": 4, "greatorb": 32, "tidalCharm": 1}
+  },
+  "responsive": {
+    "viewport": {"width": 390, "height": 844},
+    "bodyScrollWidth": 390,
+    "notebook": {"clientWidth": 321, "scrollWidth": 321},
+    "activeFishing": {"clientWidth": 321, "scrollWidth": 321},
+    "observed": "Water illustration, progress/tension, current signal and all three action buttons visible. Final labels 星浮垂钓 and 靠岸进度 verified.",
+    "viewportReset": true
+  },
+  "consoleWarningsOrErrors": [],
+  "screenshots": [
+    "/private/tmp/starfall-fishing-phone-016.png",
+    "/private/tmp/starfall-fishing-reward-016.png"
+  ],
+  "limitations": [
+    "Point FPS observations are not a sustained performance benchmark or a phone-hardware guarantee.",
+    "Actual 16–24-hour human completion time remains unverified.",
+    "The original 24-hour development window ended at 2026-10-13 02:46:58 UTC; this is the final in-progress expansion being completed after that deadline."
+  ]
+}

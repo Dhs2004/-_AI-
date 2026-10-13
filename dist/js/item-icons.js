@@ -221,6 +221,12 @@ Object.assign(ICONS,{
  starcake:sprite(({poly,oval,line,diamond,put})=>{oval(16,26,14,4,'#71979f');poly([[6,18],[25,14],[25,24],[8,28]],'#94728e');poly([[6,13],[22,7],[27,14],[11,21]],'#e0cfa2');poly([[8,20],[25,15],[25,19],[8,24]],'#d9bca6',null);poly([[7,13],[22,8],[26,14],[11,20]],'#e8dec0',null);diamond(17,12,4,4,'#d4ad6c',null);diamond(17,12,2,2,CREAM,null);put(12,15,'#8fa995');put(23,13,'#ae8ab0');line(10,25,23,21,'#ba90a4');})
 });
 
+Object.assign(ICONS,{tidalCharm:sprite(({poly,oval,line,ring,put})=>{
+ ring(16,3);line(16,6,16,11,GOLD,2);oval(16,20,10,9,'#77a99e');oval(16,20,6,5,INK,null);
+ poly([[10,12],[14,13],[23,27],[19,29]],'#dfc18b');poly([[21,12],[24,15],[12,28],[8,25]],'#94c9b1');
+ line(11,14,20,27,CREAM);line(22,14,10,26,'#d2e1b6');put(16,20,GOLD);
+})});
+
 /** Draw an original item at x/y, scaled from 32px; returns false for unknown IDs. */
 export function drawItemIcon(ctx,id,x=0,y=0,size=32){
   if(!ctx||!Number.isFinite(x)||!Number.isFinite(y)||!Number.isFinite(size)||size<=0||!Object.hasOwn(ICONS,id))return false;
